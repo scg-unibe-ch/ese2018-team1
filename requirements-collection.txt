@@ -1,0 +1,53 @@
+stakeholders
+- Arbeitgeber
+	- Wer macht Job Postings?
+- Arbeitnehmer
+- Sys Admin
+	- Moderator?
+- Vermittler?
+
+requirements (functional)
+- CRUD of job postings
+- what instances / informations does a posting need?
+- technical requirements?
+- apply for a job on the platform or just contact directly the author of the posting?
+- (register & login)
+
+requirements (non-functional)
+- 24/7
+- browser - based
+- privacy -> who has access to what?
+- security -> who can do what on the platform?
+
+use cases
+- job posting
+- apply for a job
+- search/browse for jobs
+- application deny or accept
+- (filter)
+- delete a job
+- update the job description / edit jobs
+- (register & login)
+
+scenarions
+- 
+
+risks
+- understand something wrong -> communication difficulties with the customer
+- unable to keep the deadline 
+
+domain concepts
+- Arbeitgeber
+- Arbeitnehmer
+- Moderator
+- Jobs
+
+Questions - missing things
+- Vermittlung oder direkt? gibt es den Stakeholder Vermittler?
+- what instances / informations does a posting need? 							(W)
+- technical requirements?														(W)
+- who makes postings of jobs?													(W)
+- does a moderator exists?														(W)
+- privacy -> who has access to what?												
+- security -> who can do what on the platform?
+- apply for a job on the platform or just contact directly the author of the posting? 

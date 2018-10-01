@@ -10,6 +10,7 @@ import {MatButtonModule, MatCardModule, MatCheckboxModule, MatInputModule, MatLi
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import {FormsModule} from '@angular/forms';
+import { JobComponent } from './job/job.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {FormsModule} from '@angular/forms';
     AppComponent,
     TodoListComponent,
     TodoItemComponent,
+    JobComponent,
   ],
   imports: [
     BrowserModule,

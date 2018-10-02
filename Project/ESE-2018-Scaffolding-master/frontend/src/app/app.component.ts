@@ -42,9 +42,13 @@ export class AppComponent implements OnInit {
 
   onSaveJob() {
     this.httpClient.post('http://localhost:3000/job', {
-      'id': this.job.id
+      'id': this.job.id,
+      'name' : this.job.name,
+      'description': this.job.description
     }).subscribe((instance: any) => {
       this.job.id = instance.id;
+      this.job.name = instance.name;
+      this.job.description = instance.description;
     });
   }
 }

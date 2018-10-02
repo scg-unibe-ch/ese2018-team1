@@ -12,7 +12,7 @@ export class Job extends Model<Job> {
 
   toSimplification(): any {
     return {
-      'id': this.id,
+      'id': 0,
       'name': this.name,
       'description': this.description
     };

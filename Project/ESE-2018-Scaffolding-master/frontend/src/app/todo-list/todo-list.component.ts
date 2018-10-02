@@ -42,6 +42,7 @@ export class TodoListComponent implements OnInit {
   }
 
   onTodoItemCreate() {
+    console.log('name:  ' + this.todoList.name + ' ');
     this.todoItem.todoListId = this.todoList.id;
     this.httpClient.post('http://localhost:3000/todoitem', {
       'todoListId': this.todoItem.todoListId,

@@ -6,10 +6,14 @@
 <app-todo-list [todoList]="todoList" (destroy)="onTodoListDestroy($event)"
                *ngFor="let todoList of todoLists"></app-todo-list>
 
+<br>
+
 
 <mat-form-field>
-  <input matInput placeholder="enter job name" [(ngModel)]="job.name" name="name">
-  <input matInput placeholder="enter description" [(ngModel)]="job.description" name="description">
+  <input matInput placeholder="Name" [(ngModel)]="job.name" name="name">
+</mat-form-field><br>
+<mat-form-field>
+  <input matInput placeholder="Description" [(ngModel)]="job.description" name="description" (ngModelChange)="onSave()">
 </mat-form-field>
 <button mat-button (click)="onSaveJob()">Save</button>
 

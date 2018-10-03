@@ -12,6 +12,7 @@ import {HttpClient} from '@angular/common/http';
 export class AppComponent implements OnInit {
   todoList: TodoList = new TodoList(null, '');
   todoLists: TodoList[] = [];
+  jobs: Job[] = [];
   job: Job = new Job(null, '', '');
   constructor(private httpClient: HttpClient) {
 
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit {
       this.todoLists = instances.map((instance) => new TodoList(instance.id, instance.name));
     });
     this.httpClient.get('http://localhost:3000/job').subscribe((instances: any) => {
-      this.job = instances.map((instance) => new Job(instance.id, instance.name, instance.description));
+      this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description));
     });
   }
 
@@ -40,15 +41,19 @@ export class AppComponent implements OnInit {
     this.todoLists.splice(this.todoLists.indexOf(todoList), 1);
   }
 
-  onSaveJob() {
+  onCreateJob() {
     this.httpClient.post('http://localhost:3000/job', {
       'id': this.job.id,
       'name' : this.job.name,
       'description': this.job.description
     }).subscribe((instance: any) => {
       this.job.id = instance.id;
-      this.job.name = instance.name;
-      this.job.description = instance.description;
+      this.jobs.push(this.job);
+      this.job = new Job(null, '', '');
     });
+  }
+
+  onDeleteJob(job: Job) {
+    this.jobs.splice(this.jobs.indexOf(job), 1);
   }
 }

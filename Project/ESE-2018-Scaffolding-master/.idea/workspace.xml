@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="31c0fcda-a922-4cb8-a66e-cab50d5e610a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/tslint.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/tslint.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.bat" beforeDir="false" afterPath="$PROJECT_DIR$/run.bat" afterDir="false" />
-    </list>
+    <list default="true" id="31c0fcda-a922-4cb8-a66e-cab50d5e610a" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -16,20 +11,43 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/backend/app/controllers/todolist.controller.ts">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="102">
+                    <caret line="6" column="23" lean-forward="true" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
+                    <folding>
+                      <element signature="e#0#50#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="FUSProjectUsageTrigger">
     <session id="753607681">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.4" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.5" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="Angular2LanguageService" value="2" />
-          <entry key="TsLintLanguageService" value="1" />
+          <entry key="Angular2LanguageService" value="3" />
+          <entry key="TsLintLanguageService" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -37,72 +55,69 @@
           <entry key="browserslist" value="1" />
           <entry key="css" value="4" />
           <entry key="gitkeep" value="1" />
-          <entry key="html" value="15" />
+          <entry key="html" value="18" />
           <entry key="js" value="4" />
-          <entry key="json" value="4" />
+          <entry key="json" value="6" />
           <entry key="md" value="4" />
-          <entry key="ts" value="44" />
+          <entry key="ts" value="57" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CSS" value="4" />
-          <entry key="HTML" value="15" />
-          <entry key="JSON" value="2" />
+          <entry key="HTML" value="18" />
+          <entry key="JSON" value="4" />
           <entry key="JavaScript" value="4" />
           <entry key="PLAIN_TEXT" value="6" />
-          <entry key="TypeScript" value="44" />
+          <entry key="TypeScript" value="57" />
           <entry key="tsconfig" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="82" />
+          <entry key="html" value="227" />
           <entry key="js" value="26" />
-          <entry key="json" value="5" />
-          <entry key="ts" value="712" />
+          <entry key="json" value="10" />
+          <entry key="ts" value="1665" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="82" />
-          <entry key="JSON" value="5" />
+          <entry key="HTML" value="227" />
+          <entry key="JSON" value="10" />
           <entry key="JavaScript" value="26" />
-          <entry key="TypeScript" value="712" />
+          <entry key="TypeScript" value="1665" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/src/app/app.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="13" column="72" lean-forward="true" selection-start-line="13" selection-start-column="72" selection-end-line="13" selection-end-column="72" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/backend/app/controllers/job.controller.ts">
+        <entry file="file://$PROJECT_DIR$/frontend/src/app/job/job.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="24" column="18" lean-forward="true" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
-              <folding>
-                <element signature="e#0#50#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="17">
+              <caret line="1" column="96" selection-start-line="1" selection-start-column="96" selection-end-line="1" selection-end-column="96" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/app/models/job.model.ts">
+        <entry file="file://$PROJECT_DIR$/frontend/src/app/app.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/app/job/job.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
-              <caret line="39" column="3" lean-forward="true" selection-start-line="39" selection-start-column="3" selection-end-line="39" selection-end-column="3" />
+            <state relative-caret-position="812">
+              <caret line="55" column="24" selection-start-line="55" selection-start-column="24" selection-end-line="55" selection-end-column="24" />
               <folding>
-                <element signature="e#0#55#0" expanded="true" />
+                <element signature="e#0#48#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -121,15 +136,16 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/backend/tslint.json" />
         <option value="$PROJECT_DIR$/backend/build/server.js" />
-        <option value="$PROJECT_DIR$/frontend/src/app/app.component.ts" />
         <option value="$PROJECT_DIR$/frontend/src/app/todo-list/todo-list.component.ts" />
-        <option value="$PROJECT_DIR$/frontend/src/app/job/job.component.html" />
-        <option value="$PROJECT_DIR$/frontend/src/app/app.component.html" />
+        <option value="$PROJECT_DIR$/frontend/src/app/job.ts" />
         <option value="$PROJECT_DIR$/frontend/src/app/job/job.component.ts" />
-        <option value="$PROJECT_DIR$/backend/app/models/job.model.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/app/app.component.ts" />
+        <option value="$PROJECT_DIR$/backend/tslint.json" />
         <option value="$PROJECT_DIR$/backend/app/controllers/job.controller.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/app/app.component.html" />
+        <option value="$PROJECT_DIR$/backend/app/models/job.model.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/app/job/job.component.html" />
       </list>
     </option>
   </component>
@@ -145,240 +161,6 @@
   </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths>
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/bluebird/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/body-parser/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/connect/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/continuation-local-storage/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/es6-shim/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/events/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/express-serve-static-core/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/express/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/geojson/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/lodash/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/mime/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/node/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/range-parser/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/sequelize/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/serve-static/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/@types/validator/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/abbrev/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/accepts/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/ajv/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/ansi-regex/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/ansi-styles/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/aproba/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/are-we-there-yet/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/argparse/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/array-flatten/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/asn1/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/assert-plus/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/asynckit/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/aws-sign2/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/aws4/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/babel-code-frame/node_modules/chalk/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/babel-code-frame/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/balanced-match/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/bcrypt-pbkdf/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/bluebird/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/brace-expansion/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/builtin-modules/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/bytes/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/caseless/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/chalk/node_modules/ansi-styles/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/chalk/node_modules/supports-color/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/chalk/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/chownr/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/cls-bluebird/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/co/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/code-point-at/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/color-convert/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/color-name/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/combined-stream/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/commander/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/concat-map/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/console-control-strings/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/content-disposition/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/content-type/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/cookie-signature/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/cookie/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/core-util-is/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/dashdash/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/debug/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/deep-extend/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/delayed-stream/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/delegates/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/depd/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/destroy/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/detect-libc/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/diff/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/dottie/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/ecc-jsbn/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/ee-first/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/encodeurl/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/es6-shim/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/escape-html/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/escape-string-regexp/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/esprima/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/esutils/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/etag/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/express/node_modules/body-parser/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/express/node_modules/raw-body/node_modules/depd/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/express/node_modules/raw-body/node_modules/http-errors/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/express/node_modules/raw-body/node_modules/setprototypeof/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/express/node_modules/raw-body/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/express/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/extend/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/extsprintf/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/fast-deep-equal/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/fast-json-stable-stringify/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/finalhandler/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/forever-agent/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/form-data/node_modules/combined-stream/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/form-data/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/forwarded/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/fresh/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/fs-minipass/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/fs.realpath/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/gauge/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/generic-pool/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/getpass/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/glob/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/har-schema/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/har-validator/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/has-ansi/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/has-flag/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/has-unicode/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/http-errors/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/http-signature/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/iconv-lite/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/ignore-walk/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/inflection/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/inflight/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/inherits/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/ini/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/ipaddr.js/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/is-bluebird/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/is-fullwidth-code-point/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/is-typedarray/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/isarray/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/isstream/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/js-tokens/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/js-yaml/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/jsbn/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/json-schema-traverse/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/json-schema/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/json-stringify-safe/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/jsprim/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/lodash/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/media-typer/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/merge-descriptors/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/methods/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/mime-db/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/mime-types/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/mime/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/minimatch/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/minimist/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/minipass/node_modules/safe-buffer/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/minipass/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/minizlib/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/mkdirp/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/moment-timezone/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/moment/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/ms/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/nan/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/nan/tools/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/needle/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/negotiator/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/node-pre-gyp/lib/util/nw-pre-gyp/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/node-pre-gyp/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/nopt/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/npm-bundled/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/npm-packlist/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/npmlog/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/number-is-nan/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/oauth-sign/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/object-assign/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/on-finished/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/once/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/os-homedir/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/os-tmpdir/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/osenv/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/parseurl/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/path-is-absolute/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/path-parse/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/path-to-regexp/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/performance-now/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/process-nextick-args/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/proxy-addr/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/psl/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/punycode/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/qs/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/range-parser/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/rc/node_modules/minimist/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/rc/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/readable-stream/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/reflect-metadata/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/request/node_modules/qs/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/request/node_modules/safe-buffer/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/request/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/resolve/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/resolve/test/module_dir/zmodules/bbb/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/resolve/test/resolver/baz/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/resolve/test/resolver/browser_field/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/resolve/test/resolver/dot_main/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/resolve/test/resolver/dot_slash_main/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/resolve/test/resolver/incorrect_main/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/retry-as-promised/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/rimraf/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/safe-buffer/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/safer-buffer/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/sax/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/semver/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/send/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/sequelize-typescript/node_modules/@types/node/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/sequelize-typescript/node_modules/glob/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/sequelize-typescript/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/sequelize/node_modules/debug/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/sequelize/node_modules/ms/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/sequelize/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/serve-static/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/set-blocking/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/setprototypeof/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/shimmer/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/signal-exit/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/sprintf-js/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/sqlite3/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/sshpk/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/statuses/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/string-width/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/string_decoder/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/strip-ansi/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/strip-json-comments/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/supports-color/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/tar/node_modules/safe-buffer/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/tar/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/terraformer-wkt-parser/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/terraformer/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/toposort-class/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/tough-cookie/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/tslib/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/tslint/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/tsutils/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/tunnel-agent/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/tweetnacl/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/type-is/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/typescript/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/unpipe/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/util-deprecate/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/utils-merge/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/uuid/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/validator/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/vary/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/verror/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/wide-align/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/wkx/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/wrappy/package.json" />
-      <path value="$PROJECT_DIR$/backend/node_modules/yallist/package.json" />
       <path value="$PROJECT_DIR$/backend/package.json" />
       <path value="$PROJECT_DIR$/frontend/package.json" />
     </packageJsonPaths>
@@ -405,27 +187,28 @@
             <path>
               <item name="ESE-2018-Scaffolding-master" type="b2602c69:ProjectViewProjectNode" />
               <item name="ESE-2018-Scaffolding-master" type="462c0819:PsiDirectoryNode" />
-              <item name="backend" type="462c0819:PsiDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ESE-2018-Scaffolding-master" type="b2602c69:ProjectViewProjectNode" />
               <item name="ESE-2018-Scaffolding-master" type="462c0819:PsiDirectoryNode" />
-              <item name="backend" type="462c0819:PsiDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ESE-2018-Scaffolding-master" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ESE-2018-Scaffolding-master" type="462c0819:PsiDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ESE-2018-Scaffolding-master" type="b2602c69:ProjectViewProjectNode" />
               <item name="ESE-2018-Scaffolding-master" type="462c0819:PsiDirectoryNode" />
-              <item name="backend" type="462c0819:PsiDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ESE-2018-Scaffolding-master" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ESE-2018-Scaffolding-master" type="462c0819:PsiDirectoryNode" />
-              <item name="backend" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="job" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -468,11 +251,12 @@
       <updated>1538150205321</updated>
       <workItem from="1538150207087" duration="292000" />
       <workItem from="1538491484220" duration="6704000" />
+      <workItem from="1538590409879" duration="2134000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6996000" />
+    <option name="totallyTimeSpent" value="9130000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2514" height="1096" extended-state="6" />
@@ -514,7 +298,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/backend/app/server.ts</url>
           <line>4</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
@@ -526,43 +309,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/app/controllers/todoitem.controller.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-751">
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/tslint.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="86" column="18" selection-start-line="86" selection-start-column="18" selection-end-line="86" selection-end-column="18" />
-        </state>
+        <state relative-caret-position="-751" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/app/models/todoitem.model.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#90#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/app/models/todolist.model.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
             <element signature="e#0#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/app/controllers/todolist.controller.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -585,9 +342,6 @@
     <entry file="file://$PROJECT_DIR$/backend/build/models/todolist.model.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/app/server.ts">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/build/server.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
@@ -596,22 +350,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/app/job/job.component.spec.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#73#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/app/todo-item/todo-item.component.spec.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#73#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/app/todo-list/todo-list.component.css">
       <provider selected="true" editor-type-id="text-editor" />
@@ -623,9 +365,6 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/app/todo-list.ts">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/tslint.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/tsconfig.spec.json">
@@ -646,22 +385,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/main.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/karma.conf.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/index.html">
       <provider selected="true" editor-type-id="text-editor" />
@@ -673,13 +400,7 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/environments/environment.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/assets/.gitkeep">
       <provider selected="true" editor-type-id="text-editor" />
@@ -696,40 +417,10 @@
     <entry file="file://$PROJECT_DIR$/frontend/src/app/todo-item.ts">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/job.ts">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/node_modules/@angular/core/src/metadata/directives.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
           <caret line="454" column="4" selection-start-line="454" selection-start-column="4" selection-end-line="454" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/todo-list/todo-list.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="49" column="32" lean-forward="true" selection-start-line="49" selection-start-column="32" selection-end-line="49" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#77#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/app.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="21" column="93" lean-forward="true" selection-start-line="21" selection-start-column="93" selection-end-line="21" selection-end-column="93" />
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/app.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="32" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -739,13 +430,6 @@
           <folding>
             <element signature="e#0#77#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/job/job.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="7" />
         </state>
       </provider>
     </entry>
@@ -759,23 +443,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/job/job.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" column="3" lean-forward="true" selection-start-line="39" selection-start-column="3" selection-end-line="39" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#55#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/app/models/job.model.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/node_modules/sequelize-typescript/lib/models/Model.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="57">
@@ -783,13 +450,103 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/app/controllers/job.controller.ts">
+    <entry file="file://$PROJECT_DIR$/frontend/src/tslint.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/job.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="18" lean-forward="true" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+        <state relative-caret-position="170">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/app.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/todo-list/todo-list.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="40" column="7" lean-forward="true" selection-start-line="38" selection-start-column="80" selection-end-line="40" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#77#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/job/job.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="748">
+          <caret line="44" column="7" lean-forward="true" selection-start-line="44" selection-start-column="7" selection-end-line="44" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#69#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/app.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="812">
+          <caret line="55" column="24" selection-start-line="55" selection-start-column="24" selection-end-line="55" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/app/server.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/tslint.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="512">
+          <caret line="108" column="11" selection-start-line="108" selection-start-column="11" selection-end-line="108" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/app/controllers/todolist.controller.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="23" lean-forward="true" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/app/models/job.model.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="23" lean-forward="true" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/app/controllers/job.controller.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/app.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="72" lean-forward="true" selection-start-line="13" selection-start-column="72" selection-end-line="13" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/job/job.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="96" selection-start-line="1" selection-start-column="96" selection-end-line="1" selection-end-column="96" />
         </state>
       </provider>
     </entry>

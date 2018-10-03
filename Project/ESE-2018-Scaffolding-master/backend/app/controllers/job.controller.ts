@@ -3,37 +3,46 @@ import {Job} from '../models/job.model';
 
 const router: Router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
-  console.log('job:get');
-  let instance = await Job.findById(0);
-  if (instance == null) {
-    instance = new Job();
+/* returns all the jobs from the db*/
+router.get('/', async (req: Request, res: Response) =>{
+  const instances = await Job.findAll();
+  res.statusCode = 200;
+  res.send(instances.map(e=> e.toSimplification()));
+});
+
+
+/*returns one single job with the correct id*/
+router.get('/:id', async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const instance = await Job.findById(id);
+  if( instance == null) {
+    res.statusCode = 404;
+    res.json({
+      'message':'this job could not be found'
+    });
+    return;
   }
-  res.status(200);
-  instance.id = 0;
+  res.statusCode = 200;
   res.send(instance.toSimplification());
 });
 
+/*creates a new job and returns it */
 router.post('/', async (req: Request, res: Response) => {
-  console.log('job:post');
-  let instance = await Job.findById(0);
-  if (instance == null) {
-    instance = new Job();
-  }
+  const instance = new Job();
   instance.fromSimplification(req.body);
-  instance.id = 0;
   await instance.save();
   res.statusCode = 201;
   res.send(instance.toSimplification());
 });
 
-router.put('/', async(req: Request, res: Response) => {
-  console.log('job:put');
-  const instance = await Job.findById(0);
+/* updates a job according to the message body */
+router.put('/:id', async(req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const instance = await Job.findById(id);
   if (instance == null) {
     res.statusCode = 404;
     res.json({
-      'message': 'not found'
+      'message': 'job not found for updating'
     });
     return;
   }
@@ -44,13 +53,14 @@ router.put('/', async(req: Request, res: Response) => {
   res.send(instance.toSimplification());
 });
 
-router.delete('/', async(req: Request, res: Response) => {
-  console.log('job:delete');
-  const instance = await Job.findById(0);
+/*deletes a job */
+router.delete('/:id', async(req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const instance = await Job.findById(id);
   if (instance == null) {
     res.statusCode = 404;
     res.json({
-      'message': 'not found'
+      'message': 'job not found to delete'
     });
     return;
   }

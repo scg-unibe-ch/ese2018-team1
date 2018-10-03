@@ -1,8 +1,10 @@
-<mat-form-field>
-<input matInput placeholder="Name" [(ngModel)]="job.name" name="name">
+<br><mat-form-field>
+<input matInput placeholder="Name" [(ngModel)]="job.name" name="name" (ngModelChange)="onSave()">
 </mat-form-field><br>
 <mat-form-field>
 <input matInput placeholder="Description" [(ngModel)]="job.description" name="description" (ngModelChange)="onSave()">
 </mat-form-field>
 <button mat-button (click)="onSave()">Save</button>
+<button mat-button (click)="onDestroy()">Destroy</button>
+
 

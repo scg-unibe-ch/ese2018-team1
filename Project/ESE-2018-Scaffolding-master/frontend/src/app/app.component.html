@@ -1,5 +1,5 @@
 <!--main html-->
-<mat-form-field>
+<!--<mat-form-field>
   <input matInput placeholder="Create list" [(ngModel)]="todoList.name" name="name">
 </mat-form-field>
 <button mat-button (click)="onTodoListCreate()">create</button>
@@ -8,12 +8,13 @@
 
 <br>
 
-
+-->
+<!-- jobs -->
 <mat-form-field>
   <input matInput placeholder="Name" [(ngModel)]="job.name" name="name">
 </mat-form-field><br>
 <mat-form-field>
   <input matInput placeholder="Description" [(ngModel)]="job.description" name="description" (ngModelChange)="onSave()">
 </mat-form-field>
-<button mat-button (click)="onSaveJob()">Save</button>
-
+<button mat-button (click)="onCreateJob()">Create Job</button>
+<app-job [job]="currentJob" *ngFor="let currentJob of jobs" (destroy)="onDeleteJob($event)"></app-job>

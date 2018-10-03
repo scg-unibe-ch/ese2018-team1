@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Job} from '../job';
-import {TodoItem} from '../todo-item';
+import {TodoList} from '../todo-list';
+
 
 @Component({
   selector: 'app-job',
@@ -12,6 +13,9 @@ export class JobComponent implements OnInit {
 
   @Input()
   job: Job;
+
+  @Output()
+  destroy = new EventEmitter<TodoList>();
 
   constructor(private httpClient: HttpClient) { }
 
@@ -25,18 +29,20 @@ export class JobComponent implements OnInit {
 
   onSave() {
     console.log('name:  ' + this.job.name + 'desc: ' + this.job.description);
-    this.httpClient.put('http://localhost:3000/job/',  {
+    this.httpClient.put('http://localhost:3000/job/' + this.job.id,  {
       'name': this.job.name,
       'description': this.job.description
     }).subscribe((instance: any) => {
-      this.job.id = 0;
+      this.job.id = instance.id;
       this.job.name = instance.name;
       this.job.description = instance.description;
     });
   }
-/*
+
   onDestroy() {
-    this.httpClient.delete('http://localhost:3000/job/' + this.job.id);
+    this.httpClient.delete('http://localhost:3000/job/' + this.job.id).subscribe(() => {
+      this.destroy.emit(this.job);
+    });
   }
-*/
+
 }

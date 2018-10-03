@@ -44,10 +44,18 @@ domain concepts
 
 Questions - missing things
 - Vermittlung oder direkt? gibt es den Stakeholder Vermittler?
-- what instances / informations does a posting need? 							(W)
-- technical requirements?														(W)
-- who makes postings of jobs?													(W)
-- does a moderator exists?														(W)
+- what instances / informations does a posting need? 							(W) -> keine Vermittlung
+- technical requirements?														(W) -> normaler Browser ok, mobile wäre cool
+- who makes postings of jobs?													(W) -> Moderator, für Arbeitgeber ein Forumlar, mit dem er Jobs einreichen kann
+- does a moderator exists?														(W) -> ja
 - privacy -> who has access to what?												
 - security -> who can do what on the platform?
 - apply for a job on the platform or just contact directly the author of the posting? 
+
+Job
+- Firma
+- Kontakt
+- Start - End (befristet / unbefristet)
+- Anzahl Stunden oder Beschäftigungsgrad
+- erwartbarer Lohn (bei stundenweiser Anstellung)
+- Beschreibung

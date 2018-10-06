@@ -4,20 +4,30 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
+import {AppRoutingModule, routingComponents} from './app-routing.module';
 // Add css components from angular material
 import {MatButtonModule, MatCardModule, MatCheckboxModule, MatInputModule, MatListModule} from '@angular/material';
-import { TodoListComponent } from './todo-list/todo-list.component';
+/*import { TodoListComponent } from './todo-list/todo-list.component';*/
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import {FormsModule} from '@angular/forms';
 import { JobComponent } from './job/job.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+/*import { HomeComponent } from './home/home.component';*/
+/*import { JobsComponent } from './jobs/jobs.component';*/
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodoListComponent,
+    /*TodoListComponent,*/
     TodoItemComponent,
     JobComponent,
+    routingComponents,
+    HeaderComponent,
+    FooterComponent
+    /*HomeComponent,*/
+    /*JobsComponent,*/
   ],
   imports: [
     BrowserModule,
@@ -28,7 +38,8 @@ import { JobComponent } from './job/job.component';
     MatListModule,
     MatInputModule,
     MatCheckboxModule,
-    MatCardModule
+    MatCardModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

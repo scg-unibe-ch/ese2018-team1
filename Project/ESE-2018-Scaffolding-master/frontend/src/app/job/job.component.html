@@ -1,26 +1,41 @@
-<br><mat-form-field>
-<input matInput placeholder="Name" [(ngModel)]="job.name" name="name" (ngModelChange)="onSave()"><p style="color:red">*</p>
-</mat-form-field><br>
-<mat-form-field>
-  <textarea placeholder="Description" rows="15" cols="100" [(ngModel)]="job.description" name="description" (ngModelChange)="onSave()"></textarea><p style="color:red">*</p>
-</mat-form-field><br>
-<mat-form-field>
-  <input matInput placeholder="Company name" [(ngModel)]="job.company_name" name="company_name" (ngModelChange)="onSave()"><p style="color:red">*</p>
-</mat-form-field><br>
-<mat-form-field>
-  <input matInput placeholder="Wage" type="number" [(ngModel)]="job.wage" name="wage" (ngModelChange)="onSave()"><p style="color:red">*</p>
-</mat-form-field><br>
-<mat-form-field>
-  <input matInput placeholder="start of the job" type="date" [(ngModel)]="job.job_start" name="job_start" (ngModelChange)="onSave()">
-</mat-form-field><br>
-<mat-form-field>
-  <input matInput placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" (ngModelChange)="onSave()">
-</mat-form-field><br>
-<mat-form-field>
-  <input matInput placeholder="percentage" type="number" [(ngModel)]="job.percentage" name="percentage" (ngModelChange)="onSave()"><p style="color:red">*</p>
-</mat-form-field>
+<form>
+  <div class="field half first">
+    <label for="name">Name</label>
+    <input type="text" name="name"[(ngModel)]="job.name" id="name" (ngModelChange)="onSave()" />
+  </div>
+  <div class="field half">
+    <label for="company_name">Unternehmen</label>
+    <input type="text" [(ngModel)]="job.company_name" name="company_name" id="company_name" (ngModelChange)="onSave()">
+  </div>
+  <div class="field">
+    <label for="description">Beschreibung</label>
+    <textarea [(ngModel)]="job.description" name="description" id="description" (ngModelChange)="onSave()"></textarea>
+  </div>
+  <div class="field half">
+    <label for="wage">Lohn</label>
+    <input matInput type="number" [(ngModel)]="job.wage" name="wage" id="wage" (ngModelChange)="onSave()">
+  </div>
+  <div class="field half">
+    <label for="percentage">Prozent der Anstellung</label>
+    <input matInput placeholder="percentage" type="number" [(ngModel)]="job.percentage" name="percentage" id="percentage" (ngModelChange)="onSave()">
+  </div>
+  <div class="field half">
+    <label for="job_start">Anfang des Jobs</label>
+    <input matInput placeholder="start of the job" type="date" [(ngModel)]="job.job_start" name="job_start" id="job_start" (ngModelChange)="onSave()">
+  </div>
+  <div class="field half">
+    <label for="job_end">Ende des Jobs</label>
+    <input matInput placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end" (ngModelChange)="onSave()">
+  </div>
 
-<br>
-<button mat-button (click)="onDestroy()">Destroy</button>
+  <ul class="actions">
+    <li><input type="submit" mat-button (click)="onSave()" value="Speichern"/></li>
+    <li><input type="submit" mat-button (click)="onDestroy()" value="Löschen"/></li>
+  </ul>
+  <ul class="actions">
+
+</ul>
+
+</form>
 
 

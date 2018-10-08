@@ -65,11 +65,15 @@ please use routerlink in a anchor tag instead of href, so the website automatica
 </section>
 
 <!-- Three -->
-<section id="three" style="margin-bottom: -200px"><div class="inner">
-  <header>
-    <h2>neueste Jobs</h2>
-  </header>
-</div>    </section>
+
+<section style="margin-bottom: -150px;margin-top: 10px">
+  <div class="inner">
+    <header>
+      <h2>neueste Jobs</h2>
+    </header>
+  </div>
+</section>
+<!--
 <section id="three">
 
   <div class="inner">
@@ -109,5 +113,12 @@ please use routerlink in a anchor tag instead of href, so the website automatica
         </ul>
       </div>
     </article>
+  </div>
+</section>-->
+
+<section id="three">
+
+  <div class="inner">
+    <app-job style="padding: 2em; width: 150%"  [job]="currentJob" *ngFor="let currentJob of jobs"></app-job>
   </div>
 </section>

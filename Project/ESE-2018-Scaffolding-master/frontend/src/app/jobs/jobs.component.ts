@@ -9,7 +9,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 })
 export class JobsComponent implements OnInit {
   jobs: Job[] = [];
-  job: Job = new Job(null, '', '', '', '', new Date(), new Date(), 0, false);
+  job: Job = new Job(null, '', '', '', '', '', '', 0, false);
   constructor(private httpClient: HttpClient) {
   }
 
@@ -35,7 +35,7 @@ export class JobsComponent implements OnInit {
     }).subscribe((instance: any) => {
       this.job.id = instance.id;
       this.jobs.push(this.job);
-      this.job = new Job(null, '', '', '', '', new Date(), new Date(), 0, false);
+      this.job = new Job(null, '', '', '', '', '', '', 0, false);
     });
   }
 

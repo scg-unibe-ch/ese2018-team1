@@ -8,8 +8,8 @@ export class Job {
     public description: string,
     public company_name: string,
     public wage: string,
-    public job_start: Date,
-    public job_end: Date,
+    public job_start: string,
+    public job_end: string,
     public percentage: number,
     public approved: boolean
   ){

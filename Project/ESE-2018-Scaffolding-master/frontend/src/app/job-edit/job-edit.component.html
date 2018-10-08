@@ -1,4 +1,4 @@
-<!--<form>
+<form>
   <div class="field half first">
     <label for="name">Name</label>
     <input type="text" name="name"[(ngModel)]="job.name" id="name" (ngModelChange)="onSave()" />
@@ -28,21 +28,14 @@
     <input matInput placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end" (ngModelChange)="onSave()">
   </div>
 
+  <ul class="actions">
+    <li><input type="submit" mat-button (click)="onSave()" value="Speichern"/></li>
+    <li><input type="submit" mat-button (click)="onDestroy()" value="Löschen"/></li>
+  </ul>
+  <ul class="actions">
 
-</ul>
+  </ul>
 
-</form>-->
-<article style="width: 100%">
-  <div class="content">
-    <span class="icon fa-laptop"></span>
-    <header>
-      <h3>{{job.name}}</h3>
-    </header>
-    <p>{{job.description}}</p>
-    <!--<p>{{job.wage}}</p>-->
-    <ul class="actions">
-      <li><a routerLink="#" class="button alt">Learn More</a></li>
-    </ul>
-  </div>
-</article>
+</form>
+
 

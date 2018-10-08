@@ -15,10 +15,10 @@ export class Job extends Model<Job> {
   wage!: string;
 
   @Column
-  job_start!: Date;
+  job_start!: string;
 
   @Column
-  job_end!: Date;
+  job_end!: string;
 
   @Column
   percentage!: number;

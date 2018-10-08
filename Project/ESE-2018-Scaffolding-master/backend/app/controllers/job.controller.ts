@@ -70,7 +70,25 @@ router.get('search/:name/:company_name/:description/:wage/:start_before/:start_a
   });
   res.statusCode = 200;
   res.send(instances.map(e => e.toSimplification()));
-})
+});
+
+
+router.get('search/:name/:company_name/:description', async (req: Request, res: Response) =>{
+  console.log(req.params)
+  const sname = '%' + req.params.name + '%';
+  const scompany_name = '%' + req.params.company_name + '%';
+  const sdescription = '%' + req.params.description + '%';
+  const instances = await Job.findAll({
+    where: Sequelize.and(
+      {name: {like: sname}},
+      {company_name: {like: scompany_name}},
+      {description: {like: sdescription}}
+    )
+  });
+  res.statusCode = 200;
+  res.send(instances.map(e => e.toSimplification()));
+});
+
 
 /*returns one single job with the correct id*/
 router.get('/:id', async (req: Request, res: Response) => {
@@ -108,7 +126,6 @@ router.put('/:id', async(req: Request, res: Response) => {
     return;
   }
   instance.fromSimplification(req.body);
-  instance.id = 0;
   await instance.save();
   res.status(200);
   res.send(instance.toSimplification());
@@ -126,7 +143,6 @@ router.delete('/:id', async(req: Request, res: Response) => {
     return;
   }
   instance.fromSimplification(req.body);
-  instance.id = 0;
   await instance.destroy();
   res.status(204);
   res.send();

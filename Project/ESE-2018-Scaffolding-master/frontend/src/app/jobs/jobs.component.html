@@ -15,4 +15,4 @@
 </form>
 </div>
 
-<app-job [job]="currentJob" *ngFor="let currentJob of jobs" (destroy)="onDeleteJob($event)"></app-job>
+<app-job-edit [job]="currentJob" *ngFor="let currentJob of jobs" (destroy)="onDeleteJob($event)"></app-job-edit>

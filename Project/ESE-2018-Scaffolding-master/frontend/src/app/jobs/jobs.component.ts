@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  } from '@angular/core';
 import {Job} from '../job';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {state} from '@angular/animations';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-jobs',
@@ -10,41 +12,46 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 export class JobsComponent implements OnInit {
   jobs: Job[] = [];
   job: Job = new Job(null, '', '', '', '', '', '', 0, false);
+  jobs_jobsArr: Job[][] = [ , ];
+  searchText: string;
   constructor(private httpClient: HttpClient) {
   }
 
 
   ngOnInit() {
-    this.httpClient.get('http://localhost:3000/job').subscribe((instances: any) => {
-      this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved));
-    });
+    this.searchText = location.search.replace('?search=', '');
+    if (location.search.search('search') === 1 && this.searchText.length >0){
+      this.httpClient.get('http://localhost:3000/job/search/' + this.searchText).subscribe((instances: any) => {
+        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+        this.makeJobs_jobsArr();
+      });
+      console.log('searchtext: ' + this.searchText + ' length: ' + this.searchText.length);
+    }
+    else{
+      this.httpClient.get('http://localhost:3000/job').subscribe((instances: any) => {
+        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+        this.makeJobs_jobsArr();
+      });
+    }
+    console.log('contains search: ' + location.search.search('search') + ' search text: ' + this.searchText+ ' searchtextLength: ' + this.searchText.length);
   }
 
-  onCreateJob() {
-	  if (this.job.name && this.job.company_name){
-		this.httpClient.post('http://localhost:3000/job', {
-		  'id': this.job.id,
-		  'name': this.job.name,
-		  'description': this.job.description,
-		  'company_name': this.job.company_name,
-		  'wage': this.job.wage,
-		  'job_start': this.job.job_start,
-		  'job_end': this.job.job_end,
-		  'percentage': this.job.percentage,
-		  'approved': this.job.approved
-
-		}).subscribe((instance: any) => {
-		  this.job.id = instance.id;
-		  this.jobs.push(this.job);
-		  this.job = new Job(null, '', '', '', '', '', '', 0, false);
-		});
-	  }
-	  else {
-		  
-	  }
+  makeJobs_jobsArr(){
+    let jobarr = [];
+    for (let i = 0; i < this.jobs.length; i++){
+      jobarr.push(this.jobs[i]);
+      if (jobarr.length === 3) {
+        this.jobs_jobsArr.push(jobarr);
+        jobarr = [];
+      }
+    }
+    if (jobarr.length !== 0) {
+      this.jobs_jobsArr.push(jobarr);
+    }
   }
 
-  onDeleteJob(job: Job) {
-    this.jobs.splice(this.jobs.indexOf(job), 1);
+  onSearchJob() {
+    location.href = '/jobs?search=' + this.searchText;
   }
+
 }

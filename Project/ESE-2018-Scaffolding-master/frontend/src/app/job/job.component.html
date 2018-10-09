@@ -38,8 +38,10 @@
     <header>
       <h3>{{job.name}}</h3>
     </header>
-    <p>{{job.description}}</p>
-    <!--<p>{{job.wage}}</p>-->
+    <p>
+      {{job.description}}<br>
+      <b>Bezahlung:</b> {{job.wage}}.- CHF
+    </p>
     <ul class="actions">
       <li><a routerLink="#" class="button alt">Learn More</a></li>
     </ul>

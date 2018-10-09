@@ -4,7 +4,7 @@
 this website is structured with two different types of modules.
 - one type is the type that gets displayed. this one you have to add in the app-routing.module.ts file
 - the other type can be used to help display the first type or to hold data for the first type
-be aware that for the first type to work, you need to remove its component from app.module.ts in the import and in the declarations
+be aware that for the first type to work, you need to remove its component from app.module.ts in the import and in the declarations. As well as add it to the app-routing.module.ts file (instuctions there)
 
 to be able to instanciate a module you need a <componentName>.ts file in /app where you specify the properties of this module
 

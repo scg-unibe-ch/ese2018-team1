@@ -1,0 +1,18 @@
+<!-- jobs-->
+<div class="inner">
+  <form>
+    <div class="field half">
+      <label for="name">Name</label>
+      <input type="text" name="name"[(ngModel)]="job.name" id="name"/>
+    </div>
+    <div class="field half">
+      <label for="company_name">Unternehmen</label>
+      <input type="text" [(ngModel)]="job.company_name" name="company_name" id="company_name">
+    </div>
+    <ul class="actions">
+      <li><input type="submit" mat-button (click)="onCreateJob()" value="Speichern"/></li>
+    </ul>
+  </form>
+</div>
+
+<app-job-edit [job]="currentJob" *ngFor="let currentJob of jobs" (destroy)="onDeleteJob($event)"></app-job-edit>

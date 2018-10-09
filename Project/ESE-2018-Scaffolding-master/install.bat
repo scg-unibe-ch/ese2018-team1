@@ -35,8 +35,8 @@ cls
 echo INSTALLING FRONTEND
 echo compiling and running the angular
 sleep 1
-ng serve --open
 ng add @angular/material
+ng serve --open
 cls
 echo DONE
 echo press any key to continue

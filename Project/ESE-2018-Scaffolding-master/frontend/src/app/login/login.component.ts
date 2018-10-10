@@ -7,13 +7,23 @@ import {User} from "../user";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  user: User = new User(null, '','','',false);
-  constructor() { }
+  user: User = new User(null, '','','','');
+  register: boolean;
+  constructor() {
+  }
 
   ngOnInit() {
+    this.register = false;
   }
 
   onLogin(){
 
+  }
+
+  onSwitch(){
+    if(this.register == false)
+      this.register = true;
+    else
+      this.register = false;
   }
 }

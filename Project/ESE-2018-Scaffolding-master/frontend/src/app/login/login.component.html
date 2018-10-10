@@ -1,5 +1,5 @@
 <!--login-->
-<div class="inner">
+<div class="inner" *ngIf="!register">
   <form>
     <div class="field">
       <label>Login</label>
@@ -10,8 +10,25 @@
       <li><input type="submit" (click)="onLogin()" value="Login"/></li>
     </ul>
     <br>
-    <a>Noch kein Login?</a><br>
-    <a routerLink="/register">Hier registrieren</a>
+    <b>Noch kein Login?</b><br>
+    <input type="submit" (click)="onSwitch()" value="hier Registrieren"/>
   </form>
 </div>
+<!--register-->
+<div class="inner" *ngIf="register">
+  <form>
+    <div class="field">
+      <label>Registrierung</label>
+      <input type="text" name="username" placeholder="Benutzername" [(ngModel)]="username" id="username"/>
+      <input type="password" name="password" placeholder="Passwort" [(ngModel)]="password" id="password"/>
+      <input type="email" name="Email" placeholder="Email" [(ngModel)]="email" id="email"/>
+    </div>
+    <ul class="actions">
+      <li><input type="submit" (click)="onRegister()" value="Jetzt Registrieren"/></li>
+    </ul>
+    <input type="submit" (click)="onSwitch()" value="zurück zum Login"/>
+  </form>
+</div>
+
+
 

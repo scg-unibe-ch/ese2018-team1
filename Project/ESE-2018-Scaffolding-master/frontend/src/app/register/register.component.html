@@ -1,0 +1,15 @@
+<!--register-->
+<div class="inner">
+  <form>
+    <div class="field">
+      <label>Registrierung</label>
+      <input type="text" name="username" placeholder="Benutzername" [(ngModel)]="username" id="username"/>
+      <input type="password" name="password" placeholder="Passwort" [(ngModel)]="password" id="password"/>
+      <input type="email" name="Email" placeholder="Email" [(ngModel)]="email" id="email"/>
+    </div>
+    <ul class="actions">
+      <li><input type="submit" (click)="onRegister()" value="Jetzt Registrieren"/></li>
+    </ul>
+  </form>
+</div>
+

@@ -1,0 +1,17 @@
+<!--login-->
+<div class="inner">
+  <form>
+    <div class="field">
+      <label>Login</label>
+      <input type="text" name="username" placeholder="Benutzername" [(ngModel)]="username" id="username"/>
+      <input type="password" name="password" placeholder="Passwort" [(ngModel)]="password" id="password"/>
+    </div>
+    <ul class="actions">
+      <li><input type="submit" (click)="onLogin()" value="Login"/></li>
+    </ul>
+    <br>
+    <a>Noch kein Login?</a><br>
+    <a routerLink="/register">Hier registrieren</a>
+  </form>
+</div>
+

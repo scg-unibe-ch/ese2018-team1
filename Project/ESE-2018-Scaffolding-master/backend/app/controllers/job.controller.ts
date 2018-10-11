@@ -43,7 +43,7 @@ TODO:
 -test if it works when all data is applied
 -test if it works when not all data is given
  */
-router.get('search/:name/:company_name/:description/:wage/:start_before/:start_after/:end_before/:end_after/:percentage_more/:percentage_less', async (req: Request, res: Response) =>{
+router.get('/search/:name/:company_name/:description/:wage/:start_before/:start_after/:end_before/:end_after/:percentage_more/:percentage_less', async (req: Request, res: Response) =>{
   const sname = '%' + req.params.name + '%';
   const scompany_name = '%' + req.params.company_name + '%';
   const sdescription = '%' + req.params.description + '%';
@@ -73,7 +73,7 @@ router.get('search/:name/:company_name/:description/:wage/:start_before/:start_a
 });
 
 
-router.get('search/:name/:company_name/:description', async (req: Request, res: Response) =>{
+router.get('/search/:name/:company_name/:description', async (req: Request, res: Response) =>{
   console.log(req.params)
   const sname = '%' + req.params.name + '%';
   const scompany_name = '%' + req.params.company_name + '%';

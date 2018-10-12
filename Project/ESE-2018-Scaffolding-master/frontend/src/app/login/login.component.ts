@@ -3,6 +3,7 @@ import {User} from '../user';
 import {HttpClient} from '@angular/common/http';
 import {Job} from '../job';
 import {d} from '@angular/core/src/render3';
+import {root} from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +38,10 @@ export class LoginComponent implements OnInit {
           this.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
           this.error = false; // do not display error while loading home page
           this.successfulLogin = true;
+          this.user.setAuth();
+          root.user = this.user;
           location.href = '/';
+
         },
         err =>{
           this.error = true;

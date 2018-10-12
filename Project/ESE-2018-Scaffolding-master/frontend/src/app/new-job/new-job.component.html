@@ -1,0 +1,18 @@
+
+<div class="inner" *ngIf="errorName">
+  <b>Please enter a name</b>
+</div>
+<div class="inner">
+  <form>
+    <div class="field">
+      <label for="name">Name</label>
+      <input type="text" name="name"[(ngModel)]="job.name" id="name"/>
+    </div>
+    <ul class="actions">
+      <li><input type="submit" mat-button (click)="onCreateJob()" value="neuer Job erstellen"/></li>
+    </ul>
+  </form>
+</div>
+
+<app-job-edit *ngIf="showDetails" [editAsModerator]="false" [job]="job"></app-job-edit>
+

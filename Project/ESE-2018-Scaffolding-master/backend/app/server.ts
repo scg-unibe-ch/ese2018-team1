@@ -2,11 +2,12 @@
 import express from 'express';
 
 // import all the controllers. If you add a new controller, make sure to import it here as well.
-import {TodoListController, TodoItemController, JobController} from './controllers';
+import {TodoListController, TodoItemController, JobController, UserController} from './controllers';
 import {Sequelize} from 'sequelize-typescript';
 import {TodoList} from './models/todolist.model';
 import {TodoItem} from './models/todoitem.model';
 import {Job} from './models/job.model';
+import {User} from './models/user.model';
 
 const sequelize =  new Sequelize({
   database: 'development',
@@ -15,14 +16,14 @@ const sequelize =  new Sequelize({
   password: '',
   storage: 'db.sqlite'
 });
-sequelize.addModels([TodoList, TodoItem, Job]);
+sequelize.addModels([TodoList, TodoItem, Job, User]);
 
 // create a new express application instance
 const app: express.Application = express();
 app.use(express.json());
 
 // define the port the express app will listen on
-var port: number = 3000;
+let port = 3000;
 if (process.env.PORT !== undefined) {
   port = parseInt(process.env.PORT);
 }
@@ -37,6 +38,7 @@ app.use(function (req, res, next) {
 app.use('/todolist', TodoListController);
 app.use('/todoitem', TodoItemController);
 app.use('/job', JobController);
+app.use('/login', UserController);
 
 
 sequelize.sync().then(() => {

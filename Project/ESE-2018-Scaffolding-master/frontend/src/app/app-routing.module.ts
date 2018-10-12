@@ -3,8 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {JobsComponent} from './jobs/jobs.component';
 import {UeberUnsComponent} from './ueber-uns/ueber-uns.component';
 import {HomeComponent} from './home/home.component';
-import {LoginComponent} from "./login/login.component";
-import {RegisterComponent} from "./register/register.component";
+import {LoginComponent} from './login/login.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -19,7 +18,7 @@ const routes: Routes = [
 })
 
 export class AppRoutingModule{}
-export const routingComponents = [HomeComponent, JobsComponent, UeberUnsComponent]
+export const routingComponents = [HomeComponent, JobsComponent, UeberUnsComponent, LoginComponent]
 
 
 /*

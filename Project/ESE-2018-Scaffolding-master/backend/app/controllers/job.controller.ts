@@ -146,7 +146,7 @@ router.delete('/:id', async(req: Request, res: Response) => {
   await instance.destroy();
   res.status(204);
   res.send();
-})
+});
 
 
 export const JobController: Router = router;

@@ -33,7 +33,7 @@ import { LoginComponent } from './login/login.component';
     FooterComponent,
     JobEditComponent,
     LoginComponent
-    */ProfileComponent,*/
+    /*ProfileComponent,*/
     /*NewJobComponent*/
     /*UeberUnsComponent*/
     /*HomeComponent,*/

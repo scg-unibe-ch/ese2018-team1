@@ -2,7 +2,6 @@ import { Component, OnInit,  } from '@angular/core';
 import {Job} from '../job';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {state} from '@angular/animations';
-import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-jobs',
@@ -11,7 +10,7 @@ import {FormControl} from '@angular/forms';
 })
 export class JobsComponent implements OnInit {
   jobs: Job[] = [];
-  job: Job = new Job(null, '', '', '', '', '', '', 0, false);
+  job: Job = new Job(null, '', '', '', 0, '', '', 0, false);
   jobs_jobsArr: Job[][] = [ , ];
   searchText: string;
   constructor(private httpClient: HttpClient) {

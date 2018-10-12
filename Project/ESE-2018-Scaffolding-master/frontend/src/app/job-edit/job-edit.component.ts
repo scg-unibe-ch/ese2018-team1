@@ -12,6 +12,9 @@ export class JobEditComponent implements OnInit {
   @Input()
   job: Job;
 
+  @Input()
+  editAsModerator: boolean
+
   @Output()
   destroy = new EventEmitter<Job>();
 
@@ -37,15 +40,7 @@ export class JobEditComponent implements OnInit {
       'percentage': this.job.percentage,
       'approved': this.job.approved
     }).subscribe((instance: any) => {
-      this.job.id = instance.id;
-      this.job.name = instance.name;
-      this.job.description = instance.description;
-      this.job.company_name = instance.company_name;
-      this.job.wage = instance.wage;
-      this.job.job_start = instance.job_start;
-      this.job.job_end = instance.job_end;
-      this.job.percentage = instance.percentage;
-      this.job.approved = instance.approved;
+      this.job = instance;
     });
   }
 

@@ -3,7 +3,8 @@
     <label for="name">Name</label>
     <input type="text" name="name"[(ngModel)]="job.name" id="name" (ngModelChange)="onSave()" />
   </div>
-  <div class="field half">
+  <br *ngIf="!editAsModerator"/>
+  <div *ngIf="editAsModerator" class="field half">
     <label for="company_name">Unternehmen</label>
     <input type="text" [(ngModel)]="job.company_name" name="company_name" id="company_name" (ngModelChange)="onSave()">
   </div>
@@ -27,10 +28,15 @@
     <label for="job_end">Ende des Jobs</label>
     <input matInput placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end" (ngModelChange)="onSave()">
   </div>
+  <div *ngIf="editAsModerator" class="field half">
+  <label for="approved">Öffentlich schalten</label>
+  <input type="checkbox" [(ngModel)]="job.approved" name="approved" id="approved" (ngModelChange)="onSave()">
+</div>
+
 
   <ul class="actions">
     <li><input type="submit" mat-button (click)="onSave()" value="Speichern"/></li>
-    <li><input type="submit" mat-button (click)="onDestroy()" value="Löschen"/></li>
+    <li *ngIf="editAsModerator"><input type="submit" mat-button (click)="onDestroy()" value="Löschen"/></li>
   </ul>
   <ul class="actions">
 

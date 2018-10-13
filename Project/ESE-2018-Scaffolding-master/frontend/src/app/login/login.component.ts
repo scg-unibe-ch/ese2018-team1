@@ -21,12 +21,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.register = false;
-    this.error = false;
-    this.successfulLogin = false;
-    this.successfulRegister = true;
+    this.register = false; // if false the login form is shown, if true, the register form is shown
+    this.error = false;    // true if an error occured during the login
+    this.successfulLogin = false; // true if the login was successfull and user is logged in
+    this.successfulRegister = true; // false, if exists a user yet with the same email, true by default
     this.user =  new User(null, '','','','', '');
-    this.userService.changeLoginStatus(false);
+    this.userService.changeLoginStatus(this.successfulLogin);
     this.userService.changeUser(this.user);
   }
 
@@ -42,12 +42,9 @@ export class LoginComponent implements OnInit {
         (instance: any) =>{
           this.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
           this.error = false; // do not display error while loading home page
-          this.successfulLogin = true;
-          this.userService.changeLoginStatus(true);
-          this.userService.changeUser(this.user);
+          this.setLogin(true);
           this.user.setAuth();
           root.user = this.user;
-          this.router.navigate(['/']);
         },
         err =>{
           this.error = true;
@@ -78,10 +75,7 @@ export class LoginComponent implements OnInit {
         'role': this.user.role,
       }).subscribe((instance: any) => {
         this.user.id = instance.id;
-        this.successfulLogin = true;
-        this.userService.changeLoginStatus(true);
-        this.userService.changeUser(this.user);
-        this.router.navigate(['/']);
+        this.setLogin(true);
       });
     });
   }
@@ -94,4 +88,12 @@ export class LoginComponent implements OnInit {
     this.register = !this.register;
   }
 
+  setLogin(newValue: boolean): void {
+    this.successfulLogin = newValue;
+    this.userService.changeLoginStatus(newValue);
+    if (newValue){
+      this.userService.changeUser(this.user);
+      this.router.navigate(['/']);
+    }
+  }
 }

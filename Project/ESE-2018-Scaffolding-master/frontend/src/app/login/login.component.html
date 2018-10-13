@@ -5,12 +5,14 @@
 <div class="inner" *ngIf="successfulLogin">
   <b style="color: green">Success</b>
 </div>
-
+<div class="inner" *ngIf="!successfulRegister">
+  <b style="color: green">Mail schon vergeben</b>
+</div>
 <div class="inner" *ngIf="!register">
   <form>
     <div class="field">
       <label>Login</label>
-      <input type="text" name="username" placeholder="Benutzername" [(ngModel)]="user.email" id="username"/>
+      <input type="text" name="username" placeholder="Email" [(ngModel)]="user.email" id="username"/>
       <input type="password" name="password" placeholder="Passwort" [(ngModel)]="user.password" id="password"/>
     </div>
     <ul class="actions">
@@ -26,7 +28,7 @@
   <form>
     <div class="field">
       <label>Registrierung</label>
-      <input type="text" name="username" placeholder="Benutzername" [(ngModel)]="user.email" id="username"/>
+      <input type="text" name="username" placeholder="Name" [(ngModel)]="user.name" id="username"/>
       <input type="password" name="password" placeholder="Passwort" [(ngModel)]="user.password" id="password"/>
       <input type="email" name="Email" placeholder="Email" [(ngModel)]="user.email" id="email"/>
     </div>

@@ -13,8 +13,9 @@ import {root} from 'rxjs/internal-compatibility';
 export class LoginComponent implements OnInit {
   user: User = new User(null, '','','','', '');
   register: boolean;
-  error: boolean
-  successfulLogin: boolean
+  error: boolean;
+  successfulLogin: boolean;
+  successfulRegister: boolean;
 
   constructor(private httpClient: HttpClient) {
   }
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
     this.register = false;
     this.error = false;
     this.successfulLogin = false;
+    this.successfulRegister = true;
   }
 
   onLogin(){
@@ -51,6 +53,31 @@ export class LoginComponent implements OnInit {
       err =>{
         this.error = true;
       });
+  }
+
+  onRegister(){
+    this.successfulRegister = true;
+    this.httpClient.get('http://localhost:3000/login/' + this.user.email).subscribe(
+      (instance: any) => {
+        this.successfulRegister = false;
+        this.user = new User(null, '','','','', '');
+      },
+    err => {
+      this.user.salt = 'TestSalt';
+      this.user.password = this.hashPassword(this.user.password, this.user.salt);
+      this.httpClient.post('http://localhost:3000/login/', {
+        'id': this.user.id,
+        'name': this.user.name,
+        'password': this.user.password,
+        'salt': this.user.salt,
+        'email': this.user.email,
+        'role': this.user.role,
+      }).subscribe((instance: any) => {
+        this.user.id = instance.id;
+        this.successfulLogin = true;
+        location.href='/';
+      });
+    });
   }
 
   hashPassword(password: string, salt: string){

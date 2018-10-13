@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "publishheroku": "cd ../../../ && git subtree push --app --prefix Project/ESE-2018-Scaffolding-master/frontend ese-t1-angular master || true"
+
   },
   "private": true,
   "dependencies": {

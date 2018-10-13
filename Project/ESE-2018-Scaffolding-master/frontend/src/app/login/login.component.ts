@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../user';
 import {HttpClient} from '@angular/common/http';
-import {Job} from '../job';
-import {d} from '@angular/core/src/render3';
 import {root} from 'rxjs/internal-compatibility';
+import {UserService} from '../user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,13 +11,13 @@ import {root} from 'rxjs/internal-compatibility';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  user: User = new User(null, '','','','', '');
+  user: User;
   register: boolean;
   error: boolean;
   successfulLogin: boolean;
   successfulRegister: boolean;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private userService: UserService, public router: Router) {
   }
 
   ngOnInit() {
@@ -25,6 +25,9 @@ export class LoginComponent implements OnInit {
     this.error = false;
     this.successfulLogin = false;
     this.successfulRegister = true;
+    this.user =  new User(null, '','','','', '');
+    this.userService.changeLoginStatus(false);
+    this.userService.changeUser(this.user);
   }
 
   onLogin(){
@@ -40,10 +43,11 @@ export class LoginComponent implements OnInit {
           this.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
           this.error = false; // do not display error while loading home page
           this.successfulLogin = true;
+          this.userService.changeLoginStatus(true);
+          this.userService.changeUser(this.user);
           this.user.setAuth();
           root.user = this.user;
-          location.href = '/';
-
+          this.router.navigate(['/']);
         },
         err =>{
           this.error = true;
@@ -75,7 +79,9 @@ export class LoginComponent implements OnInit {
       }).subscribe((instance: any) => {
         this.user.id = instance.id;
         this.successfulLogin = true;
-        location.href='/';
+        this.userService.changeLoginStatus(true);
+        this.userService.changeUser(this.user);
+        this.router.navigate(['/']);
       });
     });
   }
@@ -87,4 +93,5 @@ export class LoginComponent implements OnInit {
   onSwitch(){
     this.register = !this.register;
   }
+
 }

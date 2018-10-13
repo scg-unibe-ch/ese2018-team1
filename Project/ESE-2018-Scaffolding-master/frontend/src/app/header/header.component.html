@@ -5,8 +5,10 @@
       <a routerLink="/">Home</a>
       <a routerLink="/jobs">Jobs</a>
       <a routerLink="/über_uns">Über uns</a>
-      <a routerLink="/login">Login</a>
-      <a routerLink="/job/new">neuer Job</a>
+      <a routerLink="/login" *ngIf="!loginStatus">Login</a>
+      <a routerLink="" *ngIf="loginStatus">Hallo {{user.name}}</a>
+      <a routerLink="/login" *ngIf="loginStatus">Logout</a>
+      <a routerLink="/job/new" *ngIf="loginStatus">neuer Job</a>
 
     </nav>
   </div>

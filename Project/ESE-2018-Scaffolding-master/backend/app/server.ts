@@ -1,5 +1,6 @@
 // import everything from express and assign it to the express variable
 import express from 'express';
+import ExpressSession from 'express-session';
 
 // import all the controllers. If you add a new controller, make sure to import it here as well.
 import {TodoListController, TodoItemController, JobController, UserController} from './controllers';
@@ -21,6 +22,12 @@ sequelize.addModels([TodoList, TodoItem, Job, User]);
 // create a new express application instance
 const app: express.Application = express();
 app.use(express.json());
+
+app.use(ExpressSession({
+  secret: 'omfg, its a secret!',
+  resave: false,
+  saveUninitialized: true
+}));
 
 // define the port the express app will listen on
 let port = 3000;

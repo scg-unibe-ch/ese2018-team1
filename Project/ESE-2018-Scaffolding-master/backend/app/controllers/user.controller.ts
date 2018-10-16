@@ -49,6 +49,43 @@ router.get('/:id/:password', async (req: Request, res: Response) => {
   res.send(instance.toSimplification());
 });
 
+/**
+ * returns infos about this user, except the password
+ * use case:
+ * check if session is valid
+ */
+/*router.get('/:id/:session', async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const session = req.params.session;
+  const instance = await User.findById(id);
+  if( instance == null || instance.) {
+    res.statusCode = 404;
+    res.json({
+      'message':'this user could not be found'
+    });
+    return;
+  }
+  const sessionsUserId = await Session.find({ // TODO: add the session module
+    where: {
+      userId: instance.id,
+      session: session
+    }
+  });
+  if(sessionsUserId === null){
+    res.statusCode = 404;
+    res.json({
+      'message':'this user could not be found'
+    });
+    return;
+  }
+  const newSession: string = addNewSession(instance.id); // TODO: add the session module
+
+  instance.password = '';
+  res.statusCode = 200;
+  res.send(instance.toSimplification() +'/////' +  newSession);
+
+});*/
+
 /*creates a new user and returns it */
 router.post('/', async (req: Request, res: Response) => {
   const instance = new User();

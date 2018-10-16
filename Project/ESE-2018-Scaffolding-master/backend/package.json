@@ -6,7 +6,6 @@
   "scripts": {
     "tsc": "tsc",
     "publishheroku": "cd ../../../ && git subtree push --prefix Project/ESE-2018-Scaffolding-master/backend ese-t1-express master || true"
-
   },
   "keywords": [],
   "author": "",
@@ -14,7 +13,9 @@
   "dependencies": {
     "@types/es6-shim": "^0.31.37",
     "@types/express": "^4.16.0",
+    "@types/express-session": "^1.15.11",
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "reflect-metadata": "^0.1.12",
     "sequelize": "^4.39.0",
     "sequelize-typescript": "^0.6.6",

@@ -1,37 +1,7 @@
-<!--main html-->
-<!--<mat-form-field>
-  <input matInput placeholder="Create list" [(ngModel)]="todoList.name" name="name">
-</mat-form-field>
-<button mat-button (click)="onTodoListCreate()">create</button>
-<app-todo-list [todoList]="todoList" (destroy)="onTodoListDestroy($event)"
-               *ngFor="let todoList of todoLists"></app-todo-list>
-
-<br>
-
--->
 <!--header-->
 <app-header></app-header>
 
   <router-outlet></router-outlet> <!--routing and navigation-->
-
-<!-- jobs
-<div class="inner">
-<form>
-<div class="field half">
-  <label for="name">Name</label>
-  <input type="text" name="name"[(ngModel)]="job.name" id="name"/>
-</div>
-<div class="field half">
-  <label for="company_name">Unternehmen</label>
-  <input type="text" [(ngModel)]="job.company_name" name="company_name" id="company_name">
-</div>
-<ul class="actions">
-  <li><input type="submit" mat-button (click)="onCreateJob()" value="Speichern"/></li>
-</ul>
-</form>
-</div>
-<app-job [job]="currentJob" *ngFor="let currentJob of jobs" (destroy)="onDeleteJob($event)"></app-job>
-
 
 <!-- footer-->
 <app-footer></app-footer>

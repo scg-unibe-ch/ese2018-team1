@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Job} from '../job';
-import {User} from "../user";
-import {UserService} from "../user.service";
+import {User} from '../user';
+import {UserService} from '../user.service';
 
 @Component({
   selector: 'app-new-job',

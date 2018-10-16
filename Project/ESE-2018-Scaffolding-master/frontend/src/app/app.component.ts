@@ -23,19 +23,6 @@ export class AppComponent implements OnInit {
 
   }
 
-  onTodoListCreate() {
-    this.httpClient.post('http://localhost:3000/todolist', {
-      'name': this.todoList.name
-    }).subscribe((instance: any) => {
-      this.todoList.id = instance.id;
-      this.todoLists.push(this.todoList);
-      this.todoList = new TodoList(null, '');
-    });
-  }
-
-  onTodoListDestroy(todoList: TodoList) {
-    this.todoLists.splice(this.todoLists.indexOf(todoList), 1);
-  }
 
 
 }

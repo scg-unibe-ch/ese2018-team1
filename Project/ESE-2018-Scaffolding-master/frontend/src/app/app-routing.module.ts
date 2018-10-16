@@ -6,6 +6,8 @@ import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {NewJobComponent} from './new-job/new-job.component';
 import {ProfileComponent} from './profile/profile.component';
+import {JobManagementComponent} from "./job-management/job-management.component";
+import {JobEditComponent} from "./job-edit/job-edit.component";
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -13,7 +15,9 @@ const routes: Routes = [
   {path: 'über_uns', component: UeberUnsComponent},
   {path: 'login', component: LoginComponent},
   {path: 'job/new', component: NewJobComponent},
-  {path: 'profile', component: ProfileComponent}
+  {path: 'profile', component: ProfileComponent},
+  {path: 'job-management', component: JobManagementComponent},
+  {path: 'job/edit', component: JobEditComponent}
 ];
 
 @NgModule({

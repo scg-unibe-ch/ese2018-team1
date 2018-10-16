@@ -15,6 +15,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { JobEditComponent } from './job-edit/job-edit.component';
 import { LoginComponent } from './login/login.component';
+import { JobManagementComponent } from './job-management/job-management.component';
 /*import { ProfileComponent } from './profile/profile.component';*/
 /*import { NewJobComponent } from './new-job/new-job.component';/*
 /*import { UeberUnsComponent } from './ueber-uns/ueber-uns.component';*/
@@ -32,7 +33,8 @@ import { LoginComponent } from './login/login.component';
     HeaderComponent,
     FooterComponent,
     JobEditComponent,
-    LoginComponent
+    LoginComponent,
+    JobManagementComponent
     /*ProfileComponent,*/
     /*NewJobComponent*/
     /*UeberUnsComponent*/

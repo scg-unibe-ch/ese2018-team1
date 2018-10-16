@@ -1,0 +1,18 @@
+<h1>
+  Jobs verwalten
+</h1>
+<button routerLink="/job/new">neuen Job erfassen</button>
+<h4>
+  Liste der jobs
+</h4>
+<li *ngFor="let currentJob of jobs">
+  <div *ngIf="currentJob.company_name == user.name">
+    <button routerLink="/job/edit">ändern</button>
+    <span class="badge"></span> <br>
+    Name: {{currentJob.name}} <br>
+    Beschreibung: {{currentJob.description}} <br>
+    Lohn: {{currentJob.wage}} <br>
+    Start: {{currentJob.job_start}} <br>
+    Ende: {{currentJob.job_end}}
+  </div>
+</li>

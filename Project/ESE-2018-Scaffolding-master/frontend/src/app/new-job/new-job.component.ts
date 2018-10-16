@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Job} from '../job';
+import {User} from "../user";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-new-job',
@@ -11,12 +13,14 @@ export class NewJobComponent implements OnInit {
   job: Job = new Job(0,'','','',0,'','',0,false);
   showDetails: boolean;
   errorName: boolean;
+  user: User;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private userService: UserService) {
   }
 
   ngOnInit() {
     this.showDetails = false;
+    this.userService.currentUser.subscribe(currentUser => this.user = currentUser);
   }
 
   onCreateJob() {
@@ -25,7 +29,7 @@ export class NewJobComponent implements OnInit {
         'id': this.job.id,
         'name': this.job.name,
         'description': this.job.description,
-        'company_name': this.job.company_name,
+        'company_name': this.user.name,
         'wage': this.job.wage,
         'job_start': this.job.job_start,
         'job_end': this.job.job_end,

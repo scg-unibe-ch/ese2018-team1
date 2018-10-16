@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Job} from "../job";
-import {HttpClient} from "@angular/common/http";
-import {User} from "../user";
-import {UserService} from "../user.service";
+import {Job} from '../job';
+import {HttpClient} from '@angular/common/http';
+import {User} from '../user';
+import {UserService} from '../user.service';
 
 @Component({
   selector: 'app-job-management',
@@ -18,7 +18,7 @@ export class JobManagementComponent implements OnInit {
   ngOnInit() {
     this.httpClient.get('http://localhost:3000/job').subscribe((instances: any) => {
       this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description, instance.company_name,
-        instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved))
+        instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved));
     });
     this.userService.currentUser.subscribe(currentUser => this.user = currentUser);
   }

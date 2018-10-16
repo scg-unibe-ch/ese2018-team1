@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Job} from '../job';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 @Component({
   selector: 'app-job-edit',
@@ -8,6 +8,7 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./job-edit.component.css']
 })
 export class JobEditComponent implements OnInit {
+  jobId: string;
 
   @Input()
   job: Job;
@@ -21,11 +22,14 @@ export class JobEditComponent implements OnInit {
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
-    /*this.httpClient.get('http://localhost:3000/job', {
-      params:  new HttpParams().set('id', '' + this.job.id)
-    }).subscribe((instances: any) => {
-      this.job = instances.map((instance) => new Job(instance.id, instance.name, instance.description));
-    });*/
+    this.jobId = location.search.replace('?id=', '');
+    if (location.search.search('id') === 1 && this.jobId.length >0){
+      console.log('found search: ' + this.jobId);
+      this.httpClient.get('http://localhost:3000/job/' + this.jobId).subscribe((instance: any) => {
+        this.job = instance;
+      });
+    }
+    else{console.log('found not search');}
   }
 
   onSave() {

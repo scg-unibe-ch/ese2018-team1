@@ -119,6 +119,6 @@ please use routerlink in a anchor tag instead of href, so the website automatica
 <section id="three">
 
   <div class="inner">
-    <app-job style="padding: 2em; width: 150%"  [job]="currentJob" *ngFor="let currentJob of jobs"></app-job>
+    <app-job style="padding: 2em; width: 150%" [linkText]="'Learn More'" [job]="currentJob" *ngFor="let currentJob of jobs"></app-job>
   </div>
 </section>

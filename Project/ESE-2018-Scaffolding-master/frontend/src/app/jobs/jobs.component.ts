@@ -1,7 +1,7 @@
 import { Component, OnInit,  } from '@angular/core';
 import {Job} from '../job';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {state} from '@angular/animations';
+import {Router, RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-jobs',

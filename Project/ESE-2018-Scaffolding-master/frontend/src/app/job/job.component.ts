@@ -14,7 +14,13 @@ export class JobComponent implements OnInit {
   @Input()
   job: Job;
 
-  constructor(private httpClient: HttpClient) { }
+  @Input()
+  linkText: string;
+
+
+
+  constructor(private httpClient: HttpClient) {
+  }
 
   ngOnInit() {
   }

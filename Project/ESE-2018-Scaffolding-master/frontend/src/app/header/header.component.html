@@ -2,16 +2,28 @@
   <div class="inner">
     <a routerLink="/" class="logo">jobly</a>
     <nav id="nav">
+      <a *ngIf="loginStatus">Hallo {{user.name}}</a>
       <a routerLink="/">Home</a>
       <a routerLink="/jobs">Jobs</a>
       <a routerLink="/über_uns">Über uns</a>
       <a routerLink="/login" *ngIf="!loginStatus">Login</a>
       <a routerLink="/job-management" *ngIf="loginStatus">Jobs verwalten</a>
-      <a routerLink="" *ngIf="loginStatus">Hallo {{user.name}}</a>
       <a routerLink="/login" *ngIf="loginStatus">Logout</a>
-      <a routerLink="/job/new" *ngIf="loginStatus">neuer Job</a>
 
     </nav>
   </div>
 </header>
 <a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+
+<a class="navPanelToggle" href="#navPanel"></a>
+<div id="navPanel" style="-ms-overflow-style: -ms-autohiding-scrollbar;">
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" *ngIf="loginStatus">Hallo {{user.name}}</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/">Home</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/jobs">Jobs</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/über_uns">Über uns</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/login" *ngIf="!loginStatus">Login</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/job-management" *ngIf="loginStatus">Jobs verwalten</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/job/new" *ngIf="loginStatus">neuer Job</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/login" *ngIf="loginStatus">Logout</a>
+  <a class="close" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" href="#navPanel"></a>
+</div>

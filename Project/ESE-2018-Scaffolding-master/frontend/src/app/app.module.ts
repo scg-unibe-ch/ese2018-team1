@@ -12,11 +12,7 @@ import { JobComponent } from './job/job.component';
 import { JobEditComponent } from './job-edit/job-edit.component';
 import { LoginComponent } from './login/login.component';
 import { JobManagementComponent } from './job-management/job-management.component';
-/*import { ProfileComponent } from './profile/profile.component';*/
-/*import { NewJobComponent } from './new-job/new-job.component';/*
-/*import { UeberUnsComponent } from './ueber-uns/ueber-uns.component';*/
-/*import { HomeComponent } from './home/home.component';*/
-/*import { JobsComponent } from './jobs/jobs.component';*/
+
 
 
 @NgModule({
@@ -26,12 +22,7 @@ import { JobManagementComponent } from './job-management/job-management.componen
     routingComponents,
     JobEditComponent,
     LoginComponent,
-    JobManagementComponent
-    /*ProfileComponent,*/
-    /*NewJobComponent*/
-    /*UeberUnsComponent*/
-    /*HomeComponent,*/
-    /*JobsComponent,*/
+    JobManagementComponent,
   ],
   imports: [
     BrowserModule,

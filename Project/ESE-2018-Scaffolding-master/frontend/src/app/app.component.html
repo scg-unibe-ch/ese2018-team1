@@ -9,7 +9,7 @@
       <a routerLink="/jobs">Jobs</a>
       <a routerLink="/über_uns">Über uns</a>
       <a routerLink="/login" *ngIf="!loginStatus">Login</a>
-      <a routerLink="/job-management" *ngIf="loginStatus">Jobs verwalten</a>
+      <a routerLink="/profil" *ngIf="loginStatus">Profil</a>
       <a routerLink="/login" *ngIf="loginStatus">Logout</a>
 
     </nav>
@@ -24,7 +24,7 @@
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/jobs">Jobs</a>
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/über_uns">Über uns</a>
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/login" *ngIf="!loginStatus">Login</a>
-  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/job-management" *ngIf="loginStatus">Jobs verwalten</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/profil" *ngIf="loginStatus">Profil</a>
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/job/new" *ngIf="loginStatus">neuer Job</a>
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/login" *ngIf="loginStatus">Logout</a>
   <a class="close" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" href="#navPanel"></a>

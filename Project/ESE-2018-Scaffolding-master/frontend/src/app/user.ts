@@ -16,7 +16,7 @@ export class User {
   }
 
   isAuthenticated(){
-    return this.auth;
+    return this !== null && this.auth;
   }
 
   isAdmin(){

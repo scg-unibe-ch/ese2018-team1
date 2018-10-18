@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Job} from '../job';
-import {TodoList} from '../todo-list';
+import {Job} from '../job'
 
 
 @Component({

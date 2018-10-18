@@ -1,8 +1,9 @@
 <header id="header">
   <div class="inner">
+    <a href="javascript:void(0)" *ngIf="loginStatus" class="greeting">Hall0 {{user.name}}</a>
     <a routerLink="/" class="logo">jobly</a>
     <nav id="nav">
-      <a *ngIf="loginStatus">Hallo {{user.name}}</a>
+
       <a routerLink="/">Home</a>
       <a routerLink="/jobs">Jobs</a>
       <a routerLink="/über_uns">Über uns</a>

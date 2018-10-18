@@ -8,6 +8,12 @@
 */
 
 /* Reset */
+.greeting, .greeting:hover{
+  left: 10%;
+  position: absolute;
+  color: #fff !important;
+}
+
 
 .inner {
   margin-right: 10%;
@@ -114,7 +120,13 @@
 			width: 80em;
 		}
 
-	}
+    .greeting, .greeting:hover{
+      left: 10%;
+      position: absolute;
+      color: #fff !important;
+    }
+
+  }
 
 	@media screen and (max-width: 1280px) {
 
@@ -140,7 +152,14 @@
 			width: 65em;
 		}
 
-	}
+    .greeting, .greeting:hover{
+      left: 10%;
+      position: absolute;
+      color: #fff !important;
+    }
+
+
+  }
 
 	@media screen and (max-width: 980px) {
 
@@ -166,7 +185,13 @@
 			width: 90%;
 		}
 
-	}
+    .greeting, .greeting:hover{
+      left: 10%;
+      position: absolute;
+      color: #fff !important;
+    }
+
+  }
 
 	@media screen and (max-width: 736px) {
 
@@ -192,7 +217,14 @@
 			width: 90% !important;
 		}
 
-	}
+    .greeting, .greeting:hover{
+      left: 15%;
+      position: absolute;
+      color: #fff !important;
+    }
+
+
+  }
 
 	@media screen and (max-width: 480px) {
 
@@ -218,7 +250,14 @@
 			width: 90% !important;
 		}
 
-	}
+    .greeting, .greeting:hover{
+      left: 18%;
+      position: absolute;
+      color: #fff !important;
+    }
+
+
+  }
 
 /* Grid */
 

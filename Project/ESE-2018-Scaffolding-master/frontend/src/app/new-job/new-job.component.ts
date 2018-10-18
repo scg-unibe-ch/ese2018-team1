@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Job} from '../job';
 import {User} from '../user';
 import {UserService} from '../user.service';
+import {JobService} from '../job.service';
 
 @Component({
   selector: 'app-new-job',
@@ -25,17 +26,7 @@ export class NewJobComponent implements OnInit {
 
   onCreateJob() {
     if (this.job.name){
-      this.httpClient.post('http://localhost:3000/job', {
-        'id': this.job.id,
-        'name': this.job.name,
-        'description': this.job.description,
-        'company_name': this.user.name,
-        'wage': this.job.wage,
-        'job_start': this.job.job_start,
-        'job_end': this.job.job_end,
-        'percentage': this.job.percentage,
-        'approved': this.job.approved
-      }).subscribe((instance: any) => {
+      JobService.createJob(this.job, this.user).subscribe((instance: any) => {
         this.job = instance;
         this.showDetails = true;
       });

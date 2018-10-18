@@ -22,7 +22,7 @@ export class JobComponent implements OnInit {
 
 
 
-  constructor(private httpClient: HttpClient) {
+  constructor() {
   }
 
   ngOnInit() {

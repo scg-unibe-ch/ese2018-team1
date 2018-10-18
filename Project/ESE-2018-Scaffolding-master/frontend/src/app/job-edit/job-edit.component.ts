@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Job} from '../job';
 import {HttpClient, HttpParams} from '@angular/common/http';
+import {JobService} from '../job.service';
 
 @Component({
   selector: 'app-job-edit',
@@ -19,37 +20,27 @@ export class JobEditComponent implements OnInit {
   @Output()
   destroy = new EventEmitter<Job>();
 
-  constructor(private httpClient: HttpClient) { }
+  constructor() { }
 
   ngOnInit() {
     this.jobId = location.search.replace('?id=', '');
     if (location.search.search('id') === 1 && this.jobId.length >0){
       console.log('found search: ' + this.jobId);
-      this.httpClient.get('http://localhost:3000/job/' + this.jobId).subscribe((instance: any) => {
+      JobService.getJobById(this.job.id).subscribe((instance: any) => {
         this.job = instance;
       });
     }
-    else{console.log('found not search');}
+    else{}
   }
 
   onSave() {
-    console.log('name:  ' + this.job.name + 'desc: ' + this.job.description);
-    this.httpClient.put('http://localhost:3000/job/' + this.job.id,  {
-      'name': this.job.name,
-      'description': this.job.description,
-      'company_name': this.job.company_name,
-      'wage': this.job.wage,
-      'job_start': this.job.job_start,
-      'job_end': this.job.job_end,
-      'percentage': this.job.percentage,
-      'approved': this.job.approved
-    }).subscribe((instance: any) => {
+    JobService.saveJob(this.job).subscribe((instance: any) => {
       this.job = instance;
     });
   }
 
   onDestroy() {
-    this.httpClient.delete('http://localhost:3000/job/' + this.job.id).subscribe(() => {
+    JobService.deleteJob(this.job).subscribe(() => {
       this.destroy.emit(this.job);
     });
   }

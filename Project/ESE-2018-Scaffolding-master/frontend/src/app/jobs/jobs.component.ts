@@ -2,6 +2,7 @@ import { Component, OnInit,  } from '@angular/core';
 import {Job} from '../job';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router, RouterModule} from '@angular/router';
+import {JobService} from '../job.service';
 
 @Component({
   selector: 'app-jobs',
@@ -20,19 +21,19 @@ export class JobsComponent implements OnInit {
   ngOnInit() {
     this.searchText = location.search.replace('?search=', '');
     if (location.search.search('search') === 1 && this.searchText.length >0){
-      this.httpClient.get('http://localhost:3000/job/search/' + this.searchText).subscribe((instances: any) => {
+      JobService.searchJob(this.searchText).subscribe((instances: any) => {
         this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved));
         this.makeJobs_jobsArr();
       });
-      console.log('searchtext: ' + this.searchText + ' length: ' + this.searchText.length);
     }
     else{
-      this.httpClient.get('http://localhost:3000/job').subscribe((instances: any) => {
+
+      this.jobs = null;
+      JobService.getAllJobs().subscribe((instances: any) => {
         this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved));
         this.makeJobs_jobsArr();
       });
     }
-    console.log('contains search: ' + location.search.search('search') + ' search text: ' + this.searchText+ ' searchtextLength: ' + this.searchText.length);
   }
 
   makeJobs_jobsArr(){

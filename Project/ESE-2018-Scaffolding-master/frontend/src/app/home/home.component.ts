@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Job} from '../job';
 import {HttpClient} from '@angular/common/http';
+import {JobService} from '../job.service';
 
 @Component({
   selector: 'app-home',
@@ -13,8 +14,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpClient.get('http://localhost:3000/job').subscribe((instances: any) => {
-      this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved)).splice(-3, 3);
+    JobService.getAllApprovedJobs().subscribe((instances: any) => {
+      this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved)).splice(-3, 3);
     });
   }
 

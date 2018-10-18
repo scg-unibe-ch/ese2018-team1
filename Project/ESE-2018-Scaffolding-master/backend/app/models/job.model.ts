@@ -6,6 +6,9 @@ export class Job extends Model<Job> {
   name!: string;
 
   @Column
+  description_short!: string;
+
+  @Column
   description!: string;
 
   @Column
@@ -31,6 +34,7 @@ export class Job extends Model<Job> {
       'id': this.id,
       'name': this.name,
       'description': this.description,
+      'description_short': this.description_short,
       'company_name': this.company_name,
       'wage': this.wage,
       'job_start': this.job_start,
@@ -43,6 +47,7 @@ export class Job extends Model<Job> {
   fromSimplification(simplification: any): void {
     this.name = simplification['name'];
     this.description = simplification['description'];
+    this.description_short = simplification['description_short'];
     this.company_name = simplification['company_name'];
     this.wage = simplification['wage'];
     this.job_start = simplification['job_start'];

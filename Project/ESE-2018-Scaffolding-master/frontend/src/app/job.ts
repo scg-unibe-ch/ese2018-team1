@@ -5,6 +5,7 @@ export class Job {
   constructor(
     public id: number,
     public name: string,
+    public description_short: string,
     public description: string,
     public company_name: string,
     public wage: number,

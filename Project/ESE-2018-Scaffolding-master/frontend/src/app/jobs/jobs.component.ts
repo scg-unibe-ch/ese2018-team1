@@ -11,29 +11,44 @@ import {JobService} from '../job.service';
 })
 export class JobsComponent implements OnInit {
   jobs: Job[] = [];
-  job: Job = new Job(null, '', '', '', 0, '', '', 0, false);
+  job: Job = new Job(null, '', '', '', '', 0, '', '', 0, false);
   jobs_jobsArr: Job[][] = [ , ];
   searchText: string;
-  constructor(private httpClient: HttpClient) {
+  showFilter = false;
+
+  searchName: string;
+  searchDescription: string;
+  searchCompany: string;
+  searchWage: string;
+  searchStart_before: string;
+  searchStart_after: string;
+  searchEnd_before: string;
+  searchEnd_after: string;
+  searchPercentage_more: string;
+  searchPercentage_less: string;
+
+
+  constructor() {
   }
 
 
   ngOnInit() {
     this.searchText = location.search.replace('?search=', '');
     if (location.search.search('search') === 1 && this.searchText.length >0){
-      JobService.searchJob(this.searchText).subscribe((instances: any) => {
-        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+      JobService.getJobsByEasySearch(this.searchText).subscribe((instances: any) => {
+        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved));
         this.makeJobs_jobsArr();
       });
     }
     else{
 
       this.jobs = null;
-      JobService.getAllJobs().subscribe((instances: any) => {
-        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+      JobService.getAllApprovedJobs().subscribe((instances: any) => {
+        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved));
         this.makeJobs_jobsArr();
       });
     }
+    // TODO: read out name, description, wage,... from the url and get the jobs from jobservice
   }
 
   makeJobs_jobsArr(){
@@ -52,6 +67,14 @@ export class JobsComponent implements OnInit {
 
   onSearchJob() {
     location.href = '/jobs?search=' + this.searchText;
+  }
+
+  toggleFilter(){
+    this.showFilter = !this.showFilter;
+  }
+
+  onSearchWithFilter(){
+    // TODO: redirect to /jobs?name=...&description=...&wage=...
   }
 
 }

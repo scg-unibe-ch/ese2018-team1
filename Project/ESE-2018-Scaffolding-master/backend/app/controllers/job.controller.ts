@@ -21,14 +21,28 @@ router.get('/', async (req: Request, res: Response) => {
   res.send(instances.map( e=> e.toSimplification()));
 });
 
+/*returns all approved*/
+router.get('/approved', async (req: Request, res: Response) => {
+  const instances = await Job.findAll({
+    where: Sequelize.or(
+      {approved: true}
+    )
+  });
+  res.statusCode = 200;
+  res.send(instances.map( e=> e.toSimplification()));
+});
+
 /*returns all jobs with 'text' in their name, company_name or description*/
 router.get('/search/:text', async (req: Request, res: Response) => {
   const search = '%' + req.params.text + '%';
   const instances = await Job.findAll({
-    where: Sequelize.or(
+    where: Sequelize.and(
+      Sequelize.or(
       {name: {like: search}},
       {description: {like: search}},
       {company_name: {like: search}}
+    ),
+      {approved: true}
     )
   });
   res.statusCode = 200;
@@ -61,7 +75,7 @@ router.get('/search/:name/:company_name/:description/:wage/:start_before/:start_
   const send_after = req.params.end_after ;
   const spercentage_less = req.params.percentage_less === '*' ? -1 : parseInt(req.params.percentage_less);
   const spercentage_more = req.params.percentage_more === '*' ? -1 : parseInt(req.params.percentage_more);
-  let  command = 'SELECT * FROM Job WHERE';
+  let  command = 'SELECT * FROM Job WHERE approved=1';
   const originalCommand = command;
   if(sname !== '*' && checkSafety(sname)) {
     command += ' name LIKE \'%' + sname + '%\' AND';
@@ -94,24 +108,21 @@ router.get('/search/:name/:company_name/:description/:wage/:start_before/:start_
     command += ' percentage<' + spercentage_more + ' AND';
   }
   // if no input, remove where, else remove the last 'AND'
-  command =command === originalCommand ?  command.substring(0, command.length-5) :  command.substring(0, command.length-3);
-  const instances = await sequelize.query(command).then(function(results) {
+  command =command === originalCommand ?  command:  command.substring(0, command.length-3);
+  await sequelize.query(command).then(function(results) {
     res.statusCode = 200;
     res.send(results[0]);
   });
 });
 
-
-router.get('/search/:name/:company_name/:description', async (req: Request, res: Response) =>{
+router.get('/search/company/:company_name', async (req: Request, res: Response) =>{
   console.log(req.params)
   const sname = '%' + req.params.name + '%';
   const scompany_name = '%' + req.params.company_name + '%';
   const sdescription = '%' + req.params.description + '%';
   const instances = await Job.findAll({
     where: Sequelize.and(
-      {name: {like: sname}},
-      {company_name: {like: scompany_name}},
-      {description: {like: sdescription}}
+      {company_name: {like: scompany_name}}
     )
   });
   res.statusCode = 200;

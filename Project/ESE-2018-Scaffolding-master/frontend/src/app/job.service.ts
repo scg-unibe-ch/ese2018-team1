@@ -15,24 +15,85 @@ import {User} from './user';
 })
 export class JobService {
   static httpClient: HttpClient;
-  private static jobs: any;
 
   constructor(private hC: HttpClient) {
     JobService.httpClient = hC;
   }
 
+  /**
+   * returns all jobs
+   */
   static getAllJobs(): Observable<Object>{
     return JobService.httpClient.get('http://localhost:3000/job');
   }
 
-  static getJobById(id: number): Observable<Object>{
+  /**
+   * returns all jobs
+   */
+  static getAllApprovedJobs(): Observable<Object>{
+    return JobService.httpClient.get('http://localhost:3000/job/approved');
+  }
+
+  /**
+   * returns the job with the id
+   * @param id
+   */
+  static getJobById(id: string): Observable<Object>{
     return JobService.httpClient.get('http://localhost:3000/job/' + id);
   }
+
+  /**
+   * returns all jobs by this company
+   * @param company
+   */
+  static getJobsByCompany(company: string): Observable<Object>{
+    return JobService.httpClient.get('http://localhost:3000/job/search/company/' + company);
+  }
+
+  /**
+   * returns all jobs mathing this easy search
+   * @param name
+   * @param company
+   * @param description
+   */
+  static getJobsByEasySearch(search: string): Observable<Object>{
+    return JobService.httpClient.get('http://localhost:3000/job/search/' + search );
+  }
+
+  /**
+   * returns all jobs matching the AND filter
+   * please use * for not indicating anything
+   * @param name
+   * @param company
+   * @param description
+   * @param wage
+   * @param start_before
+   * @param start_after
+   * @param end_before
+   * @param end_after
+   * @param percentage_more
+   * @param percentage_less
+   */
+  static getJobsByFilterSearch(name: string, company: string, description: string, wage: string, start_before: string, start_after: string, end_before: string, end_after: string, percentage_more: string, percentage_less: string): Observable<Object>{
+    name = name.length>0 ? name : '*';
+    company = company.length>0 ? company : '*';
+    description = description.length>0 ? description : '*';
+    wage = wage.length>0 ? wage : '-1';
+    start_before = start_before.length>0 ? start_before : '*';
+    start_after = start_after.length>0 ? start_after : '*';
+    end_before = end_before.length>0 ? end_before : '*';
+    end_after = end_after.length>0 ? end_after : '*';
+    percentage_more = percentage_more.length>0 ? percentage_more : '-1';
+    percentage_less = percentage_less.length>0 ? percentage_less : '-1';
+    return JobService.httpClient.get('http://localhost:3000/job/search/' + name + '/' + company + '/' + description + '/' + wage+ '/' + start_before+ '/' + start_after+ '/' + end_before+ '/' + end_after+ '/' + percentage_more+ '/' + percentage_less);
+  }
+
 
   static saveJob(job: Job): Observable<Object>{
     return JobService.httpClient.put('http://localhost:3000/job/' + job.id,  {
       'name': job.name,
       'description': job.description,
+      'description_short': job.description_short,
       'company_name': job.company_name,
       'wage': job.wage,
       'job_start': job.job_start,
@@ -47,6 +108,7 @@ export class JobService {
       'id': job.id,
       'name': job.name,
       'description': job.description,
+      'description_short': job.description_short,
       'company_name': user.name,
       'wage': job.wage,
       'job_start': job.job_start,
@@ -58,10 +120,6 @@ export class JobService {
 
   static deleteJob(job: Job): Observable<Object>{
     return JobService.httpClient.delete('http://localhost:3000/job/' + job.id);
-  }
-
-  static searchJob(search: string): Observable<Object>{
-    return JobService.httpClient.get('http://localhost:3000/job/search/' + search);
   }
 
 }

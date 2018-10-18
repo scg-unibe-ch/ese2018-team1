@@ -1,7 +1,16 @@
 import {Request, Response, Router} from 'express';
 import {Job} from '../models/job.model';
 import {Sequelize} from 'sequelize-typescript';
+import {stringify} from 'querystring';
 
+
+const sequelize =  new Sequelize({
+  database: 'development',
+  dialect: 'sqlite',
+  username: 'root',
+  password: '',
+  storage: 'db.sqlite'
+});
 
 const router: Router = Router();
 
@@ -39,37 +48,57 @@ end_after: job_start is after the 'end_after' date
 percentage_more: job percentage is more than 'percentage_more'
 percentage_less: job percentage is more than 'percentage_less'
 
-TODO:
--test if it works when all data is applied
--test if it works when not all data is given
+* acts as no input
  */
 router.get('/search/:name/:company_name/:description/:wage/:start_before/:start_after/:end_before/:end_after/:percentage_more/:percentage_less', async (req: Request, res: Response) =>{
-  const sname = '%' + req.params.name + '%';
-  const scompany_name = '%' + req.params.company_name + '%';
-  const sdescription = '%' + req.params.description + '%';
-  const swage = parseInt(req.params.wage);
+  const sname = req.params.name;
+  const scompany_name = req.params.company_name;
+  const sdescription = req.params.description;
+  const swage = req.params.wage === '*' ? -1 : parseInt(req.params.wage);
   const sstart_before = req.params.start_before;
   const sstart_after = req.params.start_after;
   const send_before =  req.params.end_before;
   const send_after = req.params.end_after ;
-  const spercentage_less = req.params.percentage_less;
-  const spercentage_more = req.params.percentage_more;
-  const instances = await Job.findAll({
-    where: Sequelize.and(
-      {name: {like: sname}},
-      {company_name: {like: scompany_name}},
-      {description: {like: sdescription}},
-      {wage: {gt: swage}},
-      {job_start: {ls: sstart_before}},
-      {job_start: {gt: sstart_after}},
-      {job_end: {ls: send_before}},
-      {job_start: {gt: send_after}},
-      {percentage: {ls: spercentage_less}},
-      {percentage: {gt: spercentage_more}}
-      )
+  const spercentage_less = req.params.percentage_less === '*' ? -1 : parseInt(req.params.percentage_less);
+  const spercentage_more = req.params.percentage_more === '*' ? -1 : parseInt(req.params.percentage_more);
+  let  command = 'SELECT * FROM Job WHERE';
+  const originalCommand = command;
+  if(sname !== '*' && checkSafety(sname)) {
+    command += ' name LIKE \'%' + sname + '%\' AND';
+  }
+  if(scompany_name!== '*' && checkSafety(scompany_name)) {
+    command += ' company_name LIKE \'%' + scompany_name + '%\' AND';
+  }
+  if(sdescription!== '*' && checkSafety(sdescription)) {
+    command += ' description LIKE \'%' + sdescription + '%\' AND';
+  }
+  if(swage>=0) {
+    command += ' wage>' + swage + ' AND';
+  }
+  if(sstart_before!== '*' && checkSafety(sstart_before)) {
+    command += ' job_start<' + sstart_before + ' AND';
+  }
+  if(sstart_after!== '*' && checkSafety(sstart_after)) {
+    command += ' job_start>' + sstart_after + ' AND';
+  }
+  if(send_before!== '*' && checkSafety(send_before)) {
+    command += ' job_end<' + send_before + ' AND';
+  }
+  if(send_after!== '*' && checkSafety(send_after)) {
+    command += ' job_end>' + send_after + ' AND';
+  }
+  if(spercentage_less>=0) {
+    command += ' percentage<' + spercentage_less + ' AND';
+  }
+  if(spercentage_more>=0) {
+    command += ' percentage<' + spercentage_more + ' AND';
+  }
+  // if no input, remove where, else remove the last 'AND'
+  command =command === originalCommand ?  command.substring(0, command.length-5) :  command.substring(0, command.length-3);
+  const instances = await sequelize.query(command).then(function(results) {
+    res.statusCode = 200;
+    res.send(results[0]);
   });
-  res.statusCode = 200;
-  res.send(instances.map(e => e.toSimplification()));
 });
 
 
@@ -147,6 +176,19 @@ router.delete('/:id', async(req: Request, res: Response) => {
   res.status(204);
   res.send();
 });
+
+/**
+ * checks for malicious content in the text
+ * checks for: ", ' --, UNION
+ * @param text the text to be checked
+ */
+function checkSafety(text: string): boolean {
+  text = text.toLowerCase();
+  if(text.includes('"') || text.includes('\'') || text.includes('--') || text.includes('UNION')) {
+    return false;
+  }
+  return true;
+}
 
 
 export const JobController: Router = router;

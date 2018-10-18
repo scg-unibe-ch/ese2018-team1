@@ -1,19 +1,61 @@
 <!-- jobs-->
 <div class="inner" style="margin: 5%">
-<form>
-  <div class="field">
-    <label for="search">Suche</label>
-    <input type="text" name="search" [(ngModel)]="searchText" id="search"/>
-  </div>
-  <ul class="actions">
-    <li><input type="submit" (click)="onSearchJob()" value="Suchen"/></li>
-  </ul>
-</form>
-</div>
-<section id="three">
 
+  <form *ngIf="!showFilter">
+    <div class="field">
+      <label for="search">Suche</label>
+      <input type="text" name="search" [(ngModel)]="searchText" id="search"/>
+    </div>
+    <ul class="actions">
+      <li><input type="submit" (click)="onSearchJob()" value="Suchen"/></li>
+    </ul>
+
+  </form>
+  <button *ngIf="!showFilter" (click)="toggleFilter()">Filter einblenden</button>
+
+  <div *ngIf="showFilter">
+    <h2>Filter</h2>
+    <div class="field half">
+      <label for="name">Name</label>
+      <input type="text" name="search" [(ngModel)]="searchName" id="name"/>
+    </div>
+    <div class="field half">
+      <label for="company">Unternehmen</label>
+      <input type="text" name="search" [(ngModel)]="searchCompany" id="company"/>
+    </div>
+    <div class="field half">
+      <label for="description">Beschreibung</label>
+      <input type="text" name="search" [(ngModel)]="searchDescription" id="description"/>
+    </div>
+    <div class="field half">
+      <label for="wage">Mindestbezahlung</label>
+      <input type="text" name="search" [(ngModel)]="searchWage" id="wage"/>
+    </div>
+    <div class="field half">
+      <label for="start_after">Beginn des Jobs zwischen</label>
+      <input type="date" name="search" [(ngModel)]="searchStart_after" id="start_after"/>&nbsp;&nbsp;&nbsp;und&nbsp;&nbsp;&nbsp;
+      <input type="date" name="search" [(ngModel)]="searchStart_before" id="start_before"/>
+    </div>
+    <div class="field half">
+      <label for="end_after">Ende des Jobs zwischen</label>
+      <input type="date" name="search" [(ngModel)]="searchEnd_after" id="end_after"/>&nbsp;&nbsp;&nbsp;und&nbsp;&nbsp;&nbsp;
+      <input type="text" name="search" [(ngModel)]="searchEnd_before" id="end_before"/>
+    </div>
+    <div class="field half">
+      <label for="percentage_more">Anstellung zwischen (in %)</label>
+      <input type="number" name="search" [(ngModel)]="searchPercentage_more" id="percentage_more"/>&nbsp;&nbsp;&nbsp;und&nbsp;&nbsp;&nbsp;
+      <input type="number" name="search" [(ngModel)]="searchPercentage_less" id="percentage_less"/>
+    </div>
+<br>
+    <button (click)="onSearchWithFilter()">Suchen</button>
+    <br><br>
+    <button (click)="toggleFilter()">Filter ausblenden</button>
+  </div>
+</div>
+
+<section id="three">
   <div class="inner" *ngFor="let current_jobs of jobs_jobsArr">
-    <app-job style="padding: 2em; width: 150%"  [job]="currentJob" *ngFor="let currentJob of current_jobs"></app-job>
+    <app-job style="padding: 2em; width: 150%" [link]="'/job'" [linkText]="'Mehr sehen'"  [job]="currentJob" *ngFor="let currentJob of current_jobs"></app-job>
   </div>
 </section>
 

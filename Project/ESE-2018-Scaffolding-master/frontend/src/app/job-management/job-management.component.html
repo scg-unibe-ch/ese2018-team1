@@ -1,28 +1,36 @@
-<h1>
-  Jobs verwalten
-</h1>
-<button routerLink="/job/new">neuen Job erfassen</button>
-<h4>
-  Liste der jobs
-</h4><!--
-<li *ngFor="let currentJob of jobs">
-  <div *ngIf="currentJob.company_name == user.name">
-    <button routerLink="/job/edit">ändern</button>
-    <span class="badge"></span> <br>
-    Name: {{currentJob.name}} <br>
-    Beschreibung: {{currentJob.description}} <br>
-    Lohn: {{currentJob.wage}} <br>
-    Start: {{currentJob.job_start}} <br>
-    Ende: {{currentJob.job_end}}
+<div class="inner">
+  <h1 *ngIf="showPassword">
+    Profil ~ Passwort
+  </h1>
+  <h1 *ngIf="!showPassword">
+    Profil ~ Jobs
+  </h1>
+  <button *ngIf="!showPassword" (click)="togglePasswordShow()">Ändere das Passwort</button>
+  <button *ngIf="showPassword" (click)="togglePasswordShow()">Zeige Jobs</button>
+  <br><br>
+  <div *ngIf="showPassword">
+    <h4>Passwort ändern</h4>
+    <label for="old">altes Passwort</label>
+    <input type="password" id="old" value="{{oldPassword}}" />
+    <label for="new">neues Passwort</label>
+    <input type="password" id="new" value="{{newPassword}}" />
+    <label for="newRepeat">neues Passwort</label>
+    <input type="password" id="newRepeat" value="{{newPasswordRepeat}}" />
+    <input type="submit" (click)="savePassword()" value="Speichern">
+    <br><br>
   </div>
-</li>-->
-<section id="three">
+  <div *ngIf="!showPassword">
+    <button routerLink="/job/new">neuen Job erfassen</button>
+    <h4>
+      Liste der jobs
+    </h4>
+    <section id="three">
 
-  <div class="inner">
-    <div *ngFor="let currentJob of jobs">
-      <div *ngIf="currentJob.company_name == user.name">
-        <app-job style="padding: 2em; width: 150%" [linkText]="'Ändern'" [link]="'/job/edit'" [job]="currentJob"></app-job>
+      <div class="inner">
+        <div *ngFor="let currentJob of jobs">
+          <app-job style="padding: 2em; width: 150%" [linkText]="'Ändern'" [link]="'/job/edit'" [job]="currentJob"></app-job>
+        </div>
       </div>
-    </div>
+    </section>
   </div>
-</section>
+</div>

@@ -1,0 +1,11 @@
+<div class="inner"><br>
+<h2>{{this.job.name}}</h2>
+<b>{{this.job.company_name}}</b>
+<p>{{this.job.description}}</p>
+<p *ngIf="this.job.job_start !== ''">Startdatum: {{this.job.job_start}}</p>
+<p *ngIf="this.job.job_start === ''">Startdatum: nach Vereinbarung</p>
+<p *ngIf="this.job.job_end !== ''">Enddatum: {{this.job.job_end}}</p>
+<p>Anstellung: {{this.job.percentage}}%</p>
+<p>Bezahlung: {{this.job.wage}} CHF</p>
+
+</div>

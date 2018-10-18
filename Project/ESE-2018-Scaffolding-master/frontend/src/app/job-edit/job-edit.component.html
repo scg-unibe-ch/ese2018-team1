@@ -9,6 +9,10 @@
     <input type="text" [(ngModel)]="job.company_name" name="company_name" id="company_name" (ngModelChange)="onSave()">
   </div>
   <div class="field">
+    <label for="description">kurze Beschreibung</label>
+    <textarea maxlength="100" [(ngModel)]="job.description_short" name="description_short" id="description_short" (ngModelChange)="onSave()"></textarea>
+  </div>
+  <div class="field">
     <label for="description">Beschreibung</label>
     <textarea [(ngModel)]="job.description" name="description" id="description" (ngModelChange)="onSave()"></textarea>
   </div>
@@ -29,8 +33,8 @@
     <input matInput placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end" (ngModelChange)="onSave()">
   </div>
   <div *ngIf="editAsModerator" class="field half">
-  <label for="approved">Öffentlich schalten</label>
-  <input type="checkbox" [(ngModel)]="job.approved" name="approved" id="approved" (ngModelChange)="onSave()">
+  <label *ngIf="!job.approved" (click)="setPublic()">Öffentlich schalten</label>
+  <label *ngIf="job.approved" style="color: green">ist öffentlich</label>
 </div>
 
 

@@ -18,6 +18,10 @@ export class JobComponent implements OnInit {
   linkText: string;
 
 
+  @Input()
+  link: string;
+
+
 
   constructor(private httpClient: HttpClient) {
   }

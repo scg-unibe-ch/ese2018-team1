@@ -26,7 +26,7 @@ export class JobEditComponent implements OnInit {
     this.jobId = location.search.replace('?id=', '');
     if (location.search.search('id') === 1 && this.jobId.length >0){
       console.log('found search: ' + this.jobId);
-      JobService.getJobById(this.job.id).subscribe((instance: any) => {
+      JobService.getJobById(this.jobId).subscribe((instance: any) => {
         this.job = instance;
       });
     }

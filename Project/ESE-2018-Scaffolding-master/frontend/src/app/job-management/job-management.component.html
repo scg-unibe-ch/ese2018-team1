@@ -21,7 +21,7 @@
   <div class="inner">
     <div *ngFor="let currentJob of jobs">
       <div *ngIf="currentJob.company_name == user.name">
-        <app-job style="padding: 2em; width: 150%" [linkText]="'Ändern'" [link]="'/job/edit/?id=' + currentJob.id" routerLink="/job/edit" [queryParams]="{id: currentJob.id}" [job]="currentJob"></app-job>
+        <app-job style="padding: 2em; width: 150%" [linkText]="'Ändern'" [link]="'/job/edit'" [job]="currentJob"></app-job>
       </div>
     </div>
   </div>

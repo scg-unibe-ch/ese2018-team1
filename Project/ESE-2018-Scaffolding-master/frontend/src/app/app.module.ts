@@ -9,8 +9,6 @@ import {AppRoutingModule, routingComponents} from './app-routing.module';
 import {MatButtonModule, MatCardModule, MatCheckboxModule, MatInputModule, MatListModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import { JobComponent } from './job/job.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
 import { JobEditComponent } from './job-edit/job-edit.component';
 import { LoginComponent } from './login/login.component';
 import { JobManagementComponent } from './job-management/job-management.component';
@@ -26,8 +24,6 @@ import { JobManagementComponent } from './job-management/job-management.componen
     AppComponent,
     JobComponent,
     routingComponents,
-    HeaderComponent,
-    FooterComponent,
     JobEditComponent,
     LoginComponent,
     JobManagementComponent

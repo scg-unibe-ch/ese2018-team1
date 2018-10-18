@@ -3,6 +3,7 @@ import {Job} from './job';
 import {HttpClient} from '@angular/common/http';
 import {User} from './user';
 import {JobService} from './job.service';
+import {UserService} from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +11,16 @@ import {JobService} from './job.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  loginStatus: boolean;
   user: User;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, public  userService: UserService) {
     const js= new JobService(httpClient);
   }
 
   ngOnInit() {
-    // hier prüfen, ob ein User eingeloggt ist &
-    // falls ja, update User in UserService
-
+    this.userService.currentLoginStatus.subscribe(loginstatus => this.loginStatus = loginstatus);
+    this.userService.currentUser.subscribe(currentUser => this.user = currentUser);
   }
 
 

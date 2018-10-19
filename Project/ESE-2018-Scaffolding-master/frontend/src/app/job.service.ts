@@ -45,9 +45,10 @@ export class JobService {
   /**
    * returns all jobs by this company
    * @param company
+   * @param approved true if you only want approved jobs, false if you want all jobs of this company
    */
-  static getJobsByCompany(company: string): Observable<Object>{
-    return JobService.httpClient.get('http://localhost:3000/job/search/company/' + company);
+  static getJobsByCompany(id: number, approved: boolean): Observable<Object>{
+    return JobService.httpClient.get('http://localhost:3000/job/search/company/' + id + '/' + (approved?'1':'0'));
   }
 
   /**
@@ -94,8 +95,11 @@ export class JobService {
       'name': job.name,
       'description': job.description,
       'description_short': job.description_short,
-      'company_name': job.company_name,
+      'companyId': job.company_id,
+      'companyEmail': job.company_email,
+      'jobWebsite': job.job_website,
       'wage': job.wage,
+      'wagePerHour': job.wagePerHour,
       'job_start': job.job_start,
       'job_end': job.job_end,
       'percentage': job.percentage,
@@ -105,12 +109,14 @@ export class JobService {
 
   static createJob(job: Job, user: User): Observable<Object>{
     return JobService.httpClient.post('http://localhost:3000/job', {
-      'id': job.id,
       'name': job.name,
       'description': job.description,
       'description_short': job.description_short,
-      'company_name': user.name,
+      'companyId': job.company_id,
+      'companyEmail': job.company_email,
+      'jobWebsite': job.job_website,
       'wage': job.wage,
+      'wagePerHour': job.wagePerHour,
       'job_start': job.job_start,
       'job_end': job.job_end,
       'percentage': job.percentage,

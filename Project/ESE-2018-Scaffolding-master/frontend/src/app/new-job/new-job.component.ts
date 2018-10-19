@@ -11,7 +11,7 @@ import {JobService} from '../job.service';
   styleUrls: ['./new-job.component.css']
 })
 export class NewJobComponent implements OnInit {
-  job: Job = new Job(0,'','','', '',0,'','',0,false);
+  job: Job = new Job(null, '', '', '', '','','', 0, false,'', '', 0, false);
   showDetails: boolean;
   errorName: boolean;
   user: User;

@@ -11,7 +11,7 @@ import {JobService} from '../job.service';
 })
 export class JobsComponent implements OnInit {
   jobs: Job[] = [];
-  job: Job = new Job(null, '', '', '', '', 0, '', '', 0, false);
+  job: Job = new Job(null, '', '', '', '','','', 0, false,'', '', 0, false);
   jobs_jobsArr: Job[][] = [ , ];
   searchText: string;
   showFilter = false;
@@ -36,7 +36,8 @@ export class JobsComponent implements OnInit {
     this.searchText = location.search.replace('?search=', '');
     if (location.search.search('search') === 1 && this.searchText.length >0){
       JobService.getJobsByEasySearch(this.searchText).subscribe((instances: any) => {
-        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+        this.jobs = instances.map((instance) =>  new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
         this.makeJobs_jobsArr();
       });
     }
@@ -44,7 +45,8 @@ export class JobsComponent implements OnInit {
 
       this.jobs = null;
       JobService.getAllApprovedJobs().subscribe((instances: any) => {
-        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_name, instance.wage, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+        this.jobs = instances.map((instance) =>  new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
         this.makeJobs_jobsArr();
       });
     }

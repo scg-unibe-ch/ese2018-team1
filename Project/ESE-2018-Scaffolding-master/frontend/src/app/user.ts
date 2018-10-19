@@ -30,4 +30,5 @@ export class User {
   isCompany(){
     return this.role === 'company';
   }
+
 }

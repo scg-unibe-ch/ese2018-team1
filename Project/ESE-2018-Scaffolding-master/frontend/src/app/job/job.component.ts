@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Job} from '../job'
+import {Job} from '../job';
+import {User} from '../user';
+import {UserService} from '../user.service';
 
 
 @Component({
@@ -21,11 +22,11 @@ export class JobComponent implements OnInit {
   link: string;
 
 
-
   constructor() {
   }
 
   ngOnInit() {
+
   }
 
 }

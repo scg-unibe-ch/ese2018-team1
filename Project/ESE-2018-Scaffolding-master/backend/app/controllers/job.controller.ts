@@ -36,19 +36,17 @@ router.get('/approved', async (req: Request, res: Response) => {
 
 /*returns all jobs with 'text' in their name, company_name or description*/
 router.get('/search/:text', async (req: Request, res: Response) => {
-  const search = '%' + req.params.text + '%';
-  const instances = await Job.findAll({
-    where: Sequelize.and(
-      Sequelize.or(
-      {name: {like: search}},
-      {description: {like: search}},
-      {company_name: {like: search}}
-    ),
-      {approved: true}
-    )
-  });
-  res.statusCode = 200;
-  res.send(instances.map( e=> e.toSimplification()));
+  const search = req.params.text;
+  if(checkSafety(search)) {
+    let command = 'SELECT `Job`.`id`, `Job`.`name`, `Job`.`description_short`, `Job`.`description`, `Job`.`companyId`, `Job`.`companyEmail`, `Job`.`jobWebsite`, `Job`.`wage`, `Job`.`wagePerHour`, `Job`.`job_start`, `Job`.`job_end`, `Job`.`percentage`, `Job`.`approved`, `user`.`name` AS `user.name`, `user`.`email` AS `user.email` FROM `Job` AS `Job` INNER JOIN `User` AS `user` ON `Job`.`companyId` = `user`.`id`';
+    command += ' WHERE Job.name LIKE \'%' + search + '%\' OR Job.description LIKE \'%' + search + '%\' OR User.name LIKE \'%' + search + '%\'';
+    await sequelize.query(command).then(function (results) {
+      res.statusCode = 200;
+      res.send(results[0]);
+    });
+  } else {
+    res.statusCode = 403;
+  }
 });
 
 /*

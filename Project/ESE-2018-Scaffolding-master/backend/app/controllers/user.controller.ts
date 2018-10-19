@@ -47,8 +47,6 @@ router.get('/company/:id/', async (req: Request, res: Response) => {
     });
     return;
   }
-  instance.password = ''; // prevent leaking of pw
-  instance.salt = ''; // prevent leaking of salt
   res.statusCode = 200;
   res.send(instance.toSimplification());
 });
@@ -94,6 +92,7 @@ router.get('/:id/:password', async (req: Request, res: Response) => {
     return;
   }
   instance.password = '';
+  instance.salt = '';
   res.statusCode = 200;
   res.send(instance.toSimplification());
 });
@@ -140,7 +139,28 @@ router.post('/', async (req: Request, res: Response) => {
   const instance = new User();
   instance.fromSimplification(req.body);
   await instance.save();
+  instance.password = '';
+  instance.salt = '';
   res.statusCode = 201;
+  res.send(instance.toSimplification());
+});
+
+/* updates a user according to the message body */
+router.put('/:id/:newPassword', async(req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const instance = await User.findById(id);
+  if (instance == null) {
+    res.statusCode = 404;
+    res.json({
+      'message': 'user not found for pw change'
+    });
+    return;
+  }
+  instance.password = req.params.newPassword;
+  await instance.save();
+  instance.password = '';
+  instance.salt = '';
+  res.status(200);
   res.send(instance.toSimplification());
 });
 
@@ -155,8 +175,12 @@ router.put('/:id', async(req: Request, res: Response) => {
     });
     return;
   }
+  // prevent password change without old password
+  const oldPw = instance.password;
   instance.fromSimplification(req.body);
+  instance.password = oldPw;
   await instance.save();
+  instance.password = '';
   res.status(200);
   res.send(instance.toSimplification());
 });

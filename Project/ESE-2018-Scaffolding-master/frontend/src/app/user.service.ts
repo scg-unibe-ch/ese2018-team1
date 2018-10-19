@@ -8,12 +8,49 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class UserService {
+  static httpClient: HttpClient;
+
   private loginStatus = new BehaviorSubject<boolean>(false);
   currentLoginStatus = this.loginStatus.asObservable();
   private user = new BehaviorSubject<User>(null);
   currentUser = this.user.asObservable();
 
-  constructor(private httpClient: HttpClient) { }
+
+  constructor(public httpClient: HttpClient) {
+    UserService.httpClient = httpClient;
+  }
+
+
+  /**
+   * changes password of a user
+   * @param id of the user to change the pw
+   * @param oldPassword
+   * @param newPassword
+   */
+  static changePassword(id: string, salt:string, newPassword: string): Observable<Object>{
+    newPassword = this.hashPassword(newPassword, salt);
+    return UserService.httpClient.put('http://localhost:3000/login/' + id + '/' + newPassword, '[]');
+  }
+
+  /**
+   * returns the user with the id
+   * @param id
+   */
+  static getUserById(id: string): Observable<Object>{
+    return this.httpClient.get('http://localhost:3000/login/company/' + id);
+  }
+
+  /**
+   * returns the user with the id
+   * @param id
+   */
+  static getAllUsers(): Observable<Object>{
+    return this.httpClient.get('http://localhost:3000/login');
+  }
+
+  static hashPassword(password: string, salt: string){
+    return password + salt;
+  }
 
   changeLoginStatus (newStatus: boolean){
     this.loginStatus.next(newStatus);
@@ -23,19 +60,7 @@ export class UserService {
     this.user.next(newUser);
   }
 
-  /**
-   * returns the user with the id
-   * @param id
-   */
-  getUseryId(id: string): Observable<Object>{
-    return this.httpClient.get('http://localhost:3000/login/company/' + id);
-  }
 
-  /**
-   * returns the user with the id
-   * @param id
-   */
-  getAllUsers(): Observable<Object>{
-    return this.httpClient.get('http://localhost:3000/login');
-  }
+
+
 }

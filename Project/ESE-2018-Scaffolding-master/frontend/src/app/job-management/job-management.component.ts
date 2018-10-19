@@ -15,6 +15,13 @@ export class JobManagementComponent implements OnInit {
   jobs: Job[] = [];
   user: User;
   users: User[];
+  passwordChangeUserId: number;
+  passwordChangeUserName: string;
+  changePasswordAdmin = false;
+
+  errorPasswordRepeat = false;
+  errorPasswordWrong = false;
+  errorPasswordSame = false;
 
   oldPassword: string;
   newPassword: string;
@@ -30,7 +37,7 @@ export class JobManagementComponent implements OnInit {
   ngOnInit() {
     this.companyId = location.search.replace('?id=', '');
     if (location.search.search('id') === 1 && this.companyId.length >0){
-      this.userService.getUseryId(this.companyId).subscribe((instance: any)=>{
+      UserService.getUserById(this.companyId).subscribe((instance: any)=>{
         this.user = instance;
         JobService.getJobsByCompany(this.user.id, true).subscribe((instances: any) => {
           this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
@@ -47,6 +54,7 @@ export class JobManagementComponent implements OnInit {
         this.router.navigateByUrl('/login');
         return;
       }
+      this.passwordChangeUserId = this.user.id;
       if (this.user.isCompany()) {
         console.log('auth as company');
         JobService.getJobsByCompany(this.user.id, false).subscribe((instances: any) => {
@@ -64,7 +72,7 @@ export class JobManagementComponent implements OnInit {
       }
 
       if(this.user.isAdmin()){
-        this.userService.getAllUsers().subscribe((instances: any)=>{
+        UserService.getAllUsers().subscribe((instances: any)=>{
           this.users = instances.map((instance) => new User(instance.id, instance.name, '','', instance.email, instance.role));
         });
       }
@@ -90,7 +98,55 @@ export class JobManagementComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  savePassword(){
-    // TODO: call userService to change the password when userService has implemented it
+  savePassword(id: number){
+    // reset errors
+    this.errorPasswordSame = false;
+    this.errorPasswordWrong = false;
+    this.errorPasswordRepeat = false;
+
+    if(this.newPassword === this.oldPassword){
+      this.errorPasswordSame = true;
+    }
+    if(this.newPassword === this.newPasswordRepeat){
+      UserService.getUserById(id + '').subscribe((user: any) =>{
+        if(this.changePasswordAdmin || UserService.hashPassword(this.oldPassword, user.salt) === user.password) {
+          UserService.changePassword(id + '', user.salt, this.newPassword).subscribe((instance: any) => {
+            if (this.changePasswordAdmin) {
+              this.backToUserList();
+            }
+            else{
+              this.userService.changeUser(new User(instance.id, instance.name, instance.password, instance.salt, instance.email, instance.role));
+            }
+          }, err => {
+
+          });
+        } else{
+          this.errorPasswordWrong = true;
+        }
+      });
+    }
+    else{
+      this.errorPasswordRepeat = true;
+    }
+
+  }
+
+  /**
+   * only clicked when admin changes password and wants to go back
+   * goes back to user list
+   */
+  backToUserList(){
+    this.showAdmin= true;
+    this.showPassword = false;
+    this.changePasswordAdmin = false;
+    this.passwordChangeUserId = this.user.id;
+  }
+
+  changePassword(id: number){
+    this.showAdmin = false;
+    this.showPassword = true;
+    this.changePasswordAdmin = true;
+    this.passwordChangeUserId = id;
+    UserService.getUserById(id + '').subscribe((user: any) =>{this.passwordChangeUserName = user.name;});
   }
 }

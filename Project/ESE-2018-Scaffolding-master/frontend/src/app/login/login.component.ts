@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.httpClient.get('http://localhost:3000/login/' + this.user.email).subscribe(
       (instance: any) => {
       this.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
-      password = this.hashPassword(password, this.user.salt);
+      password = UserService.hashPassword(password, this.user.salt);
       // check password
       this.httpClient.get('http://localhost:3000/login/' + this.user.id + '/' + password).subscribe(
         (instance: any) =>{
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
       },
     err => {
       this.user.salt = 'TestSalt';
-      this.user.password = this.hashPassword(this.user.password, this.user.salt);
+      this.user.password = UserService.hashPassword(this.user.password, this.user.salt);
       this.httpClient.post('http://localhost:3000/login/', {
         'id': this.user.id,
         'name': this.user.name,
@@ -80,9 +80,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  hashPassword(password: string, salt: string){
-    return password + salt;
-  }
+
 
   onSwitch(){
     this.register = !this.register;

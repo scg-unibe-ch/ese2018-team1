@@ -5,8 +5,22 @@
   <h1 *ngIf="!showPassword">
     Profil ~ Jobs
   </h1>
-  <button *ngIf="!showPassword" (click)="togglePasswordShow()">Ändere das Passwort</button>
-  <button *ngIf="showPassword" (click)="togglePasswordShow()">Zeige Jobs</button>
+  <!-- admin menu control-->
+  <div *ngIf="this.user.isAdmin()">
+  <button style="background-color:#000000" *ngIf="!showPassword && !showAdmin" (click)="ShowList()">Zeige Jobs</button>
+  <button *ngIf="showPassword || showAdmin" (click)="ShowList()">Zeige Jobs</button>
+  <button style="background-color:#000000" *ngIf="showPassword" (click)="ShowPassword()">Ändere das Passwort</button>
+  <button *ngIf="!showPassword" (click)="ShowPassword()">Ändere das Passwort</button>
+  <button style="background-color:#000000" *ngIf="this.user.isAdmin() && showAdmin" (click)="ShowAdmin()">Zeige Benutzer</button>
+  <button *ngIf="this.user.isAdmin() && !showAdmin" (click)="ShowAdmin()">Zeige Benutzer</button>
+  </div>
+  <!-- moderator or company menu control-->
+  <div *ngIf="!this.user.isAdmin()">
+  <button *ngIf="!showPassword" (click)="toggleShowPassword()">Zeige Jobs</button>
+  <button *ngIf="showPassword" (click)="toggleShowPassword()">Ändere das Passwort</button>
+  </div>
+
+  
   <br><br>
   <div *ngIf="showPassword">
     <h4>Passwort ändern</h4>
@@ -19,7 +33,7 @@
     <input type="submit" (click)="savePassword()" value="Speichern">
     <br><br>
   </div>
-  <div *ngIf="this.user.isAdmin() && !showPassword">
+  <div *ngIf="this.user.isAdmin() && showAdmin">
     <h4>Liste der Benutzer</h4>
     <table>
       <tr>

@@ -23,6 +23,7 @@ export class JobManagementComponent implements OnInit {
   company: User;
   public: boolean;
   showPassword = false;
+  showAdmin = false;
 
   constructor(private httpClient: HttpClient, public userService: UserService, public router: Router) {}
 
@@ -70,7 +71,22 @@ export class JobManagementComponent implements OnInit {
     }
   }
 
-  togglePasswordShow(){
+  ShowPassword(){
+    this.showPassword = true;
+    this.showAdmin = false;
+  }
+
+  ShowAdmin(){
+    this.showPassword = false;
+    this.showAdmin = !this.showAdmin;
+  }
+
+  ShowList(){
+    this.showAdmin = false;
+    this.showPassword = false;
+  }
+
+  toggleShowPassword(){
     this.showPassword = !this.showPassword;
   }
 

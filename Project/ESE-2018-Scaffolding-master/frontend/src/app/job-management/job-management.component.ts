@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 export class JobManagementComponent implements OnInit {
   jobs: Job[] = [];
   user: User;
+  users: User[];
 
   oldPassword: string;
   newPassword: string;
@@ -21,7 +22,6 @@ export class JobManagementComponent implements OnInit {
   companyId: string;
   company: User;
   public: boolean;
-
   showPassword = false;
 
   constructor(private httpClient: HttpClient, public userService: UserService, public router: Router) {}
@@ -55,10 +55,16 @@ export class JobManagementComponent implements OnInit {
         });
       }
 
-      if (this.user.isModerator()) {
+      if (this.user.isModerator() || this.user.isAdmin()) {
         JobService.getAllJobs().subscribe((instances: any) => {
           this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
             instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+        });
+      }
+
+      if(this.user.isAdmin()){
+        this.userService.getAllUsers().subscribe((instances: any)=>{
+          this.users = instances.map((instance) => new User(instance.id, instance.name, '','', instance.email, instance.role));
         });
       }
     }

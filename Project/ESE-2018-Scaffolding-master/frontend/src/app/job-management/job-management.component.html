@@ -19,6 +19,26 @@
     <input type="submit" (click)="savePassword()" value="Speichern">
     <br><br>
   </div>
+  <div *ngIf="this.user.isAdmin() && !showPassword">
+    <h4>Liste der Benutzer</h4>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>change Password</th>
+        <th>role</th>
+        <th>change Profile</th>
+      </tr>
+      <tr *ngFor="let currentUser of users">
+        <td>{{currentUser.name}}</td>
+        <td>{{currentUser.email}}</td>
+        <td><a>change Password</a></td> <!-- add anchor to correct link-->
+        <td>{{currentUser.role}}</td>
+        <td><a>change Profile</a></td> <!-- add anchor to correct link-->
+      </tr>
+    </table>
+  </div>
+
   <div *ngIf="!showPassword">
     <button routerLink="/job/new">neuen Job erfassen</button>
     <h4>
@@ -33,6 +53,8 @@
       </div>
     </section>
   </div>
+
+
 </div>
 <div *ngIf="public">
   <section style="margin-bottom: -150px;margin-top: 10px">

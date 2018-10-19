@@ -4,6 +4,30 @@ import {User} from '../models/user.model';
 
 const router: Router = Router();
 
+
+/**
+ * returns all Users
+ * use case:
+ * get all users as a admin
+ */
+router.get('/', async (req: Request, res: Response) => {
+  const instances: User[] = await User.findAll();
+  if( instances == null) {
+    res.statusCode = 404;
+    res.json({
+      'message':'this user could not be found'
+    });
+    return;
+  }
+  res.statusCode = 200;
+  // do not leak passwords and hashes
+  for(let i = 0; i<instances.length; i++) {
+    instances[i].password = '';
+    instances[i].salt = '';
+  }
+  res.send(instances.map( e=> e.toSimplification()));
+});
+
 /**
  * returns infos about this user, except the password
  * use case:

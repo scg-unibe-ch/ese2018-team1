@@ -30,4 +30,12 @@ export class UserService {
   getUseryId(id: string): Observable<Object>{
     return this.httpClient.get('http://localhost:3000/login/company/' + id);
   }
+
+  /**
+   * returns the user with the id
+   * @param id
+   */
+  getAllUsers(): Observable<Object>{
+    return this.httpClient.get('http://localhost:3000/login');
+  }
 }

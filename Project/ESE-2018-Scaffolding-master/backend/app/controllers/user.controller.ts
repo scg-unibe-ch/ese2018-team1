@@ -9,6 +9,31 @@ const router: Router = Router();
  * use case:
  * get the salt for this user to be able to provide the correct passwordhash
  */
+router.get('/company/:id/', async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const instance = await User.find({
+    where: {
+      id: id
+    }
+  });
+  if( instance === null) {
+    res.statusCode = 404;
+    res.json({
+      'message':'this user could not be found'
+    });
+    return;
+  }
+  instance.password = ''; // prevent leaking of pw
+  instance.salt = ''; // prevent leaking of salt
+  res.statusCode = 200;
+  res.send(instance.toSimplification());
+});
+
+/**
+ * returns infos about this user, except the password
+ * use case:
+ * get the salt for this user to be able to provide the correct passwordhash
+ */
 router.get('/:email_v/', async (req: Request, res: Response) => {
   const email_v = req.params.email_v;
   const instance = await User.find({

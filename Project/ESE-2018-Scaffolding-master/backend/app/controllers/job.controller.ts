@@ -2,6 +2,8 @@ import {Request, Response, Router} from 'express';
 import {Job} from '../models/job.model';
 import {Sequelize} from 'sequelize-typescript';
 import {stringify} from 'querystring';
+import {TodoList} from '../models/todolist.model';
+import {User} from '../models/user.model';
 
 
 const sequelize =  new Sequelize({
@@ -55,6 +57,7 @@ name: containing 'name' in their name ('s' is in 'new jobs open', but not in 'no
 company_name: containing 'company_name' in their company_name('s' is in swisscom, but not in apple)
 description: containing 'description' in their description('s' is in 'we're looking for a software engineer', but not in 'looking for a architecture guy')
 wage: has set the wage higher than the asked one
+wagePerHour: 1 if per hour, 0 if per month * if non applicable
 start_before: job_start is before the 'start_before' date
 start_after: job_start is after the 'start_after' date
 end_before: job_start is before the 'end_before' date
@@ -64,11 +67,12 @@ percentage_less: job percentage is more than 'percentage_less'
 
 * acts as no input
  */
-router.get('/search/:name/:company_name/:description/:wage/:start_before/:start_after/:end_before/:end_after/:percentage_more/:percentage_less', async (req: Request, res: Response) =>{
+router.get('/search/:name/:company_name/:description/:wage/:wagePerHour/:start_before/:start_after/:end_before/:end_after/:percentage_more/:percentage_less', async (req: Request, res: Response) =>{
   const sname = req.params.name;
   const scompany_name = req.params.company_name;
   const sdescription = req.params.description;
   const swage = req.params.wage === '*' ? -1 : parseInt(req.params.wage);
+  const swagePerHour = req.params.wagePerHour;
   const sstart_before = req.params.start_before;
   const sstart_after = req.params.start_after;
   const send_before =  req.params.end_before;
@@ -88,6 +92,9 @@ router.get('/search/:name/:company_name/:description/:wage/:start_before/:start_
   }
   if(swage>=0) {
     command += ' wage>' + swage + ' AND';
+  }
+  if(swagePerHour!== '*' && checkSafety(swagePerHour)) {
+    command += ' wagePerHour<' + swagePerHour + ' AND';
   }
   if(sstart_before!== '*' && checkSafety(sstart_before)) {
     command += ' job_start<' + sstart_before + ' AND';
@@ -115,16 +122,33 @@ router.get('/search/:name/:company_name/:description/:wage/:start_before/:start_
   });
 });
 
-router.get('/search/company/:company_name', async (req: Request, res: Response) =>{
+router.get('/search/company/:company_id/:approved', async (req: Request, res: Response) => {
   console.log(req.params)
-  const sname = '%' + req.params.name + '%';
-  const scompany_name = '%' + req.params.company_name + '%';
-  const sdescription = '%' + req.params.description + '%';
-  const instances = await Job.findAll({
-    where: Sequelize.and(
-      {company_name: {like: scompany_name}}
-    )
-  });
+  const userId = req.params.company_id;
+  const approved = req.params.approved;
+  let instances: Job[];
+  if(approved === '1') {
+    instances = await Job.findAll({
+      include: [{
+        model: User,
+        where: {
+          id: userId
+        }
+      }],
+      where: {
+        approved: 1
+      }
+    });
+  } else {
+    instances = await Job.findAll({
+      include: [{
+        model: User,
+        where: {
+          id: userId
+        }
+      }]
+    });
+  }
   res.statusCode = 200;
   res.send(instances.map(e => e.toSimplification()));
 });

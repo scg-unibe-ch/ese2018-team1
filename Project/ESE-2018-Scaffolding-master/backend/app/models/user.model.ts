@@ -1,7 +1,11 @@
 import {Table, Column, Model, HasMany, BelongsTo, ForeignKey} from 'sequelize-typescript';
+import {Job} from './job.model';
 
 @Table
 export class User extends Model<User> {
+  @HasMany(()=>Job)
+  jobs!: Job[];
+
   @Column
   name!: string;
 

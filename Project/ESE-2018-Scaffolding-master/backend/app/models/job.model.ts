@@ -1,4 +1,5 @@
 import {Table, Column, Model, HasMany, BelongsTo, ForeignKey} from 'sequelize-typescript';
+import {User} from './user.model';
 
 @Table
 export class Job extends Model<Job> {
@@ -11,11 +12,24 @@ export class Job extends Model<Job> {
   @Column
   description!: string;
 
+  @ForeignKey(()=>User)
   @Column
-  company_name!: string;
+  companyId!: number;
+
+  @BelongsTo(()=> User)
+  user!: User;
+
+  @Column
+  companyEmail!: string
+
+  @Column
+  jobWebsite!: string
 
   @Column
   wage!: string;
+
+  @Column
+  wagePerHour!: boolean;
 
   @Column
   job_start!: string;
@@ -35,8 +49,11 @@ export class Job extends Model<Job> {
       'name': this.name,
       'description': this.description,
       'description_short': this.description_short,
-      'company_name': this.company_name,
+      'company_id': this.companyId,
+      'company_email': this.companyEmail,
+      'job_website': this.jobWebsite,
       'wage': this.wage,
+      'wagePerHour': this.wagePerHour,
       'job_start': this.job_start,
       'job_end': this.job_end,
       'percentage': this.percentage,
@@ -48,8 +65,11 @@ export class Job extends Model<Job> {
     this.name = simplification['name'];
     this.description = simplification['description'];
     this.description_short = simplification['description_short'];
-    this.company_name = simplification['company_name'];
+    this.companyId = simplification['company_id'];
+    this.companyEmail = simplification['company_email'];
+    this.jobWebsite = simplification['job_website'];
     this.wage = simplification['wage'];
+    this.wagePerHour = simplification['wagePerHour'];
     this.job_start = simplification['job_start'];
     this.job_end = simplification['job_end'];
     this.percentage = simplification['percentage'];

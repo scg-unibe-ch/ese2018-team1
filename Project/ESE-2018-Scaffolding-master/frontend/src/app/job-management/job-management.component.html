@@ -20,19 +20,30 @@
   <button *ngIf="showPassword" (click)="toggleShowPassword()">Ändere das Passwort</button>
   </div>
 
-  
+
   <br><br>
+  <!-- passwort ändern-->
   <div *ngIf="showPassword">
-    <h4>Passwort ändern</h4>
-    <label for="old">altes Passwort</label>
-    <input type="password" id="old" value="{{oldPassword}}" />
+    <button *ngIf="changePasswordAdmin" (click)="backToUserList()">Zurück</button>
+    <h4 *ngIf="!changePasswordAdmin">Passwort ändern</h4>
+    <h4 *ngIf="changePasswordAdmin">{{passwordChangeUserName}}s Passwort ändern</h4>
+    <!-- errors-->
+    <b *ngIf="errorPasswordRepeat">Die neuen Passwörter stimmen nicht überein</b>
+    <b *ngIf="errorPasswordWrong">Das alte Passwort stimmt nicht</b>
+    <b *ngIf="errorPasswordSame">Das neue Passwort darf nicht dem Alten entsprechen</b>
+
+    <!-- password change 'form'-->
+    <label *ngIf="!changePasswordAdmin" for="old">altes Passwort</label>
+    <input *ngIf="!changePasswordAdmin" type="password" id="old"[(ngModel)]="oldPassword" />
     <label for="new">neues Passwort</label>
-    <input type="password" id="new" value="{{newPassword}}" />
-    <label for="newRepeat">neues Passwort</label>
-    <input type="password" id="newRepeat" value="{{newPasswordRepeat}}" />
-    <input type="submit" (click)="savePassword()" value="Speichern">
+    <input type="password" id="new" [(ngModel)]="newPassword"/>
+    <label for="newRepeat">neues Passwort wiederholen</label>
+    <input type="password" id="newRepeat" [(ngModel)]="newPasswordRepeat" />
+    <input type="submit" (click)="savePassword(passwordChangeUserId)" value="Speichern">
     <br><br>
   </div>
+
+  <!-- liste der benutzer-->
   <div *ngIf="this.user.isAdmin() && showAdmin">
     <h4>Liste der Benutzer</h4>
     <table>
@@ -46,14 +57,15 @@
       <tr *ngFor="let currentUser of users">
         <td>{{currentUser.name}}</td>
         <td>{{currentUser.email}}</td>
-        <td><a>change Password</a></td> <!-- add anchor to correct link-->
+        <td><a (click)="changePassword(currentUser.id)">change Password</a></td> <!-- add anchor to correct link-->
         <td>{{currentUser.role}}</td>
         <td><a>change Profile</a></td> <!-- add anchor to correct link-->
       </tr>
     </table>
   </div>
 
-  <div *ngIf="!showPassword">
+  <!--liste der jobs-->
+  <div *ngIf="!showPassword && !showAdmin">
     <button routerLink="/job/new">neuen Job erfassen</button>
     <h4>
       Liste der jobs
@@ -70,6 +82,7 @@
 
 
 </div>
+<!-- öffentliches profil eines unternehmens-->
 <div *ngIf="public">
   <section style="margin-bottom: -150px;margin-top: 10px">
     <div class="inner">

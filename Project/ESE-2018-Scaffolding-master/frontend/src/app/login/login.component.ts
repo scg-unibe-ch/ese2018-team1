@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   successfulLogin: boolean;
   successfulRegister: boolean;
   backendUrl = 'http://localhost:3000';
+  /*backendUrl = 'http://**Your local IP**:3000';*/
 
   constructor(private httpClient: HttpClient, private userService: UserService, public router: Router) {
   }

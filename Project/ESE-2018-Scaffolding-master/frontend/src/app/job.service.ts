@@ -16,6 +16,7 @@ import {User} from './user';
 export class JobService {
   static httpClient: HttpClient;
   static backendUrl = 'http://localhost:3000';
+  /*static backendUrl = 'http://**Your Local IP**:3000';*/
 
   constructor(private hC: HttpClient) {
     JobService.httpClient = hC;

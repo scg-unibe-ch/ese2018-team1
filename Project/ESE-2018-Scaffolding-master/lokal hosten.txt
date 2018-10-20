@@ -1,0 +1,10 @@
+FRONTEND:
+
+user.service.ts => ändere static backendURL zu deiner localen IP (benütze den auskommentierten)
+job.service.ts => ändere static backendURL zu deiner localen IP (benütze den auskommentierten)
+login.component.ts => (falls requests noch nicht in user service implementiert) ändere backendURL zu deiner localen IP (benütze den auskommentierten)
+
+
+Starte:
+Backend kann normal gestartet werden.
+Starte Frontend mit dem Befehl: ng serve --host 0.0.0.0 --post 80 --open

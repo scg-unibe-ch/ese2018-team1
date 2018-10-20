@@ -1,6 +1,6 @@
 <!-- jobs-->
-<div class="inner" style="margin: 5%">
-
+<div class="inner" style="margin-left: 5%; margin-right: 5%;">
+<br><h1>Job-Suche</h1>
   <form *ngIf="!showFilter">
     <div class="field">
       <label for="search">Suche</label>
@@ -14,7 +14,7 @@
   <button *ngIf="!showFilter" (click)="toggleFilter()">Filter einblenden</button>
 
   <div *ngIf="showFilter">
-    <h2>Filter</h2>
+    <h4>Filter</h4>
     <div class="field half">
       <label for="name">Name</label>
       <input type="text" name="search" [(ngModel)]="searchName" id="name"/>
@@ -39,7 +39,7 @@
     <div class="field half">
       <label for="end_after">Ende des Jobs zwischen</label>
       <input type="date" name="search" [(ngModel)]="searchEnd_after" id="end_after"/>&nbsp;&nbsp;&nbsp;und&nbsp;&nbsp;&nbsp;
-      <input type="text" name="search" [(ngModel)]="searchEnd_before" id="end_before"/>
+      <input type="date" name="search" [(ngModel)]="searchEnd_before" id="end_before"/>
     </div>
     <div class="field half">
       <label for="percentage_more">Anstellung zwischen (in %)</label>

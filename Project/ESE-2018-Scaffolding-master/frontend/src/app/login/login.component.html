@@ -8,26 +8,26 @@
 <div class="inner" *ngIf="!successfulRegister">
   <b style="color: green">Mail schon vergeben</b>
 </div>
-<div class="inner" *ngIf="!register">
+<div style="margin-left: 5%; margin-right: 5%;" class="inner" *ngIf="!register">
   <form>
     <div class="field">
-      <label>Login</label>
+      <br><h1>Login</h1>
       <input type="text" name="username" placeholder="Email" [(ngModel)]="user.email" id="username"/>
       <input type="password" name="password" placeholder="Passwort" [(ngModel)]="user.password" id="password"/>
     </div>
     <ul class="actions">
       <li><input type="submit" (click)="onLogin()" value="Login"/></li>
     </ul>
-    <br>
-    <b>Noch kein Login?</b><br>
-    <input type="submit" (click)="onSwitch()" value="hier Registrieren"/>
   </form>
+  <b>Noch kein Login?</b><br>
+  <button (click)="onSwitch()">hier Registrieren</button>
+  <br><br>
 </div>
 <!--register-->
 <div class="inner" *ngIf="register">
   <form>
     <div class="field">
-      <label>Registrierung</label>
+      <br><h1>Registrierung</h1>
       <input type="text" name="username" placeholder="Name" [(ngModel)]="user.name" id="username"/>
       <input type="password" name="password" placeholder="Passwort" [(ngModel)]="user.password" id="password"/>
       <input type="email" name="Email" placeholder="Email" [(ngModel)]="user.email" id="email"/>
@@ -35,8 +35,10 @@
     <ul class="actions">
       <li><input type="submit" (click)="onRegister()" value="Jetzt Registrieren"/></li>
     </ul>
-    <input type="submit" (click)="onSwitch()" value="zurück zum Login"/>
   </form>
+  <b>Schon registriert?</b><br>
+  <button (click)="onSwitch()">zurück zum Login</button>
+  <br><br>
 </div>
 
 

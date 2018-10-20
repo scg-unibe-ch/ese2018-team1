@@ -1,3 +1,4 @@
+<div class="inner">
 <form>
   <div class="field half first">
     <label for="name">Name</label>
@@ -6,7 +7,7 @@
   <br *ngIf="!editAsModerator"/>
   <div *ngIf="editAsModerator" class="field half">
     <label for="company_name">Unternehmen</label>
-    <input type="text" [(ngModel)]="job.company_name" name="company_name" id="company_name" (ngModelChange)="onSave()">
+    <input type="text" [(ngModel)]="company.name" name="company_name" id="company_name" (ngModelChange)="onSave()">
   </div>
   <div class="field">
     <label for="description">kurze Beschreibung</label>
@@ -47,5 +48,4 @@
   </ul>
 
 </form>
-
-
+</div>

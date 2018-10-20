@@ -14,6 +14,7 @@ import {User} from '../user';
 export class JobEditComponent implements OnInit {
   jobId: string;
   user: User;
+  company: User;
 
   @Input()
   job: Job;
@@ -39,6 +40,9 @@ export class JobEditComponent implements OnInit {
     if (location.search.search('id') === 1 && this.jobId.length >0){
       JobService.getJobById(this.jobId).subscribe((instance: any) => {
         this.job = instance;
+        UserService.getUserById(this.job.company_id).subscribe((user: any) =>{
+          this.company = user;
+        });
       });
     }
     else{}

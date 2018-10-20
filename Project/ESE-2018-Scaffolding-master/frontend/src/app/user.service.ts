@@ -9,7 +9,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class UserService {
   static httpClient: HttpClient;
-
+  static backendUrl = 'http://localhost:3000';
   private loginStatus = new BehaviorSubject<boolean>(false);
   currentLoginStatus = this.loginStatus.asObservable();
   private user = new BehaviorSubject<User>(null);
@@ -29,7 +29,7 @@ export class UserService {
    */
   static changePassword(id: string, salt:string, newPassword: string): Observable<Object>{
     newPassword = this.hashPassword(newPassword, salt);
-    return UserService.httpClient.put('http://localhost:3000/login/' + id + '/' + newPassword, '[]');
+    return UserService.httpClient.put(this.backendUrl + '/login/' + id + '/' + newPassword, '[]');
   }
 
   /**
@@ -37,7 +37,7 @@ export class UserService {
    * @param id
    */
   static getUserById(id: string): Observable<Object>{
-    return this.httpClient.get('http://localhost:3000/login/company/' + id);
+    return this.httpClient.get(this.backendUrl + '/login/company/' + id);
   }
 
   /**
@@ -45,7 +45,7 @@ export class UserService {
    * @param id
    */
   static getAllUsers(): Observable<Object>{
-    return this.httpClient.get('http://localhost:3000/login');
+    return this.httpClient.get(this.backendUrl + '/login');
   }
 
   static hashPassword(password: string, salt: string){

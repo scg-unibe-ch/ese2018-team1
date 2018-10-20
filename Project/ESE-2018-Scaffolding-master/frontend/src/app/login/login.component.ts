@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   error: boolean;
   successfulLogin: boolean;
   successfulRegister: boolean;
+  backendUrl = 'http://localhost:3000';
 
   constructor(private httpClient: HttpClient, private userService: UserService, public router: Router) {
   }
@@ -33,12 +34,12 @@ export class LoginComponent implements OnInit {
   onLogin(){
     let password = this.user.password;
     // get user id and salt
-    this.httpClient.get('http://localhost:3000/login/' + this.user.email).subscribe(
+    this.httpClient.get(this.backendUrl + '/login/' + this.user.email).subscribe(
       (instance: any) => {
       this.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
       password = UserService.hashPassword(password, this.user.salt);
       // check password
-      this.httpClient.get('http://localhost:3000/login/' + this.user.id + '/' + password).subscribe(
+      this.httpClient.get(this.backendUrl + '/login/' + this.user.id + '/' + password).subscribe(
         (instance: any) =>{
           this.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
           this.error = false; // do not display error while loading home page
@@ -58,7 +59,7 @@ export class LoginComponent implements OnInit {
 
   onRegister(){
     this.successfulRegister = true;
-    this.httpClient.get('http://localhost:3000/login/' + this.user.email).subscribe(
+    this.httpClient.get(this.backendUrl + '/login/' + this.user.email).subscribe(
       (instance: any) => {
         this.successfulRegister = false;
         this.user = new User(null, '','','','', '');
@@ -66,7 +67,7 @@ export class LoginComponent implements OnInit {
     err => {
       this.user.salt = 'TestSalt';
       this.user.password = UserService.hashPassword(this.user.password, this.user.salt);
-      this.httpClient.post('http://localhost:3000/login/', {
+      this.httpClient.post(this.backendUrl + '/login/', {
         'id': this.user.id,
         'name': this.user.name,
         'password': this.user.password,

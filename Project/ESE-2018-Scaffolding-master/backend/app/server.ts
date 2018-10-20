@@ -46,7 +46,7 @@ app.use('/login', UserController);
 
 sequelize.sync().then(() => {
 // start serving the application on the given port
-  app.listen(port, () => {
+  app.listen(port, '0.0.0.0', () => {
     // success callback, log something to console as soon as the application has started
     console.log(`Listening at http://localhost:${port}/`);
   });

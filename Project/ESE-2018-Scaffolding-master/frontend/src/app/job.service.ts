@@ -15,6 +15,7 @@ import {User} from './user';
 })
 export class JobService {
   static httpClient: HttpClient;
+  static backendUrl = 'http://localhost:3000';
 
   constructor(private hC: HttpClient) {
     JobService.httpClient = hC;
@@ -24,14 +25,14 @@ export class JobService {
    * returns all jobs
    */
   static getAllJobs(): Observable<Object>{
-    return JobService.httpClient.get('http://localhost:3000/job');
+    return JobService.httpClient.get(this.backendUrl + '/job');
   }
 
   /**
    * returns all jobs
    */
   static getAllApprovedJobs(): Observable<Object>{
-    return JobService.httpClient.get('http://localhost:3000/job/approved');
+    return JobService.httpClient.get(this.backendUrl + '/job/approved');
   }
 
   /**
@@ -39,7 +40,7 @@ export class JobService {
    * @param id
    */
   static getJobById(id: string): Observable<Object>{
-    return JobService.httpClient.get('http://localhost:3000/job/' + id);
+    return JobService.httpClient.get(this.backendUrl + '/job/' + id);
   }
 
   /**
@@ -48,7 +49,7 @@ export class JobService {
    * @param approved true if you only want approved jobs, false if you want all jobs of this company
    */
   static getJobsByCompany(id: number, approved: boolean): Observable<Object>{
-    return JobService.httpClient.get('http://localhost:3000/job/search/company/' + id + '/' + (approved?'1':'0'));
+    return JobService.httpClient.get(this.backendUrl + '/job/search/company/' + id + '/' + (approved?'1':'0'));
   }
 
   /**
@@ -58,7 +59,7 @@ export class JobService {
    * @param description
    */
   static getJobsByEasySearch(search: string): Observable<Object>{
-    return JobService.httpClient.get('http://localhost:3000/job/search/' + search );
+    return JobService.httpClient.get(this.backendUrl + '/job/search/' + search );
   }
 
   /**
@@ -86,12 +87,12 @@ export class JobService {
     end_after = end_after.length>0 ? end_after : '*';
     percentage_more = percentage_more.length>0 ? percentage_more : '-1';
     percentage_less = percentage_less.length>0 ? percentage_less : '-1';
-    return JobService.httpClient.get('http://localhost:3000/job/search/' + name + '/' + company + '/' + description + '/' + wage+ '/' + start_before+ '/' + start_after+ '/' + end_before+ '/' + end_after+ '/' + percentage_more+ '/' + percentage_less);
+    return JobService.httpClient.get(this.backendUrl + '/job/search/' + name + '/' + company + '/' + description + '/' + wage+ '/' + start_before+ '/' + start_after+ '/' + end_before+ '/' + end_after+ '/' + percentage_more+ '/' + percentage_less);
   }
 
 
   static saveJob(job: Job): Observable<Object>{
-    return JobService.httpClient.put('http://localhost:3000/job/' + job.id,  {
+    return JobService.httpClient.put(this.backendUrl + '/job/' + job.id,  {
       'name': job.name,
       'description': job.description,
       'description_short': job.description_short,
@@ -108,7 +109,7 @@ export class JobService {
   }
 
   static createJob(job: Job, user: User): Observable<Object>{
-    return JobService.httpClient.post('http://localhost:3000/job', {
+    return JobService.httpClient.post(this.backendUrl + '/job', {
       'name': job.name,
       'description': job.description,
       'description_short': job.description_short,
@@ -125,7 +126,7 @@ export class JobService {
   }
 
   static deleteJob(job: Job): Observable<Object>{
-    return JobService.httpClient.delete('http://localhost:3000/job/' + job.id);
+    return JobService.httpClient.delete(this.backendUrl + '/job/' + job.id);
   }
 
 }

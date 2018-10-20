@@ -23,3 +23,8 @@ Welcome to the 2018 ESE course. You can use this scaffolding as a starting point
 - The backend folder contains express project that serves as a REST API, exposes endpoints to accept HTTP requests. For received HTTP requests, it in turn returns JSON data.
 - The frontend folder contains Angular project, which makes HTTP requests to the backend and processes the JSON data received i.e. make changes if required and display it on the UI.
 - Projects are separated in this way because in the future one can easily replace either of them if the team decides to use another technology e.g. React JS for frontend or Django REST framework for backend.
+
+
+
+## run it in your local network
+to run it any access the website from within your network, please refer to the "lokal hosten.txt" file

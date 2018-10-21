@@ -5,6 +5,31 @@ import {User} from '../models/user.model';
 const router: Router = Router();
 
 
+router.get('/session', async (req: Request, res: Response) => {
+  if (req.session != null && req.session.user != null) {
+    const instance = await User.findById(req.session.user.id);
+    if (instance !== null) {
+      return res.status(200).send(  'Welcome');
+    }
+    return res.status(401).send('Error, User does not exist');
+  } else {
+    return res.status(401).send('User not found');
+  }
+  /* prove for working sessions
+  if (req.session != null && req.session.views != null) {
+    req.session.views++;
+    return res.send('Welcome to the website to the '+ req.session.views);
+  } else {
+    if (req.session != null) {
+      req.session.views = 1;
+      return res.send('Welcome to the website for the first time');
+    }
+    else {
+      return res.send ('error');
+    }
+  } */
+});
+
 /**
  * returns all Users
  * use case:
@@ -93,8 +118,15 @@ router.get('/:id/:password', async (req: Request, res: Response) => {
   }
   instance.password = '';
   instance.salt = '';
-  res.statusCode = 200;
-  res.send(instance.toSimplification());
+  if (req.session) {
+   req.session.user = instance;
+    res.statusCode = 200;
+    res.send(instance.toSimplification());
+    return;
+  }
+  res.statusCode = 403;
+  res.send('Error creating a session');
+  return;
 });
 
 /**

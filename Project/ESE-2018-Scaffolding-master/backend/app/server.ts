@@ -1,6 +1,7 @@
 // import everything from express and assign it to the express variable
 import express from 'express';
 import ExpressSession from 'express-session';
+const cors = require('cors');
 
 // import all the controllers. If you add a new controller, make sure to import it here as well.
 import {JobController, UserController} from './controllers';
@@ -20,6 +21,10 @@ sequelize.addModels([Job, User]);
 // create a new express application instance
 const app: express.Application = express();
 app.use(express.json());
+
+app.use(cors({origin: [
+    'http://localhost:4200'
+  ], credentials: true}));
 
 app.use(ExpressSession({
   secret: 'omfg, its a secret!',

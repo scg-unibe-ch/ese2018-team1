@@ -1,7 +1,6 @@
 import {Request, Response, Router} from 'express';
 import {User} from '../models/user.model';
 
-
 const router: Router = Router();
 
 
@@ -9,13 +8,13 @@ router.get('/session', async (req: Request, res: Response) => {
   if (req.session != null && req.session.user != null) {
     const instance = await User.findById(req.session.user.id);
     if (instance !== null) {
-      return res.status(200).send(  'Welcome');
+      return res.status(200).send(  instance);
     }
     return res.status(401).send('Error, User does not exist');
   } else {
     return res.status(401).send('User not found');
   }
-  /* prove for working sessions
+  /* proof for working sessions
   if (req.session != null && req.session.views != null) {
     req.session.views++;
     return res.send('Welcome to the website to the '+ req.session.views);
@@ -28,6 +27,16 @@ router.get('/session', async (req: Request, res: Response) => {
       return res.send ('error');
     }
   } */
+});
+
+router.get('/logout', async (req: Request, res: Response) => {
+  if (req.session) {
+    req.session.destroy(err => {console.error(err); });
+    res.statusCode = 200;
+    return res.send('logout successfull');
+  } else {
+    return res.send('never logged in');
+  }
 });
 
 /**

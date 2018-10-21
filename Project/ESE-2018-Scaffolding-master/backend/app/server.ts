@@ -1,13 +1,17 @@
 // import everything from express and assign it to the express variable
 import express from 'express';
 import ExpressSession from 'express-session';
-const cors = require('cors');
+import cors = require('cors');
 
 // import all the controllers. If you add a new controller, make sure to import it here as well.
 import {JobController, UserController} from './controllers';
 import {Sequelize} from 'sequelize-typescript';
 import {Job} from './models/job.model';
 import {User} from './models/user.model';
+
+export interface Request extends Express.Request {
+  session: any;
+}
 
 const sequelize =  new Sequelize({
   database: 'development',
@@ -22,15 +26,14 @@ sequelize.addModels([Job, User]);
 const app: express.Application = express();
 app.use(express.json());
 
-app.use(cors({origin: [
-    'http://localhost:4200'
-  ], credentials: true}));
-
 app.use(ExpressSession({
-  secret: 'omfg, its a secret!',
+  secret: 'ABIGHooaA',
   resave: false,
   saveUninitialized: true
 }));
+
+app.use(cors({origin: ['http://localhost:4200','http://localhost:3000/login/session'],
+  credentials: true}));
 
 // define the port the express app will listen on
 let port = 3000;
@@ -39,7 +42,8 @@ if (process.env.PORT !== undefined) {
 }
 
 app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();

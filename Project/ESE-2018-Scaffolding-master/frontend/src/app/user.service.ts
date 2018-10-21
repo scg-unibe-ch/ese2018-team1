@@ -10,6 +10,7 @@ import {HttpClient} from '@angular/common/http';
 export class UserService {
   static httpClient: HttpClient;
   static backendUrl = 'http://localhost:3000';
+  backendUrl = 'http://localhost:3000';
   /*static backendUrl = 'http://**Your Local IP**:3000';*/
   private loginStatus = new BehaviorSubject<boolean>(false);
   currentLoginStatus = this.loginStatus.asObservable();
@@ -60,6 +61,7 @@ export class UserService {
   changeUser (newUser: User){
     this.user.next(newUser);
   }
+
 
 
 

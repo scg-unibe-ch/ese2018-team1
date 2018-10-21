@@ -25,8 +25,8 @@ export class AppComponent implements OnInit {
     // falls ja, update User in UserService
     this.httpClient.get('http://localhost:3000/login/session', {withCredentials: true}).subscribe(
       (instance: any) => {
-        if (instance !== null && instance.session.user !== null){
-          this.user = instance.session.user;
+        if (instance !== null){
+          this.user = instance;
           this.userService.changeUser(this.user);
           this.userService.changeLoginStatus(true);
         }
@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
         }
       });
   }
-
 
 
 }

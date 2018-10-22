@@ -29,7 +29,7 @@ export class JobEditComponent implements OnInit {
 
   ngOnInit() {
     this.userService.currentUser.subscribe(currentUser => this.user = currentUser);
-    if(this.user === null || !this.user.isAuthenticated()){
+    if(this.user === null || !this.userService.currentLoginStatus){
       this.router.navigateByUrl('/login');
       return;
     }

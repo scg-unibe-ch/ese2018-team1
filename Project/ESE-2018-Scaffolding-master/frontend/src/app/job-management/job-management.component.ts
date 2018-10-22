@@ -49,7 +49,7 @@ export class JobManagementComponent implements OnInit {
     else {
       this.public = false;
       this.userService.currentUser.subscribe(currentUser => this.user = currentUser);
-      if(this.user === null || !this.user.isAuthenticated()){
+      if(this.user === null || !this.userService.currentLoginStatus){
         console.log('not auth');
         this.router.navigateByUrl('/login');
         return;

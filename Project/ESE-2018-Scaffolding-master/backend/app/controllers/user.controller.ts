@@ -145,8 +145,12 @@ router.post('/', async (req: Request, res: Response) => {
   await instance.save();
   instance.password = '';
   instance.salt = '';
-  res.statusCode = 201;
-  res.send(instance.toSimplification());
+  if (req.session) {
+    req.session.user = instance;
+    res.statusCode = 201;
+    return res.send(instance.toSimplification());
+  }
+  return res.send('Error creating a session');
 });
 
 /* updates a user according to the message body */

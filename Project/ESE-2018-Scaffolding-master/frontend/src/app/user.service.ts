@@ -3,6 +3,7 @@ import {User} from './user';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {root} from 'rxjs/internal-compatibility';
 import {HttpClient} from '@angular/common/http';
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,11 @@ export class UserService {
   currentLoginStatus = this.loginStatus.asObservable();
   private user = new BehaviorSubject<User>(null);
   currentUser = this.user.asObservable();
+  private error = new BehaviorSubject<boolean>(false);
+  currentErrorStatus = this.error.asObservable();
 
 
-  constructor(public httpClient: HttpClient) {
+  constructor(public httpClient: HttpClient, private router: Router) {
     UserService.httpClient = httpClient;
   }
 
@@ -60,6 +63,43 @@ export class UserService {
 
   changeUser (newUser: User){
     this.user.next(newUser);
+  }
+
+  changeErrorStatus(newStatus: boolean){
+    this.error.next(newStatus);
+  }
+  login (user: User){
+    let password = user.password;
+    // get user id and salt
+    this.httpClient.get(this.backendUrl + '/login/' + user.email, {withCredentials: true}).subscribe(
+      (instance: any) => {
+        user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
+        password = UserService.hashPassword(password, user.salt);
+        // check password
+        this.httpClient.get(this.backendUrl + '/login/' + user.id + '/' + password, {withCredentials: true}).subscribe(
+          (instance: any) =>{
+            user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
+            this.changeErrorStatus(false); // do not display error while loading home page
+            this.changeLoginStatus(true);
+            this.changeUser(user);
+            this.router.navigate(['/']);
+          },
+          err =>{
+            this.changeErrorStatus(true);
+          });
+
+      },
+      err =>{
+        this.changeErrorStatus(true);
+      });
+  }
+
+  logout () {
+    this.httpClient.get(this.backendUrl + '/login/logout', {withCredentials: true}).subscribe((instance: any) => {
+    });
+    this.changeLoginStatus(false);
+    this.changeUser(new User(null,'','','','',''));
+    this.router.navigate(['/login']);
   }
 
 

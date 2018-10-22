@@ -23,42 +23,17 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpClient.get(this.backendUrl + '/login/logout', {withCredentials: true}).subscribe((instance: any) => {
-
-    });
+    this.userService.changeErrorStatus(false);
+    this.userService.currentLoginStatus.subscribe(successfulLogin => this.successfulLogin = successfulLogin);
+    this.userService.currentUser.subscribe(user => this.user = user);
+    this.userService.currentErrorStatus.subscribe(error => this.error = error);
     this.register = false; // if false the login form is shown, if true, the register form is shown
-    this.error = false;    // true if an error occured during the login
-    this.successfulLogin = false; // true if the login was successfull and user is logged in
     this.successfulRegister = true; // false, if exists a user yet with the same email, true by default
-    this.user =  new User(null, '','','','', '');
-    this.userService.changeLoginStatus(this.successfulLogin);
-    this.userService.changeUser(this.user);
+    this.setLogin(false);
   }
 
   onLogin(){
-    let password = this.user.password;
-    // get user id and salt
-    this.httpClient.get(this.backendUrl + '/login/' + this.user.email, {withCredentials: true}).subscribe(
-      (instance: any) => {
-      this.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
-      password = UserService.hashPassword(password, this.user.salt);
-      // check password
-      this.httpClient.get(this.backendUrl + '/login/' + this.user.id + '/' + password, {withCredentials: true}).subscribe(
-        (instance: any) =>{
-          this.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
-          this.error = false; // do not display error while loading home page
-          this.setLogin(true);
-          this.user.setAuth();
-          root.user = this.user;
-        },
-        err =>{
-          this.error = true;
-        });
-
-    },
-      err =>{
-        this.error = true;
-      });
+    this.userService.login(this.user);
   }
 
   onRegister(){
@@ -67,17 +42,18 @@ export class LoginComponent implements OnInit {
       (instance: any) => {
         this.successfulRegister = false;
         this.user = new User(null, '','','','', '');
-      },
+      }, // if it creates an error, it means, that the Email is not in the database yet
     err => {
       this.user.salt = 'TestSalt';
       this.user.password = UserService.hashPassword(this.user.password, this.user.salt);
-      this.httpClient.post(this.backendUrl + '/login/', {
+      this.httpClient.post(this.backendUrl + '/login/',  {
+        withCredentials: true,
         'id': this.user.id,
         'name': this.user.name,
         'password': this.user.password,
         'salt': this.user.salt,
         'email': this.user.email,
-        'role': this.user.role,
+        'role': this.user.role
       }).subscribe((instance: any) => {
         this.user.id = instance.id;
         this.setLogin(true);
@@ -92,11 +68,12 @@ export class LoginComponent implements OnInit {
   }
 
   setLogin(newValue: boolean): void {
-    this.successfulLogin = newValue;
     this.userService.changeLoginStatus(newValue);
     if (newValue){
       this.userService.changeUser(this.user);
       this.router.navigate(['/']);
+    } else {
+      this.userService.logout();
     }
   }
 }

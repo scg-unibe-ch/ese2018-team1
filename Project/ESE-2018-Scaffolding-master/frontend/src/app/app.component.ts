@@ -21,18 +21,14 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.userService.currentLoginStatus.subscribe(loginstatus => this.loginStatus = loginstatus);
     this.userService.currentUser.subscribe(currentUser => this.user = currentUser);
-    // hier prüfen, ob ein User eingeloggt ist &
-    // falls ja, update User in UserService
     this.httpClient.get('http://localhost:3000/login/session', {withCredentials: true}).subscribe(
       (instance: any) => {
-        if (instance !== null){
+        if (instance !== null) {
           this.user = instance;
           this.userService.changeUser(this.user);
           this.userService.changeLoginStatus(true);
-        }
-        else {
-          this.userService.changeLoginStatus(true);
-          this.userService.changeUser(new User(0, 'Test Sepp','','','',''));
+        } else {
+          this.userService.changeUser(new User(null,'','','','',''));
         }
       });
   }

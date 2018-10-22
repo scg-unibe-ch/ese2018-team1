@@ -128,7 +128,7 @@ router.get('/:id/:password', async (req: Request, res: Response) => {
   instance.password = '';
   instance.salt = '';
   if (req.session) {
-   req.session.user = instance;
+    req.session.user = instance;
     res.statusCode = 200;
     res.send(instance.toSimplification());
     return;
@@ -147,8 +147,9 @@ router.post('/', async (req: Request, res: Response) => {
   instance.salt = '';
   if (req.session) {
     req.session.user = instance;
-    res.statusCode = 201;
-    return res.send(instance.toSimplification());
+    res.statusCode = 200;
+    res.send(instance.toSimplification());
+    return;
   }
   return res.send('Error creating a session');
 });

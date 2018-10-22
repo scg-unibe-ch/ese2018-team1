@@ -56,6 +56,17 @@ export class LoginComponent implements OnInit {
         'role': this.user.role
       }).subscribe((instance: any) => {
         this.user.id = instance.id;
+        this.httpClient.get(this.backendUrl + '/login/' + this.user.id + '/' + this.user.password, {withCredentials: true}).subscribe(
+          (instance: any) =>{
+            this.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
+            this.userService.changeErrorStatus(false); // do not display error while loading home page
+            this.userService.changeLoginStatus(true);
+            this.userService.changeUser(this.user);
+            this.router.navigate(['/']);
+          },
+          err =>{
+            this.userService.changeErrorStatus(true);
+          });
         this.setLogin(true);
       });
     });

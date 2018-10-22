@@ -19,8 +19,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.currentLoginStatus.subscribe(loginstatus => this.loginStatus = loginstatus);
-    this.userService.currentUser.subscribe(currentUser => this.user = currentUser);
     this.httpClient.get('http://localhost:3000/login/session', {withCredentials: true}).subscribe(
       (instance: any) => {
         if (instance !== null) {
@@ -31,6 +29,8 @@ export class AppComponent implements OnInit {
           this.userService.changeUser(new User(null,'','','','',''));
         }
       });
+    this.userService.currentLoginStatus.subscribe(loginstatus => this.loginStatus = loginstatus);
+    this.userService.currentUser.subscribe(currentUser => this.user = currentUser);
   }
 
 

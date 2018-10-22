@@ -43,7 +43,7 @@ export class JobManagementComponent implements OnInit {
           this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
             instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
         });
-      })
+      });
       this.public  = true;
     }
     else {

@@ -3,19 +3,21 @@ import {User} from './user';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {root} from 'rxjs/internal-compatibility';
 import {HttpClient} from '@angular/common/http';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  
+
   static httpClient: HttpClient;
   static backendUrl = 'http://localhost:3000';
   backendUrl = 'http://localhost:3000';
   /*static backendUrl = 'http://**Your Local IP**:3000';*/
   private loginStatus = new BehaviorSubject<boolean>(false);
   currentLoginStatus = this.loginStatus.asObservable();
-  private user = new BehaviorSubject<User>(null);
+  private user = new BehaviorSubject<User>(new User(null,'','','','',''));
   currentUser = this.user.asObservable();
   private error = new BehaviorSubject<boolean>(false);
   currentErrorStatus = this.error.asObservable();
@@ -78,16 +80,11 @@ export class UserService {
         // check password
         this.httpClient.get(this.backendUrl + '/login/' + user.id + '/' + password, {withCredentials: true}).subscribe(
           (instance: any) =>{
-            user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
-            this.changeErrorStatus(false); // do not display error while loading home page
-            this.changeLoginStatus(true);
-            this.changeUser(user);
-            this.router.navigate(['/']);
+            this.setLoginValues(new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role));
           },
           err =>{
             this.changeErrorStatus(true);
           });
-
       },
       err =>{
         this.changeErrorStatus(true);
@@ -103,7 +100,10 @@ export class UserService {
   }
 
 
-
-
-
+  private setLoginValues(user: User) {
+    this.changeErrorStatus(false); // do not display error while loading home page
+    this.changeLoginStatus(true);
+    this.changeUser(user);
+    this.router.navigate(['/']);
+  }
 }

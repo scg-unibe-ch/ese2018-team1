@@ -10,7 +10,7 @@
       <a routerLink="/über_uns">Über uns</a>
       <a routerLink="/login" *ngIf="!loginStatus">Login</a>
       <a routerLink="/profil" *ngIf="loginStatus">Profil</a>
-      <a routerLink="/login" *ngIf="loginStatus">Logout</a>
+      <a (click)="this.userService.logout()" *ngIf="loginStatus">Logout</a>
 
     </nav>
   </div>

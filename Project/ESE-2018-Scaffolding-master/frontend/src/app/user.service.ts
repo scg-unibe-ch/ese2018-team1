@@ -31,7 +31,7 @@ export class UserService {
    */
   static changePassword(id: string, salt:string, newPassword: string): Observable<Object>{
     newPassword = this.hashPassword(newPassword, salt);
-    return UserService.httpClient.put(this.backendUrl + '/login/' + id + '/' + newPassword, '[]');
+    return UserService.httpClient.put(this.backendUrl + '/login/' + id + '/' + newPassword, '[]', {withCredentials: true});
   }
 
   /**
@@ -39,7 +39,7 @@ export class UserService {
    * @param id
    */
   static getUserById(id: string): Observable<Object>{
-    return this.httpClient.get(this.backendUrl + '/login/company/' + id);
+    return this.httpClient.get(this.backendUrl + '/login/company/' + id, {withCredentials: true});
   }
 
   /**
@@ -47,7 +47,7 @@ export class UserService {
    * @param id
    */
   static getAllUsers(): Observable<Object>{
-    return this.httpClient.get(this.backendUrl + '/login');
+    return this.httpClient.get(this.backendUrl + '/login', {withCredentials: true});
   }
 
   static hashPassword(password: string, salt: string){

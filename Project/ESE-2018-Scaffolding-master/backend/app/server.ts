@@ -1,7 +1,6 @@
 // import everything from express and assign it to the express variable
 import express from 'express';
 import ExpressSession from 'express-session';
-import cors = require('cors');
 
 // import all the controllers. If you add a new controller, make sure to import it here as well.
 import {JobController, UserController} from './controllers';
@@ -29,11 +28,10 @@ app.use(express.json());
 app.use(ExpressSession({
   secret: 'ABIGHooaA',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: { maxAge: 3600000} // after one hour without Server request the cookie expires and a relogin needs to be done
 }));
 
-app.use(cors({origin: ['http://localhost:4200','http://localhost:3000/login/session'],
-  credentials: true}));
 
 // define the port the express app will listen on
 let port = 3000;

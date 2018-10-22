@@ -23,7 +23,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpClient.get(this.backendUrl + '/login/logout', {withCredentials: true});
+    this.httpClient.get(this.backendUrl + '/login/logout', {withCredentials: true}).subscribe((instance: any) => {
+
+    });
     this.register = false; // if false the login form is shown, if true, the register form is shown
     this.error = false;    // true if an error occured during the login
     this.successfulLogin = false; // true if the login was successfull and user is logged in
@@ -36,7 +38,7 @@ export class LoginComponent implements OnInit {
   onLogin(){
     let password = this.user.password;
     // get user id and salt
-    this.httpClient.get(this.backendUrl + '/login/' + this.user.email).subscribe(
+    this.httpClient.get(this.backendUrl + '/login/' + this.user.email, {withCredentials: true}).subscribe(
       (instance: any) => {
       this.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
       password = UserService.hashPassword(password, this.user.salt);
@@ -61,7 +63,7 @@ export class LoginComponent implements OnInit {
 
   onRegister(){
     this.successfulRegister = true;
-    this.httpClient.get(this.backendUrl + '/login/' + this.user.email).subscribe(
+    this.httpClient.get(this.backendUrl + '/login/' + this.user.email, {withCredentials: true}).subscribe(
       (instance: any) => {
         this.successfulRegister = false;
         this.user = new User(null, '','','','', '');

@@ -48,7 +48,7 @@ export class JobManagementComponent implements OnInit {
     }
     else {
       this.public = false;
-      this.userService.currentUser.subscribe(currentUser => this.user = currentUser);
+      this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name, '','', instance.email, instance.role));
       if(this.user === null || !this.userService.currentLoginStatus){
         console.log('not auth');
         this.router.navigateByUrl('/login');

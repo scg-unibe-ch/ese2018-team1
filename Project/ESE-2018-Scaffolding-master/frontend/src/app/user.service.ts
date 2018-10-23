@@ -36,7 +36,7 @@ export class UserService {
    */
   static changePassword(id: string, salt:string, newPassword: string): Observable<Object>{
     newPassword = this.hashPassword(newPassword, salt);
-    return UserService.httpClient.put(this.backendUrl + '/login/' + id + '/' + newPassword, '[]', {withCredentials: true});
+    return UserService.httpClient.put(UserService.backendUrl + '/login/' + id + '/' + newPassword, '[]', {withCredentials: true});
   }
 
   /**
@@ -44,12 +44,11 @@ export class UserService {
    * @param id
    */
   static getUserById(id: string): Observable<Object>{
-    return this.httpClient.get(this.backendUrl + '/login/company/' + id, {withCredentials: true});
+    return this.httpClient.get(UserService.backendUrl + '/login/company/' + id, {withCredentials: true});
   }
 
   /**
-   * returns the user with the id
-   * @param id
+   * return all users
    */
   static getAllUsers(): Observable<Object>{
     return this.httpClient.get(this.backendUrl + '/login', {withCredentials: true});
@@ -73,12 +72,12 @@ export class UserService {
   login (user: User){
     let password = user.password;
     // get user id and salt
-    this.httpClient.get(this.backendUrl + '/login/' + user.email, {withCredentials: true}).subscribe(
+    this.httpClient.get(UserService.backendUrl + '/login/' + user.email, {withCredentials: true}).subscribe(
       (instance: any) => {
         user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
         password = UserService.hashPassword(password, user.salt);
         // check password
-        this.httpClient.get(this.backendUrl + '/login/' + user.id + '/' + password, {withCredentials: true}).subscribe(
+        this.httpClient.get(UserService.backendUrl + '/login/' + user.id + '/' + password, {withCredentials: true}).subscribe(
           (instance: any) =>{
             this.setLoginValues(new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role));
           },

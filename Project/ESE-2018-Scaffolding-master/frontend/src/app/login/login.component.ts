@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     err => {
       this.user.salt = 'TestSalt';
       this.user.password = UserService.hashPassword(this.user.password, this.user.salt);
-      this.httpClient.post(this.backendUrl + '/login/',  {
+      this.httpClient.post(UserService.backendUrl + '/login/',  {
         withCredentials: true,
         'id': this.user.id,
         'name': this.user.name,
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
         'role': this.user.role
       }).subscribe((instance: any) => {
         this.user.id = instance.id;
-        this.httpClient.get(this.backendUrl + '/login/' + this.user.id + '/' + this.user.password, {withCredentials: true}).subscribe(
+        this.httpClient.get(UserService.backendUrl + '/login/' + this.user.id + '/' + this.user.password, {withCredentials: true}).subscribe(
           (instance: any) =>{
             this.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role);
             this.userService.changeLoginStatus(true);

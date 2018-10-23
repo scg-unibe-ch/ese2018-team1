@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 })
 export class JobManagementComponent implements OnInit {
   jobs: Job[] = [];
+  newJob: Job = new Job(null, '', '', '', '','','', 0, false,'', '', 0, false);
   user: User;
   users: User[];
   passwordChangeUserId: number;
@@ -31,6 +32,7 @@ export class JobManagementComponent implements OnInit {
   public: boolean;
   showPassword = false;
   showAdmin = false;
+  createNewJob = false;
 
   constructor(private httpClient: HttpClient, public userService: UserService, public router: Router) {}
 
@@ -148,5 +150,21 @@ export class JobManagementComponent implements OnInit {
     this.changePasswordAdmin = true;
     this.passwordChangeUserId = id;
     UserService.getUserById(id + '').subscribe((user: any) =>{this.passwordChangeUserName = user.name;});
+  }
+
+  createJob() {
+    this.createNewJob = !this.createNewJob;
+  }
+
+  onSubmitJob() {
+    this.createNewJob = false;
+    if (this.newJob.name) {
+      this.newJob.company_id = this.companyId;
+      this.newJob.company_email = this.company.email;
+      this.newJob.approved = false;
+      JobService.createJob(this.newJob, this.user).subscribe((instance: any) => {
+        this.newJob = instance;
+      });
+    }
   }
 }

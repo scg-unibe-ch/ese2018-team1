@@ -64,9 +64,71 @@
     </table>
   </div>
 
+  <!--neuen Job erstellen-->
+  <div>
+    <button *ngIf="!createNewJob" (click)="createJob()">neuen Job erstellen</button>
+   <button *ngIf="createNewJob" (click)="createJob()">zurück</button>
+   <br><br>
+  </div>
+
+  <!--<div *ngIf=" createNewJob">
+  <div>
+    <h4>Neuer Job erfassen</h4>
+    <ul class="actions">
+      <h5>Angaben zum neuen Job</h5>
+      <li>
+        <h6>Name</h6>
+        <input type="text" name="name"[(ngModel="job.name" id="name"/>
+      </li>
+    </ul>
+  </div>
+  -->
+  <div *ngIf="createNewJob">
+    <h4>Neuen Job erfassen</h4>
+    <ul class="actions">
+      <h5>Angaben zum neuen Job</h5>
+      <li>
+        <h6>Name</h6>
+        <input type="text" name="name" [(ngModel)]="newJob.name" id="name"/>
+      </li>
+      <li>
+        <h6>Kurzbeschreibung</h6>
+        <input type="text" name="description_short" [(ngModel)]="newJob.description_short" id="description_short"/>
+      </li>
+      <li>
+        <h6>Beschreibung</h6>
+        <input type="text" name="description_long" [(ngModel)]="newJob.description" id="description_long"/>
+      </li>
+      <li>
+        <h6>Website</h6>
+        <input type="text" name="website" [(ngModel)]="newJob.job_website" id="website"/>
+      </li>
+      <li>
+        <h6>Lohn</h6>
+        <input type="number" name="wage" [(ngModel)]="newJob.wage" id="wage"/>
+      </li>
+      <li>
+        <h6>Bezahlung im Stundenlohn</h6>
+        <input type="checkbox" name="wagePerHour" [(ngModel)]="newJob.wagePerHour" id="wagePerHour"/>
+      </li>
+      <li>
+        <h6>Anfang</h6>
+        <input type="date" name="start" [(ngModel)]="newJob.job_start" id="start"/>
+      </li>
+      <li>
+        <h6>Ende</h6>
+        <input type="date" name="end" [(ngModel)]="newJob.job_end" id="end"/>
+      </li>
+      <li>
+        <h6>Stellenprozent</h6>
+        <input type="number" name="percentage" [(ngModel)]="newJob.percentage" id="percentage"/>
+      </li>
+    </ul>
+    <button (click)="onSubmitJob()">Bestätigen</button>
+  </div>
+
   <!--liste der jobs-->
   <div *ngIf="!showPassword && !showAdmin">
-    <button routerLink="/job/new">neuen Job erfassen</button>
     <h4>
       Liste der jobs
     </h4>

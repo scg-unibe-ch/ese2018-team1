@@ -97,8 +97,8 @@ export class JobService {
       'name': job.name,
       'description': job.description,
       'description_short': job.description_short,
-      'companyId': job.company_id,
-      'companyEmail': job.company_email,
+      'company_id': job.company_id,
+      'company_email': job.company_email,
       'jobWebsite': job.job_website,
       'wage': job.wage,
       'wagePerHour': job.wagePerHour,
@@ -110,12 +110,20 @@ export class JobService {
   }
 
   static createJob(job: Job, user: User): Observable<Object>{
+    let companyid = job.company_id;
+    let companyemail = job.company_email;
+    if(job.company_id === null){
+      companyid = user.id.toString();
+    }
+    if(job.company_email === null){
+      companyemail = user.email;
+    }
     return JobService.httpClient.post(this.backendUrl + '/job', {
       'name': job.name,
       'description': job.description,
       'description_short': job.description_short,
-      'companyId': job.company_id,
-      'companyEmail': job.company_email,
+      'company_id': companyid,
+      'company_email': companyemail,
       'jobWebsite': job.job_website,
       'wage': job.wage,
       'wagePerHour': job.wagePerHour,

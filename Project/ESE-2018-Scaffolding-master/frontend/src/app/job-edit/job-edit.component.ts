@@ -42,12 +42,29 @@ export class JobEditComponent implements OnInit {
         this.job = instance;
         UserService.getUserById(this.job.company_id).subscribe((user: any) =>{
           this.company = user;
+          this.checkForAccess();
         });
       });
     }
-    else{}
+    else{
+      UserService.getUserById(this.job.company_id).subscribe((instance: any) =>{
+        this.company =  new User(instance.id, instance.name, '','', instance.email, instance.role);
+        this.checkForAccess();
+      });
+    }
+
+
   }
 
+  checkForAccess(){
+    console.log('company id:' + this.job.company_id + ', user id: ' + this.user.id);
+    // check for unauthorized access
+    if(parseInt(this.job.company_id) !== this.user.id && !this.user.isModerator() && !this.user.isAdmin()){
+      console.log('no access');
+      this.router.navigateByUrl('/login');
+      return;
+    }
+  }
   onSave() {
     JobService.saveJob(this.job).subscribe((instance: any) => {
       this.job = instance;

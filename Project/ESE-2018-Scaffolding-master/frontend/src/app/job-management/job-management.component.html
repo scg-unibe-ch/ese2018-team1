@@ -108,8 +108,10 @@
     <section id="three">
 
       <div class="inner">
-        <div *ngFor="let currentJob of jobs">
-          <app-job style="padding: 2em; width: 150%" [linkText]="'Ändern'" [link]="'/job/edit'" [job]="currentJob"></app-job>
+        <div class="job">
+          <div *ngFor="let currentJob of jobs">
+            <app-job style="padding: 2em; width: 100%" [linkText]="'Ändern'" [link]="'/job/edit'" [job]="currentJob"></app-job>
+          </div>
         </div>
       </div>
     </section>

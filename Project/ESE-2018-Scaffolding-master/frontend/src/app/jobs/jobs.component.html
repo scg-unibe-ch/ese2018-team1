@@ -4,10 +4,10 @@
   <form *ngIf="!showFilter">
     <div class="field">
       <label for="search">Suche</label>
-      <input type="text" name="search" [(ngModel)]="searchText" id="search"/>
+      <input type="text" name="search"  (ngModelChange)="onSearchJob($event)"  [(ngModel)]="searchText" id="search"/>
     </div>
     <ul class="actions">
-      <li><input type="submit" (click)="onSearchJob()" value="Suchen"/></li>
+      <li><input type="submit" (click)="onSearchJob($event)" value="Suchen"/></li>
     </ul>
 
   </form>
@@ -54,8 +54,10 @@
 </div>
 
 <section id="three">
-  <div class="inner" *ngFor="let current_jobs of jobs_jobsArr">
-    <app-job style="padding: 2em; width: 150%" [link]="'/job'" [linkText]="'Mehr sehen'"  [job]="currentJob" *ngFor="let currentJob of current_jobs"></app-job>
+  <div class="job">
+    <div class="inner" *ngFor="let currentJob of jobs">
+      <app-job style="padding: 2em; width: 150%" [link]="'/job'" [linkText]="'Mehr sehen'"  [job]="currentJob"></app-job>
+    </div>
   </div>
 </section>
 

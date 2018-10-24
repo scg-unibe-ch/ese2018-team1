@@ -38,37 +38,35 @@ export class JobsComponent implements OnInit {
       JobService.getJobsByEasySearch(this.searchText).subscribe((instances: any) => {
         this.jobs = instances.map((instance) =>  new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
           instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
-        this.makeJobs_jobsArr();
       });
     }
     else{
-
       this.jobs = null;
       JobService.getAllApprovedJobs().subscribe((instances: any) => {
         this.jobs = instances.map((instance) =>  new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
           instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
-        this.makeJobs_jobsArr();
       });
     }
     // TODO: read out name, description, wage,... from the url and get the jobs from jobservice
   }
 
-  makeJobs_jobsArr(){
-    let jobarr = [];
-    for (let i = 0; i < this.jobs.length; i++){
-      jobarr.push(this.jobs[i]);
-      if (jobarr.length === 3) {
-        this.jobs_jobsArr.push(jobarr);
-        jobarr = [];
-      }
-    }
-    if (jobarr.length !== 0) {
-      this.jobs_jobsArr.push(jobarr);
-    }
-  }
 
-  onSearchJob() {
-    location.href = '/jobs?search=' + this.searchText;
+  onSearchJob(value: string) {
+    this.searchText = value.includes('{') ? '' : value;
+    if(this.searchText.length >0) {
+      window.history.pushState({search: ''}, '', '/jobs?search=' + this.searchText);
+      JobService.getJobsByEasySearch(this.searchText).subscribe((instances: any) => {
+        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+      });
+    }
+    else{
+      window.history.pushState({search: ''}, '', '/jobs');
+      JobService.getAllApprovedJobs().subscribe((instances: any) => {
+        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+      });
+    }
   }
 
   toggleFilter(){

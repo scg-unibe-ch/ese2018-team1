@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   register: boolean = false; // if false the login form is shown, if true, the register form is shown
   error: boolean;
   successfulLogin: boolean;
-  successfulRegister: boolean = true;
+  successfulRegister: boolean;
   backendUrl = 'http://localhost:3000';
   /*backendUrl = 'http://**Your local IP**:3000';*/
 
@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
     this.userService.currentLoginStatus.subscribe(successfulLogin => this.successfulLogin = successfulLogin);
     this.userService.currentUser.subscribe(user => this.user = user);
     this.userService.currentErrorStatus.subscribe(error => this.error = error);
+    this.userService.registerStatus.subscribe(registerStatus => this.successfulRegister = registerStatus);
   }
 
   onLogin(){
@@ -32,7 +33,8 @@ export class LoginComponent implements OnInit {
   }
 
   onRegister(){
-    this.httpClient.get(this.backendUrl + '/login/' + this.user.email, {withCredentials: true}).subscribe(
+    this.userService.registerUser(this.user);
+   /* this.httpClient.get(this.backendUrl + '/login/' + this.user.email, {withCredentials: true}).subscribe(
       (instance: any) => { // if it creates an error, it means, that the Email is not in the database yet
         this.successfulRegister = false;
         this.user = new User(null, '','','','', '');
@@ -61,7 +63,7 @@ export class LoginComponent implements OnInit {
             this.userService.changeErrorStatus(true);
           });
       });
-    });
+    });*/
   }
 
   onSwitch(){

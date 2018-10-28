@@ -21,6 +21,15 @@ export class User extends Model<User> {
   @Column
   role!: string;
 
+  @Column
+  approved!: boolean;
+
+  @Column
+  address!: string;
+
+  @Column
+  description!: string;
+
   toSimplification(): any {
     return {
       'id': this.id,
@@ -29,6 +38,9 @@ export class User extends Model<User> {
       'salt': this.salt,
       'email': this.email,
       'role': this.role,
+      'approved': this.approved,
+      'address': this.address,
+      'description': this.description,
     };
   }
 
@@ -38,6 +50,9 @@ export class User extends Model<User> {
     this.salt = simplification['salt'];
     this.email = simplification['email'];
     this.role = simplification['role'];
+    this.approved = simplification['approved'];
+    this.address = simplification['address'];
+    this.description = simplification['description'];
   }
 
 }

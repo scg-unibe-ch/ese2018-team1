@@ -14,19 +14,6 @@ router.get('/session', async (req: Request, res: Response) => {
   } else {
     return res.status(401).send('User not found');
   }
-  /* proof for working sessions
-  if (req.session != null && req.session.views != null) {
-    req.session.views++;
-    return res.send('Welcome to the website to the '+ req.session.views);
-  } else {
-    if (req.session != null) {
-      req.session.views = 1;
-      return res.send('Welcome to the website for the first time');
-    }
-    else {
-      return res.send ('error');
-    }
-  } */
 });
 
 router.get('/logout', async (req: Request, res: Response) => {

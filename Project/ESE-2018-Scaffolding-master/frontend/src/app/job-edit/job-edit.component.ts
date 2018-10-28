@@ -28,7 +28,7 @@ export class JobEditComponent implements OnInit {
   constructor(public userService: UserService, public router: Router) { }
 
   ngOnInit() {
-    this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name, '','', instance.email, instance.role));
+    this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
     if(this.user === null || !this.userService.currentLoginStatus){
       this.router.navigateByUrl('/login');
       return;
@@ -48,7 +48,7 @@ export class JobEditComponent implements OnInit {
     }
     else{
       UserService.getUserById(this.job.company_id).subscribe((instance: any) =>{
-        this.company =  new User(instance.id, instance.name, '','', instance.email, instance.role);
+        this.company = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description);
         this.checkForAccess();
       });
     }

@@ -51,7 +51,7 @@ export class JobManagementComponent implements OnInit {
     }
     else {
       this.public = false;
-      this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name, '','', instance.email, instance.role));
+      this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
       if(this.user === null || !this.userService.currentLoginStatus){
         this.router.navigateByUrl('/login');
         return;
@@ -73,7 +73,7 @@ export class JobManagementComponent implements OnInit {
 
       if(this.user.isAdmin()){
         UserService.getAllUsers().subscribe((instances: any)=>{
-          this.users = instances.map((instance) => new User(instance.id, instance.name, '','', instance.email, instance.role));
+          this.users = instances.map((instance) => new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
         });
       }
     }
@@ -115,7 +115,7 @@ export class JobManagementComponent implements OnInit {
               this.backToUserList();
             }
             else{
-              this.userService.changeUser(new User(instance.id, instance.name, instance.password, instance.salt, instance.email, instance.role));
+              this.userService.changeUser(new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description));
             }
           }, err => {
 

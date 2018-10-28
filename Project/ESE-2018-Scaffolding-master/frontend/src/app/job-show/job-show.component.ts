@@ -27,7 +27,7 @@ export class JobShowComponent implements OnInit {
         console.log('job company: ' + instance.company_id + ' object: ' + this.job.company_id);
         this.wageStyle = this.job.wagePerHour ? 'pro Stunde' : 'pro Monat';
         UserService.getUserById(this.job.company_id).subscribe((instance: any)=>{
-          this.user = new User(instance.id, instance.name, '', '', instance.email, instance.role);
+          this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description);
         });
         console.log('company name: '+this.user.name);
       });

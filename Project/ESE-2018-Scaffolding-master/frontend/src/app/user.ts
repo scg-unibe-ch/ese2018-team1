@@ -7,8 +7,11 @@ export class User {
     public password: string,
     public salt: string,
     public email: string,
-    public role: string
-  ) {
+    public role: string,
+    public approved: boolean,
+    public address: string,
+    public description: string
+    ) {
   }
 
   setAuth(){

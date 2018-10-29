@@ -2262,6 +2262,7 @@
 		border-radius: 0;
 	}
 
+
 	input[type="radio"] + label:before {
 		border-radius: 100%;
 	}

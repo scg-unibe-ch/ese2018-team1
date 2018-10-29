@@ -39,7 +39,7 @@ router.get('/search/:text', async (req: Request, res: Response) => {
   const search = req.params.text;
   if(checkSafety(search)) {
     let command = 'SELECT `Job`.`id`, `Job`.`name`, `Job`.`description_short`, `Job`.`description`, `Job`.`companyId`, `Job`.`companyEmail`, `Job`.`jobWebsite`, `Job`.`wage`, `Job`.`wagePerHour`, `Job`.`job_start`, `Job`.`job_end`, `Job`.`percentage`, `Job`.`approved`, `user`.`name` AS `user.name`, `user`.`email` AS `user.email` FROM `Job` AS `Job` INNER JOIN `User` AS `user` ON `Job`.`companyId` = `user`.`id`';
-    command += ' WHERE Job.name LIKE \'%' + search + '%\' OR Job.description LIKE \'%' + search + '%\' OR User.name LIKE \'%' + search + '%\'';
+    command += ' WHERE Job.approved=1 AND (Job.name LIKE \'%' + search + '%\' OR Job.description LIKE \'%' + search + '%\' OR User.name LIKE \'%' + search + '%\')';
     await sequelize.query(command).then(function (results) {
       res.statusCode = 200;
       res.send(results[0]);
@@ -77,40 +77,41 @@ router.get('/search/:name/:company_name/:description/:wage/:wagePerHour/:start_b
   const send_after = req.params.end_after ;
   const spercentage_less = req.params.percentage_less === '*' ? -1 : parseInt(req.params.percentage_less);
   const spercentage_more = req.params.percentage_more === '*' ? -1 : parseInt(req.params.percentage_more);
-  let  command = 'SELECT * FROM Job WHERE approved=1';
+  let  command = 'SELECT Job.id, Job.name, Job.description_short, Job.description, Job.companyId, Job.companyEmail, Job.jobWebsite, Job.wage, Job.wagePerHour, Job.job_start, Job.job_end, Job.approved FROM Job, User WHERE Job.companyId=User.id AND Job.approved=1';
   const originalCommand = command;
+  command += ' AND';
   if(sname !== '*' && checkSafety(sname)) {
-    command += ' name LIKE \'%' + sname + '%\' AND';
+    command += ' Job.name LIKE \'%' + sname + '%\' AND';
   }
   if(scompany_name!== '*' && checkSafety(scompany_name)) {
-    command += ' company_name LIKE \'%' + scompany_name + '%\' AND';
+    command += ' User.name LIKE \'%' + scompany_name + '%\' AND';
   }
   if(sdescription!== '*' && checkSafety(sdescription)) {
     command += ' description LIKE \'%' + sdescription + '%\' AND';
   }
   if(swage>=0) {
-    command += ' wage>' + swage + ' AND';
+    command += ' wage>=' + swage + ' AND';
   }
   if(swagePerHour!== '*' && checkSafety(swagePerHour)) {
     command += ' wagePerHour<' + swagePerHour + ' AND';
   }
   if(sstart_before!== '*' && checkSafety(sstart_before)) {
-    command += ' job_start<' + sstart_before + ' AND';
+    command += ' job_start<"' + sstart_before + '" AND';
   }
   if(sstart_after!== '*' && checkSafety(sstart_after)) {
-    command += ' job_start>' + sstart_after + ' AND';
+    command += ' job_start>"' + sstart_after + '" AND';
   }
   if(send_before!== '*' && checkSafety(send_before)) {
-    command += ' job_end<' + send_before + ' AND';
+    command += ' job_end<"' + send_before + '" AND';
   }
   if(send_after!== '*' && checkSafety(send_after)) {
-    command += ' job_end>' + send_after + ' AND';
+    command += ' job_end>"' + send_after + '" AND';
   }
   if(spercentage_less>=0) {
     command += ' percentage<' + spercentage_less + ' AND';
   }
   if(spercentage_more>=0) {
-    command += ' percentage<' + spercentage_more + ' AND';
+    command += ' percentage>' + spercentage_more + ' AND';
   }
   // if no input, remove where, else remove the last 'AND'
   command =command === originalCommand ?  command:  command.substring(0, command.length-3);

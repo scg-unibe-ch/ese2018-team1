@@ -12,6 +12,12 @@ import { JobComponent } from './job/job.component';
 import { JobEditComponent } from './job-edit/job-edit.component';
 import { LoginComponent } from './login/login.component';
 import { JobManagementComponent } from './job-management/job-management.component';
+import { ProfilListJobsComponent } from './Profil/profil-list-jobs/profil-list-jobs.component';
+import { ProfilChangePasswordComponent } from './Profil/profil-change-password/profil-change-password.component';
+import { ProfilListUserComponent } from './Profil/profil-list-user/profil-list-user.component';
+import { ProfilNewJobComponent } from './Profil/profil-new-job/profil-new-job.component';
+import { ProfilPublicComponent } from './Profil/profil-public/profil-public.component';
+import { ProfilNonPublicComponent } from './Profil/profil-non-public/profil-non-public.component';
 
 
 
@@ -23,6 +29,12 @@ import { JobManagementComponent } from './job-management/job-management.componen
     JobEditComponent,
     LoginComponent,
     JobManagementComponent,
+    ProfilListJobsComponent,
+    ProfilChangePasswordComponent,
+    ProfilListUserComponent,
+    ProfilNewJobComponent,
+    ProfilPublicComponent,
+    ProfilNonPublicComponent,
   ],
   imports: [
     BrowserModule,

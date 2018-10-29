@@ -2,7 +2,7 @@
 <div class="inner" *ngIf="errorName">
   <b>Please enter a name</b>
 </div>
-<div class="inner">
+<div class="inner" *ngIf="!showDetails">
   <form>
     <div class="field">
       <label for="name">Name</label>
@@ -14,5 +14,5 @@
   </form>
 </div>
 
-<app-job-edit  *ngIf="showDetails" [editAsModerator]="false" [job]="job"></app-job-edit>
+<app-job-edit  *ngIf="showDetails" [editAsModerator]="false" (saved)="back()" [job]="job"></app-job-edit>
 

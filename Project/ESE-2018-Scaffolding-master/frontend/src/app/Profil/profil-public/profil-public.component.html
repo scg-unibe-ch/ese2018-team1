@@ -1,0 +1,18 @@
+<section style="margin-bottom: -150px;margin-top: 10px">
+  <div class="inner">
+    <header>
+      <h1>{{user.name}}</h1>
+      <b>Kontakt</b>
+      <p>Email: {{user.email}}</p>
+      <b>Alle Jobs des Unternehmens</b>
+      <div *ngIf="jobs.length === 0"><p>keine Jobs vorhanden</p><br><br><br><br><br></div>
+    </header>
+  </div>
+</section>
+<section id="three" *ngIf="jobs.length>0">
+  <div class="inner">
+    <div *ngFor="let currentJob of jobs">
+      <app-job style="padding: 2em; width: 150%" [linkText]="'Mehr lesen'" [link]="'/job'" [job]="currentJob"></app-job>
+    </div>
+  </div>
+</section>

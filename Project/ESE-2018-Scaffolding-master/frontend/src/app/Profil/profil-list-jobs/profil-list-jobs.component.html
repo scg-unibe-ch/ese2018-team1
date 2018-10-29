@@ -1,0 +1,17 @@
+
+<!--liste der jobs-->
+<div *ngIf="!showPassword && !showAdmin && !createNewJob">
+  <h4>
+    Liste der jobs
+  </h4>
+  <section id="three">
+
+    <div class="inner">
+      <div class="job">
+        <div *ngFor="let currentJob of jobs">
+          <app-job style="padding: 2em; width: 100%" [linkText]="'Ändern'" [link]="'/job/edit'" [job]="currentJob"></app-job>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

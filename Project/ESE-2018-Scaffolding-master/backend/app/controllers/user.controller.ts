@@ -1,5 +1,14 @@
 import {Request, Response, Router} from 'express';
 import {User} from '../models/user.model';
+import {Sequelize} from 'sequelize-typescript';
+
+const sequelize =  new Sequelize({
+  database: 'development',
+  dialect: 'sqlite',
+  username: 'root',
+  password: '',
+  storage: 'db.sqlite'
+});
 
 const router: Router = Router();
 
@@ -8,6 +17,8 @@ router.get('/session', async (req: Request, res: Response) => {
   if (req.session != null && req.session.user != null) {
     const instance = await User.findById(req.session.user.id);
     if (instance !== null) {
+      instance.password = '';
+      instance.salt = '';
       return res.status(200).send(  instance);
     }
     return res.status(401).send('Error, User does not exist');
@@ -16,11 +27,30 @@ router.get('/session', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * get all unapproved users
+ * use case:
+ * moderator can approve new (unapproved) users
+ */
+router.get('/unapproved', async (req: Request, res: Response) => {
+   const instances = await User.findAll({
+     where: Sequelize.or(
+       {approved: 0}
+     )
+   });
+   res.statusCode = 200;
+   return res.send(instances.map(e=>e.toSimplification()));
+ });
+
+/**
+* logout for the user
+ * destroys therefor the active session
+*/
 router.get('/logout', async (req: Request, res: Response) => {
   if (req.session) {
     req.session.destroy(err => {console.error(err); });
     res.statusCode = 200;
-    return res.send('logout successfull');
+    return res.send('logout successful');
   } else {
     return res.send('never logged in');
   }
@@ -161,7 +191,7 @@ router.put('/:id/:newPassword', async(req: Request, res: Response) => {
 });
 
 /* updates a user according to the message body */
-router.put('/:id', async(req: Request, res: Response) => {
+router.post('/:id', async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const instance = await User.findById(id);
   if (instance == null) {
@@ -173,8 +203,10 @@ router.put('/:id', async(req: Request, res: Response) => {
   }
   // prevent password change without old password
   const oldPw = instance.password;
+  const salt = instance.salt;
   instance.fromSimplification(req.body);
   instance.password = oldPw;
+  instance.salt = salt;
   await instance.save();
   instance.password = '';
   res.status(200);

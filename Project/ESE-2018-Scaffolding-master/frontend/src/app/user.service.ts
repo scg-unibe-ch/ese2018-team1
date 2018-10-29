@@ -29,6 +29,9 @@ export class UserService {
     UserService.httpClient = httpClient;
   }
 
+  static getAllUnapproved(){
+    return this.httpClient.get(UserService.backendUrl+'/login/unapproved', {withCredentials: true});
+  }
 
   /**
    * changes password of a user
@@ -39,6 +42,20 @@ export class UserService {
   static changePassword(id: string, salt:string, newPassword: string): Observable<Object>{
     newPassword = this.hashPassword(newPassword, salt);
     return UserService.httpClient.put(UserService.backendUrl + '/login/' + id + '/' + newPassword, '[]', {withCredentials: true});
+  }
+
+  static changeApprovalStatus(id: number, user: User) {
+    return UserService.httpClient.post(UserService.backendUrl + '/login/'+id, {
+      'id': user.id,
+      'name': user.name,
+      'password': '',
+      'salt': '',
+      'email': user.email,
+      'role': user.role,
+      'approved': user.approved,
+      'address': user.approved,
+      'description': user.description
+    }, {withCredentials: true});
   }
 
   /**
@@ -91,7 +108,8 @@ export class UserService {
           'password': user.password,
           'salt': user.salt,
           'email': user.email,
-          'role': user.role
+          'role': user.role,
+          'approved': user.approved
         }).subscribe((instance: any) => {
           user.id = instance.id;
           this.httpClient.get(UserService.backendUrl + '/login/' + user.id + '/' + user.password, {withCredentials: true}).subscribe(

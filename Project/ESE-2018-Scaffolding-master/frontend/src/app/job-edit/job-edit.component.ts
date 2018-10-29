@@ -88,8 +88,8 @@ export class JobEditComponent implements OnInit {
     });
   }
 
-  setPublic(){
-    this.job.approved = true;
+  toggleApproval(){
+    this.job.approved = !this.job.approved;
     JobService.saveJob(this.job).subscribe((instance: any) => {
       this.job = instance;
     });

@@ -77,18 +77,19 @@ export class JobService {
    * @param percentage_more
    * @param percentage_less
    */
-  static getJobsByFilterSearch(name: string, company: string, description: string, wage: string, start_before: string, start_after: string, end_before: string, end_after: string, percentage_more: string, percentage_less: string): Observable<Object>{
+  static getJobsByFilterSearch(name: string, company: string, description: string, wage: string, wagePerHour: string, start_before: string, start_after: string, end_before: string, end_after: string, percentage_more: string, percentage_less: string): Observable<Object>{
     name = name.length>0 ? name : '*';
     company = company.length>0 ? company : '*';
     description = description.length>0 ? description : '*';
     wage = wage.length>0 ? wage : '-1';
+    wagePerHour = wagePerHour.length>0 ? wage : '*';
     start_before = start_before.length>0 ? start_before : '*';
     start_after = start_after.length>0 ? start_after : '*';
     end_before = end_before.length>0 ? end_before : '*';
     end_after = end_after.length>0 ? end_after : '*';
     percentage_more = percentage_more.length>0 ? percentage_more : '-1';
     percentage_less = percentage_less.length>0 ? percentage_less : '-1';
-    return JobService.httpClient.get(this.backendUrl + '/job/search/' + name + '/' + company + '/' + description + '/' + wage+ '/' + start_before+ '/' + start_after+ '/' + end_before+ '/' + end_after+ '/' + percentage_more+ '/' + percentage_less);
+    return JobService.httpClient.get(this.backendUrl + '/job/search/' + name + '/' + company + '/' + description + '/' + wage+ '/' + wagePerHour + '/' + start_before+ '/' + start_after+ '/' + end_before+ '/' + end_after+ '/' + percentage_more+ '/' + percentage_less);
   }
 
 

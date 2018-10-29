@@ -110,6 +110,7 @@ export class JobService {
   }
 
   static createJob(job: Job, user: User): Observable<Object>{
+    console.log('creating job service')
     let companyid = job.company_id;
     let companyemail = job.company_email;
     if(job.company_id === null){
@@ -118,6 +119,7 @@ export class JobService {
     if(job.company_email === null){
       companyemail = user.email;
     }
+    console.log('posting')
     return JobService.httpClient.post(this.backendUrl + '/job', {
       'name': job.name,
       'description': job.description,

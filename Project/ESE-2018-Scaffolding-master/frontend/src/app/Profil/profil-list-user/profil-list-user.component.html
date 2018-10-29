@@ -1,0 +1,17 @@
+<h4>Liste der Benutzer</h4>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>change Password</th>
+    <th>role</th>
+    <th>change Profile</th>
+  </tr>
+  <tr *ngFor="let currentUser of users">
+    <td>{{currentUser.name}}</td>
+    <td>{{currentUser.email}}</td>
+    <td><a (click)="changePassword(currentUser.id)">change Password</a></td> <!-- add anchor to correct link-->
+    <td>{{currentUser.role}}</td>
+    <td><a (click)="changeUser(currentUser.id)">change Profile</a></td> <!-- add anchor to correct link-->
+  </tr>
+</table>

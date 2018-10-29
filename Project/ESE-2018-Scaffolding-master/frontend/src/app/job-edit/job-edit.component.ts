@@ -25,6 +25,9 @@ export class JobEditComponent implements OnInit {
   @Output()
   destroy = new EventEmitter<Job>();
 
+  @Output('saved')
+  saved = new EventEmitter();
+
   constructor(public userService: UserService, public router: Router) { }
 
   ngOnInit() {
@@ -65,9 +68,17 @@ export class JobEditComponent implements OnInit {
       return;
     }
   }
+
   onSave() {
     JobService.saveJob(this.job).subscribe((instance: any) => {
       this.job = instance;
+    });
+  }
+
+  onSaveAndBack(){
+    JobService.saveJob(this.job).subscribe((instance: any) => {
+      this.job = instance;
+      this.saved.emit();
     });
   }
 

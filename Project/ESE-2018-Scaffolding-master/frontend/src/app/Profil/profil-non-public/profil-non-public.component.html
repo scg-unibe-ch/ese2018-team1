@@ -1,0 +1,60 @@
+<!--titel-->
+      <h1 *ngIf="showPassword && !showAdmin">
+        Profil ~ Passwort
+      </h1>
+      <h1 *ngIf="!showPassword && !showAdmin">
+        Profil ~ Jobs
+      </h1>
+      <h1 *ngIf="showAdmin && !showPassword">
+        Profil ~ Benutzer
+      </h1>
+
+
+<!--menus-->
+      <!-- admin menu control-->
+        <div *ngIf="this.user.isAdmin()">
+          <button style="background-color:#000000" *ngIf="!showPassword && !showAdmin" (click)="ShowList()">Zeige Jobs</button>
+          <button *ngIf="showPassword || showAdmin" (click)="ShowList()">Zeige Jobs</button>
+          <button style="background-color:#000000" *ngIf="showPassword" (click)="ShowPassword()">Ändere das Passwort</button>
+          <button *ngIf="!showPassword" (click)="ShowPassword()">Ändere das Passwort</button>
+          <button style="background-color:#000000" *ngIf="this.user.isAdmin() && showAdmin" (click)="ShowAdmin()">Zeige Benutzer</button>
+          <button *ngIf="this.user.isAdmin() && !showAdmin" (click)="ShowAdmin()">Zeige Benutzer</button>
+        </div>
+      <!-- moderator or company menu control-->
+        <div *ngIf="!this.user.isAdmin()">
+          <button *ngIf="!showPassword" (click)="toggleShowPassword()">Ändere das Passwort</button>
+          <button *ngIf="showPassword" (click)="toggleShowPassword()">Zeige Jobs</button>
+        </div>
+<br><br>
+
+
+<!-- passwort ändern-->
+      <div *ngIf="showPassword">
+        <app-profil-change-password [userId]="passwordChangeUserId" (changedPw)="backToUserList()"></app-profil-change-password>
+        <br><br>
+      </div>
+
+
+<!-- liste der benutzer-->
+      <div *ngIf="this.user.isAdmin() && showAdmin">
+        <app-profil-list-user (changePw)="changePassword($event)"></app-profil-list-user>
+      </div>
+
+
+<!--job liste-->
+      <!--menu neuen Job erstellen-->
+        <div *ngIf="!showPassword && !showAdmin">
+          <button *ngIf="!createNewJob" (click)="toggleShowCreateNewJob()">neuen Job erstellen</button>
+          <button *ngIf="createNewJob" (click)="toggleShowCreateNewJob()">zurück</button>
+          <br><br>
+        </div>
+
+      <!--job erstellen-->
+        <div *ngIf="createNewJob">
+          <app-profil-new-job (saved)="toggleShowCreateNewJob()"></app-profil-new-job>
+        </div>
+
+      <!--liste der jobs-->
+        <div *ngIf="!showPassword && !showAdmin && !createNewJob">
+          <app-profil-list-jobs></app-profil-list-jobs>
+        </div>

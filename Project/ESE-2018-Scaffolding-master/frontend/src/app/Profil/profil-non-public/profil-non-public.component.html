@@ -24,6 +24,7 @@
         <div *ngIf="!this.user.isAdmin()">
           <button *ngIf="!showPassword" (click)="toggleShowPassword()">Ändere das Passwort</button>
           <button *ngIf="showPassword" (click)="toggleShowPassword()">Zeige Jobs</button>
+          <button *ngIf="this.user.isModerator()" (click)="ShowAdmin()">Zeige Benutzer</button>
         </div>
 <br><br>
 
@@ -36,7 +37,7 @@
 
 
 <!-- liste der benutzer-->
-      <div *ngIf="this.user.isAdmin() && showAdmin">
+      <div *ngIf="(this.user.isAdmin() || this.user.isModerator()) && showAdmin">
         <app-profil-list-user (changePw)="changePassword($event)"></app-profil-list-user>
       </div>
 

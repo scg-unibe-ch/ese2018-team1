@@ -33,18 +33,18 @@ router.get('/session', async (req: Request, res: Response) => {
  * moderator can approve new (unapproved) users
  */
 router.get('/unapproved', async (req: Request, res: Response) => {
-   const instances = await User.findAll({
-     where: Sequelize.or(
-       {approved: 0}
-     )
-   });
-   res.statusCode = 200;
-   return res.send(instances.map(e=>e.toSimplification()));
- });
+  const instances = await User.findAll({
+    where: Sequelize.or(
+      {approved: 0}
+    )
+  });
+  res.statusCode = 200;
+  return res.send(instances.map(e=>e.toSimplification()));
+});
 
 /**
 * logout for the user
- * destroys therefor the active session
+* destroys therefor the active session
 */
 router.get('/logout', async (req: Request, res: Response) => {
   if (req.session) {

@@ -1,3 +1,4 @@
+<div *ngIf="this.user.isAdmin()">
 <h4>Liste der Benutzer</h4>
 <table>
   <tr>
@@ -15,3 +16,40 @@
     <td><a (click)="changeUser(currentUser.id)">change Profile</a></td> <!-- add anchor to correct link-->
   </tr>
 </table>
+</div>
+<div *ngIf="this.user.isModerator()">
+  <h4>Liste der unbestätigten Benutzer</h4>
+  <button *ngIf="showAll" (click)="switchView()">Show unapproved Users</button>
+  <button *ngIf="!showAll" (click)="switchView()">Show all Users</button>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>role</th>
+      <th>approval status</th>
+      <th>approve</th>
+    </tr>
+    <tr *ngFor="let currentUser of unapprovedUsers">
+      <td><a (click)="showCompanyProfile(currentUser.id)">{{currentUser.name}}</a></td>
+      <td>{{currentUser.email}}</td>
+      <td>
+        <select [(ngModel)]="currentUser.role">
+          <option value="company">company</option>
+          <option value="moderator">moderator</option>
+          <option *ngIf="this.user.isAdmin()" value="admin">admin</option>
+        </select>
+      </td>
+      <td *ngIf="!showAll">{{currentUser.approved}}</td>
+      <td *ngIf="showAll">
+        <select [(ngModel)]="currentUser.approved">
+          <option value="false">false</option>
+          <option value="true">true</option>
+        </select>
+      </td>
+      <td><a *ngIf="!showAll" (click)="approve(currentUser)">approve user</a></td>
+      <td><a *ngIf="showAll" (click)="approve(currentUser)">submit changes</a></td>
+    </tr>
+  </table>
+</div>
+<button *ngIf="showCompany" (click)="showCompanyProfile(companyId)">hide company profile</button>
+<app-profil-public *ngIf="showCompany" [companyId]="companyId"></app-profil-public>

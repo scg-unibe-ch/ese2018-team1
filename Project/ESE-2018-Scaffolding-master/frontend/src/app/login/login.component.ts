@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(){
+    this.user.email = this.user.email.toLowerCase();
     this.userService.login(this.user);
   }
 

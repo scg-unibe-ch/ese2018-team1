@@ -8,6 +8,13 @@
     <label for="company_name">Unternehmen</label>
     <input disabled type="text" [(ngModel)]="company.name" name="company_name" id="company_name" (ngModelChange)="onSave()">
   </div>
+  <div class="field half">
+    <label for="company_email">E-Mail</label>
+    <label *ngIf="standardEMail" for="company_email">{{company.email}}</label>
+    <input *ngIf="!standardEMail" type="text" name="company_email" [(ngModel)]="job.company_email" id="company_email" (ngModelChange)="onSave()">
+    <button *ngIf="standardEMail" (click)="onFlipEMail()">chose different E-Mail</button>
+    <button *ngIf="!standardEMail" (click)="onFlipEMail()">insert standard E-Mail</button>
+  </div>
   <div class="field">
     <label for="description">kurze Beschreibung</label>
     <textarea maxlength="100" [(ngModel)]="job.description_short" name="description_short" id="description_short" (ngModelChange)="onSave()"></textarea>

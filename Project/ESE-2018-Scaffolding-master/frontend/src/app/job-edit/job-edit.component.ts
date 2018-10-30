@@ -17,6 +17,7 @@ export class JobEditComponent implements OnInit {
   company: User;
   startNow: boolean;
   temporary: boolean;
+  standardEMail: boolean = true;
 
   @Input()
   job: Job;
@@ -60,6 +61,7 @@ export class JobEditComponent implements OnInit {
 
     this.startNow = (this.job.job_start == "");
     this.temporary = (this.job.job_end != "");
+    this.standardEMail = (this.job.company_email == "");
 
   }
 
@@ -79,6 +81,7 @@ export class JobEditComponent implements OnInit {
     });
     if (this.startNow) this.job.job_start = "";
     if (this.temporary) this.job.job_end = "";
+    if (this.standardEMail) this.job.company_email = this.company.email;
   }
 
   onSaveAndBack(){
@@ -108,6 +111,11 @@ export class JobEditComponent implements OnInit {
 
   onFlipTemporary() {
     this.temporary = !this.temporary;
+    this.onSave();
+  }
+
+  onFlipEMail() {
+    this.standardEMail = !this.standardEMail;
     this.onSave();
   }
 

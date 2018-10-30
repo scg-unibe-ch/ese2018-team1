@@ -54,17 +54,19 @@ export class ProfilChangePasswordComponent implements OnInit {
 
     if(this.newPassword === this.oldPassword){
       this.errorPasswordSame = true;
+      return;
     }
     if(this.newPassword === this.newPasswordRepeat){
       UserService.getUserById(id + '').subscribe((user: any) =>{
         if(this.changePasswordAdmin || UserService.hashPassword(this.oldPassword, user.salt) === user.password) {
-          UserService.changePassword(id + '', user.salt, this.newPassword).subscribe((instance: any) => {
-            if (!this.changePasswordAdmin) {
-              this.userService.changeUser(new User(instance.id, instance.name, instance.password, instance.salt, instance.email, instance.role, instance.approved, instance.address, instance.description));
-            }
-            this.changedPw.emit(null);
-          }, err => {
-
+          UserService.getNewSalt(id + '').subscribe((instance: any) =>{
+            UserService.changePassword(id + '', instance.salt, this.newPassword).subscribe((instance: any) => {
+              if (!this.changePasswordAdmin) {
+                this.userService.changeUser(new User(instance.id, instance.name, instance.password, instance.salt, instance.email, instance.role, instance.approved, instance.address, instance.description));
+              }
+              this.changedPw.emit(null);
+            }, err => {
+            });
           });
         } else{
           this.errorPasswordWrong = true;

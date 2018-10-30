@@ -1,6 +1,7 @@
 import {Request, Response, Router} from 'express';
 import {User} from '../models/user.model';
 import {Sequelize} from 'sequelize-typescript';
+import {sha256} from 'js-sha256';
 
 const sequelize =  new Sequelize({
   database: 'development',
@@ -26,6 +27,24 @@ router.get('/session', async (req: Request, res: Response) => {
     return res.status(401).send('User not found');
   }
 });
+
+router.get('/salt/:id', async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const instance = await User.findById(id);
+  if( instance === null) {
+    res.statusCode = 404;
+    res.json({
+      'message':'this user could not be found'
+    });
+    return;
+  }
+  instance.salt = getNewSalt();
+  await instance.save();
+  instance.password = '';
+  res.statusCode = 200;
+  res.send(instance.toSimplification());
+  return;
+})
 
 /**
  * get all unapproved users
@@ -159,6 +178,7 @@ router.get('/:id/:password', async (req: Request, res: Response) => {
 router.post('/', async (req: Request, res: Response) => {
   const instance = new User();
   instance.fromSimplification(req.body);
+  instance.salt = getNewSalt();
   await instance.save();
   instance.password = '';
   instance.salt = '';
@@ -206,7 +226,7 @@ router.post('/:id', async(req: Request, res: Response) => {
   const salt = instance.salt;
   instance.fromSimplification(req.body);
   instance.password = oldPw;
-  instance.salt = salt;
+  instance.salt = getNewSalt();
   await instance.save();
   instance.password = '';
   res.status(200);
@@ -229,6 +249,10 @@ router.delete('/:id', async(req: Request, res: Response) => {
   res.status(204);
   res.send();
 });
+
+function getNewSalt(): string {
+  return sha256.create().update(Math.floor(Math.random()*100000 * Math.random()* 50 * Math.random() + 1).toString()).hex(); // trying to make Math.random a true random for a good salt
+}
 
 
 export const UserController: Router = router;

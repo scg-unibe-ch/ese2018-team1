@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable, of} from 'rxjs';
 import {root} from 'rxjs/internal-compatibility';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {sha256} from 'js-sha256';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,10 @@ export class UserService {
     return UserService.httpClient.put(UserService.backendUrl + '/login/' + id + '/' + newPassword, '[]', {withCredentials: true});
   }
 
+  static getNewSalt(id: string){
+    return UserService.httpClient.get( UserService.backendUrl + '/login/salt/' + id, {withCredentials: true});
+  }
+
   static changeApprovalStatus(id: number, user: User) {
     return UserService.httpClient.post(UserService.backendUrl + '/login/'+id, {
       'id': user.id,
@@ -74,7 +79,7 @@ export class UserService {
   }
 
   static hashPassword(password: string, salt: string){
-    return password + salt;
+    return sha256.create().update(password + salt).hex();
   }
 
   changeLoginStatus (newStatus: boolean){
@@ -132,7 +137,9 @@ export class UserService {
     this.httpClient.get(UserService.backendUrl + '/login/' + user.email, {withCredentials: true}).subscribe(
       (instance: any) => {
         user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description);
+        console.log('pw + salt: ' + password + user.salt + ',');
         password = UserService.hashPassword(password, user.salt);
+        console.log(' = ' + password);
         // check password
         this.httpClient.get(UserService.backendUrl + '/login/' + user.id + '/' + password, {withCredentials: true}).subscribe(
           (instance: any) =>{

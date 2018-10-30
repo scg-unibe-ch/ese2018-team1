@@ -36,7 +36,7 @@ export class JobEditComponent implements OnInit {
       this.router.navigateByUrl('/login');
       return;
     }
-    if(this.user.isModerator()){
+    if(this.user.isModerator() || this.user.isAdmin()){
       this.editAsModerator = true;
     }
     this.jobId = location.search.replace('?id=', '');

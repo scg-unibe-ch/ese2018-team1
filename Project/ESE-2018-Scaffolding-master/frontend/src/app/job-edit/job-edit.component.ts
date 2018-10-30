@@ -15,6 +15,8 @@ export class JobEditComponent implements OnInit {
   jobId: string;
   user: User;
   company: User;
+  startNow: boolean = true;
+  temporary: boolean = false;
 
   @Input()
   job: Job;
@@ -93,6 +95,16 @@ export class JobEditComponent implements OnInit {
     JobService.saveJob(this.job).subscribe((instance: any) => {
       this.job = instance;
     });
+  }
+
+  onFlipStart() {
+    this.startNow = !this.startNow;
+    this.onSave();
+  }
+
+  onFlipTemporary() {
+    this.temporary = !this.temporary;
+    this.onSave();
   }
 
 }

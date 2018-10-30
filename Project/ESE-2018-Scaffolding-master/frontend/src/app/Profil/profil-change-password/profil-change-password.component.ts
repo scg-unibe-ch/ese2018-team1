@@ -77,8 +77,5 @@ export class ProfilChangePasswordComponent implements OnInit {
 
   }
 
-  bla(){
-    this.changedPw.emit(null);
-  }
 
 }

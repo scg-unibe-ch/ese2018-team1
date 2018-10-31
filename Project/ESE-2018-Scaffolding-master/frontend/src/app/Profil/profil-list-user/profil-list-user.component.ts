@@ -15,6 +15,7 @@ export class ProfilListUserComponent implements OnInit {
   companyId: number;
   showCompany: boolean = false;
   showAll: boolean = false;
+  tableName: string = 'Liste der unbestätigten Benutzer';
 
   @Output('changePw')
   changePw = new EventEmitter<number>();
@@ -26,19 +27,15 @@ export class ProfilListUserComponent implements OnInit {
 
   ngOnInit() {
     this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
-    if(this.user.isModerator()){
-      this.getAllUsers();
-    }
-
     if(this.user.isAdmin()){
-      UserService.getAllUsers().subscribe((instances: any)=>{
-        this.users = instances.map((instance) => new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
-      });
+      this.showAll = true;
+      this.tableName = 'Liste aller Benutzer';
     }
+    this.getAllUsers();
+
   }
 
-  approve (user: User) {
-    user.approved = !user.approved;
+  saveUser (user: User) {
     UserService.changeApprovalStatus(user.id, user).subscribe((instance: any) => {
       if(instance == null || !instance.approved){
         console.log('error');
@@ -47,13 +44,25 @@ export class ProfilListUserComponent implements OnInit {
     });
   }
 
+  approve (user: User) {
+    user.approved = true;
+    this.saveUser(user);
+  }
+
   showCompanyProfile(id: number){
     this.showCompany = !this.showCompany;
     this.companyId = id;
   }
 
+
+
   switchView(){
     this.showAll = !this.showAll;
+    if (this.showAll){
+      this.tableName = 'Liste aller Benutzer';
+    } else {
+      this.tableName = 'Liste der unbestätigten Benutzer';
+    }
     this.showCompany = false;
     this.getAllUsers();
   }

@@ -12,19 +12,18 @@
 
 <!--menus-->
       <!-- admin menu control-->
-        <div *ngIf="this.user.isAdmin()">
+        <div *ngIf="this.user.isAdmin() || this.user.isModerator()">
           <button style="background-color:#000000" *ngIf="!showPassword && !showAdmin" (click)="ShowList()">Zeige Jobs</button>
           <button *ngIf="showPassword || showAdmin" (click)="ShowList()">Zeige Jobs</button>
           <button style="background-color:#000000" *ngIf="showPassword" (click)="ShowPassword()">Ändere das Passwort</button>
           <button *ngIf="!showPassword" (click)="ShowPassword()">Ändere das Passwort</button>
           <button style="background-color:#000000" *ngIf="this.user.isAdmin() && showAdmin" (click)="ShowAdmin()">Zeige Benutzer</button>
-          <button *ngIf="this.user.isAdmin() && !showAdmin" (click)="ShowAdmin()">Zeige Benutzer</button>
+          <button *ngIf="(this.user.isAdmin() || this.user.isModerator()) && !showAdmin" (click)="ShowAdmin()">Zeige Benutzer</button>
         </div>
       <!-- moderator or company menu control-->
-        <div *ngIf="!this.user.isAdmin()">
+        <div *ngIf="!this.user.isAdmin() && !this.user.isModerator()">
           <button *ngIf="!showPassword" (click)="toggleShowPassword()">Ändere das Passwort</button>
           <button *ngIf="showPassword" (click)="toggleShowPassword()">Zeige Jobs</button>
-          <button *ngIf="this.user.isModerator()" (click)="ShowAdmin()">Zeige Benutzer</button>
         </div>
 <br><br>
 

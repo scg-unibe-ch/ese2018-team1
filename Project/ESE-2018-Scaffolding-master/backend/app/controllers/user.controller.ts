@@ -226,7 +226,7 @@ router.post('/:id', async(req: Request, res: Response) => {
   const salt = instance.salt;
   instance.fromSimplification(req.body);
   instance.password = oldPw;
-  instance.salt = getNewSalt();
+  instance.salt = salt;
   await instance.save();
   instance.password = '';
   res.status(200);

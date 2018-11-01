@@ -11,11 +11,13 @@ export class ProfilListUserComponent implements OnInit {
   users: User[];
   unapprovedUsers: User[];
   user:User;
+  editUser: User;
 
   companyId: number;
   showCompany: boolean = false;
   showAll: boolean = false;
   tableName: string = 'Liste der unbestätigten Benutzer';
+  editProfil: boolean = false;
 
   @Output('changePw')
   changePw = new EventEmitter<number>();
@@ -36,7 +38,7 @@ export class ProfilListUserComponent implements OnInit {
   }
 
   saveUser (user: User) {
-    UserService.changeApprovalStatus(user.id, user).subscribe((instance: any) => {
+    UserService.updateUser(user.id, user).subscribe((instance: any) => {
       if(instance == null || !instance.approved){
         console.log('error');
       }
@@ -85,8 +87,9 @@ export class ProfilListUserComponent implements OnInit {
     this.changePw.emit(id);
   }
 
-  changeUser(id: number){
-    this.changeUserEmitter.emit(id);
+  editProfile(user: User){
+    this.editUser = user;
+    this.editProfil = !this.editProfil;
   }
 
 }

@@ -11,39 +11,43 @@
 
 
 <!--menus-->
-      <!-- admin menu control-->
+      <!-- admin or moderator menu control-->
         <div *ngIf="this.user.isAdmin() || this.user.isModerator()">
-          <button style="background-color:#000000" *ngIf="!showPassword && !showAdmin" (click)="ShowList()">Zeige Jobs</button>
-          <button *ngIf="showPassword || showAdmin" (click)="ShowList()">Zeige Jobs</button>
-          <button style="background-color:#000000" *ngIf="showPassword" (click)="ShowPassword()">Ändere das Passwort</button>
-          <button *ngIf="!showPassword" (click)="ShowPassword()">Ändere das Passwort</button>
-          <button style="background-color:#000000" *ngIf="this.user.isAdmin() && showAdmin" (click)="ShowAdmin()">Zeige Benutzer</button>
-          <button *ngIf="(this.user.isAdmin() || this.user.isModerator()) && !showAdmin" (click)="ShowAdmin()">Zeige Benutzer</button>
+          <button style="background-color:#000000" *ngIf="!showPassword && !showAdmin" (click)="toggleMenu(false, false)">Zeige Jobs</button>
+          <button *ngIf="!(!showPassword && !showAdmin)" (click)="toggleMenu(false, false)">Zeige Jobs</button>
+          <button style="background-color:#000000" *ngIf="showPassword && !showAdmin" (click)="backToUserList()">Ändere das Passwort</button>
+          <button *ngIf="!(showPassword && !showAdmin)" (click)="toggleMenu(false, true)">Ändere das Passwort</button>
+          <button style="background-color:#000000" *ngIf="showAdmin && !showPassword" (click)="toggleMenu(false, false)">Zeige Benutzer</button>
+          <button *ngIf="!(showAdmin && !showPassword)" (click)="toggleMenu(true, false)">Zeige Benutzer</button>
+          <button *ngIf="!(showAdmin && showPassword)" (click)="toggleMenu(true, true)">Profil bearbeiten</button>
+          <button style="background-color:#000000" *ngIf="showAdmin && showPassword" (click)="toggleMenu(false, false)">Profil bearbeiten</button>
         </div>
-      <!-- moderator or company menu control-->
+<label *ngIf="!user.approved">Dieses Benutzerkonto wurde noch nicht bestätigt.</label>
+      <!-- company menu control-->
         <div *ngIf="!this.user.isAdmin() && !this.user.isModerator()">
-          <button *ngIf="!showPassword" (click)="toggleShowPassword()">Ändere das Passwort</button>
-          <button *ngIf="showPassword" (click)="toggleShowPassword()">Zeige Jobs</button>
+          <button *ngIf="!showPassword" (click)="toggleShowPassword(true, false)">Ändere das Passwort</button>
+          <button *ngIf="(showPassword || editProfil) && user.approved" (click)="toggleShowPassword(false, false)">Zeige Jobs</button>
+          <button *ngIf="!editProfil" (click)="toggleShowPassword(false, true)">Profil bearbeiten</button>
         </div>
 <br><br>
 
 
 <!-- passwort ändern-->
-      <div *ngIf="showPassword">
+      <div *ngIf="(showPassword && !showAdmin)">
         <app-profil-change-password [userId]="passwordChangeUserId" (changedPw)="backToUserList()"></app-profil-change-password>
         <br><br>
       </div>
 
 
 <!-- liste der benutzer-->
-      <div *ngIf="(this.user.isAdmin() || this.user.isModerator()) && showAdmin">
+      <div *ngIf="(this.user.isAdmin() || this.user.isModerator()) && showAdmin && !showPassword">
         <app-profil-list-user (changePw)="changePassword($event)"></app-profil-list-user>
       </div>
 
 
 <!--job liste-->
       <!--menu neuen Job erstellen-->
-        <div *ngIf="!showPassword && !showAdmin">
+        <div *ngIf="!showPassword && !showAdmin && !editProfil">
           <button *ngIf="!createNewJob" (click)="toggleShowCreateNewJob()">neuen Job erstellen</button>
           <button *ngIf="createNewJob" (click)="toggleShowCreateNewJob()">zurück</button>
           <br><br>
@@ -55,6 +59,27 @@
         </div>
 
       <!--liste der jobs-->
-        <div *ngIf="!showPassword && !showAdmin && !createNewJob">
+        <div *ngIf="!showPassword && !showAdmin && !createNewJob && !editProfil">
           <app-profil-list-jobs></app-profil-list-jobs>
         </div>
+
+<!--profil bearbeiten-->
+<div *ngIf="editProfil || (showAdmin && showPassword)">
+  <h4>{{user.name}}</h4>
+  <blockquote>
+    Email
+    <input type="text" [(ngModel)]="user.email" value="{{user.email}}" (ngModelChange)="saveUser(user)"/>
+  </blockquote>
+  <blockquote>
+    Benutzername
+    <input type="text" [(ngModel)]="user.name" value="{{user.name}}" (ngModelChange)="saveUser(user)"/>
+  </blockquote>
+  <blockquote>
+    Kontaktadresse
+    <textarea maxlength="100" [(ngModel)]="user.address" value="{{user.address}}" (ngModelChange)="saveUser(user)"></textarea>
+  </blockquote>
+  <blockquote>
+    Beschreibung
+    <textarea [(ngModel)]="user.description" name="description_short" id="description_short" (ngModelChange)="saveUser(user)"></textarea>
+  </blockquote>
+</div>

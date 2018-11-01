@@ -16,20 +16,27 @@ export class ProfilNonPublicComponent implements OnInit {
   showPassword = false;
   showAdmin = false;
   createNewJob = false;
+  editProfil: boolean = false;
   constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit() {
+
     this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
     if(this.user === null || !this.userService.currentLoginStatus){
-      this.router.navigateByUrl('/login');
-      return;
-    }
+      this.router.navigateByUrl('/login'); // TODO: redirection does NOT work
+     }
+     if (this.user.isModerator() || this.user.isAmin()) {
+       this.backToUserList();
+     }
+     if (!this.user.approved) {
+       this.toggleShowPassword(false, true);
+     }
     this.passwordChangeUserId = this.user.id;
   }
 
 
 /*
-admin Menu switches
+admin & moderatorMenu switches
  */
   ShowPassword(){
     this.showPassword = true;
@@ -45,16 +52,23 @@ admin Menu switches
     this.showAdmin = false;
     this.showPassword = false;
   }
+
+  toggleMenu(showAdmin: boolean, showPassword: boolean){
+    this.showAdmin = showAdmin;
+    this.showPassword = showPassword;
+  }
 /*
 end admin Menu switches
  */
 
   /**
-   * moderator and company menu switcher
+   * company menu switches
    */
-  toggleShowPassword(){
-    this.showPassword = !this.showPassword;
+  toggleShowPassword(showPassword: boolean, editProfil: boolean){
+    this.editProfil = editProfil;
+    this.showPassword = showPassword;
   }
+
 
   /**
    * goes back to the job list and cleans the password changer
@@ -82,6 +96,21 @@ end admin Menu switches
    */
   toggleShowCreateNewJob() {
     this.createNewJob = !this.createNewJob;
+  }
+
+  // TODO: when Email is different, then check if its not occupied (as well as in change profile)
+  saveUser (user: User) {
+    UserService.updateUser(user.id, user).subscribe((instance: any) => {
+      if(instance == null || !instance.approved){
+        console.log('error');
+      }
+      this.userService.changeUser(user);
+    });
+  }
+
+  // when ID the same or error (user not found), then save the new user
+  changeEmail (user: User){
+
   }
 
 }

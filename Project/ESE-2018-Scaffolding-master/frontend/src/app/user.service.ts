@@ -49,7 +49,7 @@ export class UserService {
     return UserService.httpClient.get( UserService.backendUrl + '/login/salt/' + id, {withCredentials: true});
   }
 
-  static changeApprovalStatus(id: number, user: User) {
+  static updateUser(id: number, user: User) {
     return UserService.httpClient.post(UserService.backendUrl + '/login/'+id, {
       'id': user.id,
       'name': user.name,
@@ -58,7 +58,7 @@ export class UserService {
       'email': user.email,
       'role': user.role,
       'approved': user.approved,
-      'address': user.approved,
+      'address': user.address,
       'description': user.description
     }, {withCredentials: true});
   }

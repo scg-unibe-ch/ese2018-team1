@@ -1,8 +1,6 @@
 import {Request, Response, Router} from 'express';
 import {Job} from '../models/job.model';
 import {Sequelize} from 'sequelize-typescript';
-import {stringify} from 'querystring';
-import {TodoList} from '../models/todolist.model';
 import {User} from '../models/user.model';
 
 
@@ -27,7 +25,8 @@ router.get('/', async (req: Request, res: Response) => {
 router.get('/approved', async (req: Request, res: Response) => {
   const instances = await Job.findAll({
     where: Sequelize.or(
-      {approved: true}
+      {approved: true},
+      {editing: false}
     )
   });
   res.statusCode = 200;
@@ -39,7 +38,7 @@ router.get('/search/:text', async (req: Request, res: Response) => {
   const search = req.params.text;
   if(checkSafety(search)) {
     let command = 'SELECT `Job`.`id`, `Job`.`name`, `Job`.`description_short`, `Job`.`description`, `Job`.`companyId`, `Job`.`companyEmail`, `Job`.`jobWebsite`, `Job`.`wage`, `Job`.`wagePerHour`, `Job`.`job_start`, `Job`.`job_end`, `Job`.`percentage`, `Job`.`approved`, `user`.`name` AS `user.name`, `user`.`email` AS `user.email` FROM `Job` AS `Job` INNER JOIN `User` AS `user` ON `Job`.`companyId` = `user`.`id`';
-    command += ' WHERE Job.approved=1 AND (Job.name LIKE \'%' + search + '%\' OR Job.description LIKE \'%' + search + '%\' OR User.name LIKE \'%' + search + '%\')';
+    command += ' WHERE Job.approved=1 AND Job.editing=0 AND (Job.name LIKE \'%' + search + '%\' OR Job.description LIKE \'%' + search + '%\' OR User.name LIKE \'%' + search + '%\')';
     await sequelize.query(command).then(function (results) {
       res.statusCode = 200;
       res.send(results[0]);
@@ -77,7 +76,7 @@ router.get('/search/:name/:company_name/:description/:wage/:wagePerHour/:start_b
   const send_after = req.params.end_after ;
   const spercentage_less = req.params.percentage_less === '*' ? -1 : parseInt(req.params.percentage_less);
   const spercentage_more = req.params.percentage_more === '*' ? -1 : parseInt(req.params.percentage_more);
-  let  command = 'SELECT Job.id, Job.name, Job.description_short, Job.description, Job.companyId, Job.companyEmail, Job.jobWebsite, Job.wage, Job.wagePerHour, Job.job_start, Job.job_end, Job.approved FROM Job, User WHERE Job.companyId=User.id AND Job.approved=1';
+  let  command = 'SELECT Job.id, Job.name, Job.description_short, Job.description, Job.companyId, Job.companyEmail, Job.jobWebsite, Job.wage, Job.wagePerHour, Job.job_start, Job.job_end, Job.approved FROM Job, User WHERE Job.companyId=User.id AND Job.approved=1 AND Job.editing=0';
   const originalCommand = command;
   command += ' AND';
   if(sname !== '*' && checkSafety(sname)) {
@@ -135,7 +134,8 @@ router.get('/search/company/:company_id/:approved', async (req: Request, res: Re
         }
       }],
       where: {
-        approved: 1
+        approved: 1,
+        editing: 0
       }
     });
   } else {
@@ -180,7 +180,7 @@ router.post('/', async (req: Request, res: Response) => {
 /* updates a job according to the message body */
 router.put('/:id', async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);
-  const instance = await Job.findById(id);
+  let instance = await Job.findById(id);
   if (instance == null) {
     res.statusCode = 404;
     res.json({
@@ -188,11 +188,46 @@ router.put('/:id', async(req: Request, res: Response) => {
     });
     return;
   }
-  instance.fromSimplification(req.body);
-  await instance.save();
+  if(instance.oldJobId === null || instance.oldJobId === -1) {
+    const newJob = new Job();
+    newJob.fromSimplification(req.body);
+    newJob.oldJobId = id;
+    newJob.approved = false;
+    instance.editing = true;
+    await newJob.save();
+    await instance.save();
+    instance = newJob;
+  } else {
+    instance.fromSimplification(req.body);
+    await instance.save();
+  }
   res.status(200);
   res.send(instance.toSimplification());
 });
+
+router.put('/:id/:approve', async  (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const approve = req.params.approve;
+  const instance = await Job.findById(id);
+  if(instance == null) {
+    res.statusCode = 404;
+    res.json({'message': 'job not found for updating'});
+    return;
+  }
+  if(instance.oldJobId === null || instance.oldJobId === -1) {
+    instance.approved = approve;
+  } else {
+    const oldJob = await Job.findById(instance.oldJobId);
+    if(oldJob !== null) {
+      await oldJob.destroy();
+    }
+    instance.oldJobId = -1;
+    instance.approved = approve;
+  }
+  await instance.save();
+  res.statusCode = 200;
+  res.send(instance.toSimplification());
+})
 
 /*deletes a job */
 router.delete('/:id', async(req: Request, res: Response) => {

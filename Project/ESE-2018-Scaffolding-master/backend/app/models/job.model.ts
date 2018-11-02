@@ -43,6 +43,12 @@ export class Job extends Model<Job> {
   @Column
   approved!: boolean;
 
+  @Column
+  oldJobId!: number;
+
+  @Column
+  editing !: boolean;
+
   toSimplification(): any {
     return {
       'id': this.id,
@@ -57,7 +63,9 @@ export class Job extends Model<Job> {
       'job_start': this.job_start,
       'job_end': this.job_end,
       'percentage': this.percentage,
-      'approved': this.approved
+      'approved': this.approved,
+      'oldJobId': this.oldJobId,
+      'editing': this.editing,
     };
   }
 
@@ -74,6 +82,8 @@ export class Job extends Model<Job> {
     this.job_end = simplification['job_end'];
     this.percentage = simplification['percentage'];
     this.approved = simplification['approved'];
+    this.oldJobId = simplification['oldJobId'];
+    this.editing = simplification['editing'];
   }
 
 }

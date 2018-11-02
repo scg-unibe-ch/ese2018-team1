@@ -12,7 +12,7 @@ import {JobService} from '../../job.service';
   styleUrls: ['./profil-new-job.component.css']
 })
 export class ProfilNewJobComponent implements OnInit {
-  job: Job = new Job(null, '', '', '', '','','', 0, false,'', '', 0, false);
+  job: Job = new Job(null, '', '', '', '','','', 0, false,'', '', 0, false, -1, false);
   showDetails: boolean;
   errorName: boolean;
   user: User;

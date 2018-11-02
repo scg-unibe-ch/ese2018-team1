@@ -16,7 +16,7 @@ TEMPORARLY ADDED THIS HERE FOR THE EXERCISE
 })
 export class UeberUnsComponent implements OnInit {
   jobs: Job[] = [];
-  job: Job = new Job(null, '', '', '', '','','', 0, false,'', '', 0, false);
+  job: Job = new Job(null, '', '', '', '','','', 0, false,'', '', 0, false, -1, false);
   user: User;
   constructor(private httpClient: HttpClient, private userService: UserService) {
   }
@@ -24,8 +24,8 @@ export class UeberUnsComponent implements OnInit {
 
   ngOnInit() {
     JobService.getAllJobs().subscribe((instances: any) => {
-      this.jobs = instances.map((instance) =>  new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
-        instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+      this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
+        instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
     });
     this.userService.currentUser.subscribe(currentUser => this.user = currentUser);
   }
@@ -35,7 +35,7 @@ export class UeberUnsComponent implements OnInit {
       JobService.createJob(this.job, this.user).subscribe((instance: any) => {
         this.job.id = instance.id;
         this.jobs.push(this.job);
-        this.job = new Job(null, '', '', '', '', '', '', 0, false, '', '', 0, false);
+        this.job = new Job(null, '', '', '', '', '', '', 0, false, '', '', 0, false, -1, false);
       });
     }
   }

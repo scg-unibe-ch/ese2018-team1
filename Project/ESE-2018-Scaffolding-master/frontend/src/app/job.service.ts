@@ -106,7 +106,30 @@ export class JobService {
       'job_start': job.job_start,
       'job_end': job.job_end,
       'percentage': job.percentage,
-      'approved': job.approved
+      'approved': job.approved,
+      'oldJobId': job.oldJobId,
+      'editing': job.editing
+    });
+  }
+
+  static approveJob(job:Job): Observable<Object>{
+    const approved = job.approved ? 1 : 0;
+    console.log('sending req to: ' + this.backendUrl + '/job/' + job.id);
+    return JobService.httpClient.put(this.backendUrl + '/job/' + job.id + '/' + approved,  {
+      'name': job.name,
+      'description': job.description,
+      'description_short': job.description_short,
+      'company_id': job.company_id,
+      'company_email': job.company_email,
+      'jobWebsite': job.job_website,
+      'wage': job.wage,
+      'wagePerHour': job.wagePerHour,
+      'job_start': job.job_start,
+      'job_end': job.job_end,
+      'percentage': job.percentage,
+      'approved': job.approved,
+      'oldJobId': job.oldJobId,
+      'editing': job.editing
     });
   }
 
@@ -133,7 +156,9 @@ export class JobService {
       'job_start': job.job_start,
       'job_end': job.job_end,
       'percentage': job.percentage,
-      'approved': job.approved
+      'approved': job.approved,
+      'oldJobId': job.oldJobId,
+      'editing': job.editing
     });
   }
 

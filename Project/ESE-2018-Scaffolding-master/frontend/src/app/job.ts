@@ -15,7 +15,9 @@ export class Job {
     public job_start: string,
     public job_end: string,
     public percentage: number,
-    public approved: boolean
+    public approved: boolean,
+    public oldJobId: number,
+    public editing: boolean
   ){
   }
 

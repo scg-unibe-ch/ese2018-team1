@@ -12,7 +12,7 @@ import {forEach} from '@angular/router/src/utils/collection';
 })
 export class JobsComponent implements OnInit {
   jobs: Job[] = [];
-  job: Job = new Job(null, '', '', '', '','','', 0, false,'', '', 0, false);
+  job: Job = new Job(null, '', '', '', '','','', 0, false,'', '', 0, false, -1, false);
   jobs_jobsArr: Job[][] = [ , ];
   searchText: string;
   showFilter = false;
@@ -39,16 +39,16 @@ export class JobsComponent implements OnInit {
     if (location.search.search('search') === 1 && temp_Search.length >0){
       this.searchText = temp_Search;
       JobService.getJobsByEasySearch(this.searchText).subscribe((instances: any) => {
-        this.jobs = instances.map((instance) =>  new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
-          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
       });
     }
     else{
       this.getFilterParams();
       this.jobs = null;
       JobService.getAllApprovedJobs().subscribe((instances: any) => {
-        this.jobs = instances.map((instance) =>  new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
-          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
       });
     }
     // TODO: read out name, description, wage,... from the url and get the jobs from jobservice
@@ -107,15 +107,15 @@ export class JobsComponent implements OnInit {
     if(this.searchText.length >0) {
       window.history.pushState({}, '', '/jobs?search=' + this.searchText);
       JobService.getJobsByEasySearch(this.searchText).subscribe((instances: any) => {
-        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
-          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+        this.jobs = instances.map((instance) =>new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
       });
     }
     else{
       window.history.pushState({search: ''}, '', '/jobs');
       JobService.getAllApprovedJobs().subscribe((instances: any) => {
-        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
-          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+        this.jobs = instances.map((instance) =>new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
       });
     }
   }
@@ -129,8 +129,8 @@ export class JobsComponent implements OnInit {
     if(this.searchName.length <1 && this.searchDescription.length <1 && this.searchCompany.length <1 && this.searchWage.length <1 && this.searchStart_before.length <1 && this.searchStart_after.length <1 && this.searchEnd_before.length <1 && this.searchEnd_after.length <1 && this.searchPercentage_more.length <1 && this.searchPercentage_less.length <1){
       window.history.pushState({search: ''}, '', '/jobs');
       JobService.getAllApprovedJobs().subscribe((instances: any) => {
-        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
-          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+        this.jobs = instances.map((instance) =>new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
       });
     }
     else{
@@ -148,7 +148,7 @@ export class JobsComponent implements OnInit {
       window.history.pushState({name: ''}, '', url);
       JobService.getJobsByFilterSearch(this.searchName, this.searchCompany, this.searchDescription, this.searchWage, this.searchWagePerHour, this.searchStart_before, this.searchStart_after, this.searchEnd_before, this.searchEnd_after, this.searchPercentage_more, this.searchPercentage_less).subscribe((instances: any) =>{
         this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
-          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
         });
     }
   }

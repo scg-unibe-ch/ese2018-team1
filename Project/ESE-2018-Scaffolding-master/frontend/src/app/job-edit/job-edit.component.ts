@@ -99,9 +99,8 @@ export class JobEditComponent implements OnInit {
 
   toggleApproval(){
     this.job.approved = !this.job.approved;
-    JobService.saveJob(this.job).subscribe((instance: any) => {
-      this.job = instance;
-    });
+    console.log('approving');
+    JobService.approveJob(this.job).subscribe(()=>{});
   }
 
   onFlipStart() {

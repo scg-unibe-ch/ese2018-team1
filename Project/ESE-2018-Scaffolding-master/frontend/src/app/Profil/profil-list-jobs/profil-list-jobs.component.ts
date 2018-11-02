@@ -25,14 +25,14 @@ export class ProfilListJobsComponent implements OnInit {
     if (this.user.isCompany()) {
       JobService.getJobsByCompany(this.user.id, false).subscribe((instances: any) => {
         this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
-          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
       });
     }
 
     if (this.user.isModerator() || this.user.isAdmin()) {
       JobService.getAllJobs().subscribe((instances: any) => {
         this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
-          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved));
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
       });
     }
 

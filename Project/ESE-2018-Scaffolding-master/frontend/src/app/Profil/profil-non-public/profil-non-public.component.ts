@@ -25,7 +25,7 @@ export class ProfilNonPublicComponent implements OnInit {
     if(this.user === null || !this.userService.currentLoginStatus){
       this.router.navigateByUrl('/login'); // TODO: redirection does NOT work
      }
-     if (this.user.isModerator() || this.user.isAmin()) {
+     if (this.user.isModerator() || this.user.isAdmin()) {
        this.backToUserList();
      }
      if (!this.user.approved) {

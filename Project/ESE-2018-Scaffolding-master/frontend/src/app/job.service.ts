@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Job} from './job';
 import {Observable} from 'rxjs';
 import {User} from './user';
+import {isBoolean} from 'util';
 
 /**
  * Usage:
@@ -70,6 +71,7 @@ export class JobService {
    * @param company
    * @param description
    * @param wage
+   * @param wagePerHour
    * @param start_before
    * @param start_after
    * @param end_before
@@ -82,7 +84,8 @@ export class JobService {
     company = company.length>0 ? company : '*';
     description = description.length>0 ? description : '*';
     wage = wage.length>0 ? wage : '-1';
-    wagePerHour = wagePerHour.length>0 ? wage : '*';
+    console.log('ph: ' + wagePerHour + ', length: ' + wagePerHour.length + '**');
+    wagePerHour = wagePerHour.length>0 || isBoolean(wagePerHour) ? (wagePerHour ? '1' : '0') : '*';
     start_before = start_before.length>0 ? start_before : '*';
     start_after = start_after.length>0 ? start_after : '*';
     end_before = end_before.length>0 ? end_before : '*';

@@ -86,13 +86,13 @@ router.get('/search/:name/:company_name/:description/:wage/:wagePerHour/:start_b
     command += ' User.name LIKE \'%' + scompany_name + '%\' AND';
   }
   if(sdescription!== '*' && checkSafety(sdescription)) {
-    command += ' description LIKE \'%' + sdescription + '%\' AND';
+    command += ' Job.description LIKE \'%' + sdescription + '%\' AND';
   }
   if(swage>=0) {
     command += ' wage>=' + swage + ' AND';
   }
-  if(swagePerHour!== '*' && checkSafety(swagePerHour)) {
-    command += ' wagePerHour<' + swagePerHour + ' AND';
+  if(swagePerHour !== '-1' && swagePerHour !== '*' && checkSafety(swagePerHour)) {
+    command += ' wagePerHour = ' + swagePerHour + ' AND';
   }
   if(sstart_before!== '*' && checkSafety(sstart_before)) {
     command += ' job_start<"' + sstart_before + '" AND';

@@ -3,7 +3,7 @@ import {Job} from '../job';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router, RouterModule} from '@angular/router';
 import {JobService} from '../job.service';
-import {forEach} from '@angular/router/src/utils/collection';
+
 
 @Component({
   selector: 'app-jobs',
@@ -44,12 +44,21 @@ export class JobsComponent implements OnInit {
       });
     }
     else{
-      this.getFilterParams();
-      this.jobs = null;
-      JobService.getAllApprovedJobs().subscribe((instances: any) => {
-        this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
-          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
-      });
+      if(location.search.search('name=') === 1) {
+        this.getFilterParams();
+        this.jobs = null;
+        this.onSearchWithFilter();
+        if(this.searchWagePerHour === ''){
+          this.resetWagePerHour();
+        }
+        this.showFilter = true;
+      }
+      else{
+        JobService.getAllApprovedJobs().subscribe((instances: any) => {
+          this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
+            instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
+        });
+      }
     }
     // TODO: read out name, description, wage,... from the url and get the jobs from jobservice
   }
@@ -126,7 +135,7 @@ export class JobsComponent implements OnInit {
 
   onSearchWithFilter(){
     this.jobs = null;
-    if(this.searchName.length <1 && this.searchDescription.length <1 && this.searchCompany.length <1 && this.searchWage.length <1 && this.searchStart_before.length <1 && this.searchStart_after.length <1 && this.searchEnd_before.length <1 && this.searchEnd_after.length <1 && this.searchPercentage_more.length <1 && this.searchPercentage_less.length <1){
+    if(this.searchName.length <1 && this.searchDescription.length <1 && this.searchCompany.length <1 && this.searchWage.length <1 && this.searchWagePerHour === '' && this.searchStart_before.length <1 && this.searchStart_after.length <1 && this.searchEnd_before.length <1 && this.searchEnd_after.length <1 && this.searchPercentage_more.length <1 && this.searchPercentage_less.length <1){
       window.history.pushState({search: ''}, '', '/jobs');
       JobService.getAllApprovedJobs().subscribe((instances: any) => {
         this.jobs = instances.map((instance) =>new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
@@ -138,7 +147,7 @@ export class JobsComponent implements OnInit {
       url += '&desc=' + (this.searchDescription.length>0 ? this.searchDescription : '*');
       url += '&company=' + (this.searchCompany.length>0 ? this.searchCompany : '*');
       url += '&wage=' + (this.searchWage.length>0 ? this.searchWage : '*');
-      url += '&wagePerHour=' + (this.searchWagePerHour.length>0 ? this.searchWagePerHour : '*');
+      url += '&wagePerHour=' + (this.searchWagePerHour !== '' ? this.searchWagePerHour : '*');
       url += '&start_before=' + (this.searchStart_before.length>0 ? this.searchStart_before : '*');
       url += '&start_after=' + (this.searchStart_after.length>0 ? this.searchStart_after : '*');
       url += '&end_before=' + (this.searchEnd_before.length>0 ? this.searchEnd_before : '*');
@@ -156,22 +165,30 @@ export class JobsComponent implements OnInit {
   resetStart(){
     this.searchStart_before = '';
     this.searchStart_after = '';
+    this.onSearchWithFilter();
   }
 
   resetEnd(){
     this.searchEnd_before = '';
     this.searchEnd_after = '';
+    this.onSearchWithFilter();
   }
 
   resetWagePerHour(){
     this.searchWagePerHour = '';
+    document.getElementById('wagePerHourLabel').style.color = '#bbbbbb';
+    this.onSearchWithFilter();
   }
 
   /*
   Start filter sync methods
    */
   sanitizeEvent(value:string){
-    return value.search('{') === 1 ? '' : value;
+    try {
+      return value.search('{') === 1 ? '' : value;
+    } catch {
+      return value;
+    }
   }
 
   onNameChange(value:string){
@@ -192,6 +209,8 @@ export class JobsComponent implements OnInit {
   }
   onWagePHChange(value:string){
     this.searchWagePerHour = this.sanitizeEvent(value);
+    document.getElementById('wagePerHourLabel').style.color = '#000000';
+    console.log('ph: ' + this.searchWagePerHour + ', length: ' + this.searchWagePerHour.length);
     this.onSearchWithFilter();
   }
   onStartAfterChange(value:string){

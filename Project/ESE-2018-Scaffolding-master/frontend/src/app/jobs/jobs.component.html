@@ -31,7 +31,7 @@
       <label for="wage">Mindestbezahlung</label>
       <input type="text" name="wage" (ngModelChange)="onWageChange($event)" [(ngModel)]="searchWage" id="wage"/>
       <input type="checkbox" name="wagePerHour" (ngModelChange)="onWagePHChange($event)" [(ngModel)]="searchWagePerHour" id="wagePerHour">
-      <label for="wagePerHour">Pro Stunde</label>
+      <label id="wagePerHourLabel" for="wagePerHour">Pro Stunde</label><p (click)="resetWagePerHour()" style="color: red">Zurücksetzen</p>
     </div>
     <div class="field half">
       <label for="start_after">Beginn des Jobs zwischen</label>

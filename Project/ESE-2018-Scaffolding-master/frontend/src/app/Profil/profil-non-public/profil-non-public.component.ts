@@ -51,11 +51,13 @@ admin & moderatorMenu switches
   ShowList(){
     this.showAdmin = false;
     this.showPassword = false;
+    this.passwordChangeUserId = this.user.id;
   }
 
   toggleMenu(showAdmin: boolean, showPassword: boolean){
     this.showAdmin = showAdmin;
     this.showPassword = showPassword;
+    this.passwordChangeUserId = this.user.id;
   }
 /*
 end admin Menu switches

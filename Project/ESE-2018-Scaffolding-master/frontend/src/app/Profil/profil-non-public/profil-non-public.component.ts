@@ -17,10 +17,10 @@ export class ProfilNonPublicComponent implements OnInit {
   showAdmin = false;
   createNewJob = false;
   editProfil: boolean = false;
+  successfulChange: boolean = true;
   constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit() {
-
     this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
     if(this.user === null || !this.userService.currentLoginStatus){
       this.router.navigateByUrl('/login'); // TODO: redirection does NOT work
@@ -98,7 +98,6 @@ end admin Menu switches
     this.createNewJob = !this.createNewJob;
   }
 
-  // TODO: when Email is different, then check if its not occupied (as well as in change profile)
   saveUser (user: User) {
     UserService.updateUser(user.id, user).subscribe((instance: any) => {
       if(instance == null || !instance.approved){
@@ -110,7 +109,21 @@ end admin Menu switches
 
   // when ID the same or error (user not found), then save the new user
   changeEmail (user: User){
-
+    UserService.getUserByEmail(user.email).subscribe((instance: any) => {
+      if (instance.id === user.id || instance === null) {
+        this.successfulChange = true;
+        this.saveUser(user);
+      }
+      else {
+        this.successfulChange = false;
+      }
+    },
+    err => {
+      this.successfulChange = true;
+      this.saveUser(user);
+    });
   }
+
+
 
 }

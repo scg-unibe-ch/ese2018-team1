@@ -68,7 +68,8 @@
   <h4>{{user.name}}</h4>
   <blockquote>
     Email
-    <input type="text" [(ngModel)]="user.email" value="{{user.email}}" (ngModelChange)="saveUser(user)"/>
+    <input type="text" [(ngModel)]="user.email" value="{{user.email}}" (ngModelChange)="changeEmail(user)"/>
+    <input *ngIf="!successfulChange" type="text" contenteditable="false" value="Änderungen nicht gespeichert, da Email schon vergeben"/>
   </blockquote>
   <blockquote>
     Benutzername

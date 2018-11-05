@@ -40,7 +40,8 @@
   <h4>{{editUser.name}}</h4>
     <blockquote *ngIf="this.user.isAdmin()">
     Email
-    <input type="text" [(ngModel)]="editUser.email" value="{{editUser.email}}" (ngModelChange)="saveUser(editUser)"/>
+    <input type="text" [(ngModel)]="editUser.email" value="{{editUser.email}}" (ngModelChange)="changeEmail(editUser)"/>
+      <input *ngIf="!successfulChange" type="text" contenteditable="false" value="Änderungen nicht gespeichert, da Email schon vergeben"/>
     </blockquote>
     <blockquote>
       Benutzername

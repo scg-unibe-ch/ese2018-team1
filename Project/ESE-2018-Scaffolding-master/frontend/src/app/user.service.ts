@@ -50,7 +50,7 @@ export class UserService {
   }
 
   static updateUser(id: number, user: User) {
-    return UserService.httpClient.post(UserService.backendUrl + '/login/'+id, {
+    return UserService.httpClient.put(UserService.backendUrl + '/login/'+id, {
       'id': user.id,
       'name': user.name,
       'password': '',
@@ -82,6 +82,27 @@ export class UserService {
     return sha256.create().update(password + salt).hex();
   }
 
+  static getUserByEmail(email: string) {
+    return this.httpClient.get(this.backendUrl + '/login/' + email, {withCredentials: true});
+  }
+
+  static checkPassword(id: number, password: string){
+   return this.httpClient.get(this.backendUrl + '/login/' + id + '/' + password, {withCredentials: true});
+  }
+
+  static register(user: User){
+    return this.httpClient.post(UserService.backendUrl + '/login/',  {
+      withCredentials: true,
+      'id': user.id,
+      'name': user.name,
+      'password': user.password,
+      'salt': user.salt,
+      'email': user.email,
+      'role': user.role,
+      'approved': user.approved
+    }, {withCredentials: true});
+  }
+
   changeLoginStatus (newStatus: boolean){
     this.loginStatus.next(newStatus);
   }
@@ -96,62 +117,6 @@ export class UserService {
 
   changeRegisterStatus(newStatus: boolean){
     this.register.next(newStatus);
-  }
-  registerUser (user: User) {
-    this.httpClient.get(UserService.backendUrl + '/login/' + user.email, {withCredentials: true}).subscribe(
-      (instance: any) => { // if it creates an error, it means, that the Email is not in the database yet
-        this.changeRegisterStatus(false);
-        this.changeUser(new User(null,'','','','','',false,'',''));
-      },
-      err => {
-        user.salt = 'TestSalt';
-        user.password = UserService.hashPassword(user.password, user.salt);
-        this.httpClient.post(UserService.backendUrl + '/login/',  {
-          withCredentials: true,
-          'id': user.id,
-          'name': user.name,
-          'password': user.password,
-          'salt': user.salt,
-          'email': user.email,
-          'role': user.role,
-          'approved': user.approved
-        }).subscribe((instance: any) => {
-          user.id = instance.id;
-          this.httpClient.get(UserService.backendUrl + '/login/' + user.id + '/' + user.password, {withCredentials: true}).subscribe(
-            (instance: any) =>{
-              const user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description);
-              this.changeLoginStatus(true);
-              this.changeUser(user);
-              this.router.navigate(['/']);
-            },
-            err =>{
-              this.changeErrorStatus(true);
-            });
-        });
-      });
-  }
-
-  login (user: User){
-    let password = user.password;
-    // get user id and salt
-    this.httpClient.get(UserService.backendUrl + '/login/' + user.email, {withCredentials: true}).subscribe(
-      (instance: any) => {
-        user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description);
-        console.log('pw + salt: ' + password + user.salt + ',');
-        password = UserService.hashPassword(password, user.salt);
-        console.log(' = ' + password);
-        // check password
-        this.httpClient.get(UserService.backendUrl + '/login/' + user.id + '/' + password, {withCredentials: true}).subscribe(
-          (instance: any) =>{
-            this.setLoginValues(new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description));
-          },
-          err =>{
-            this.changeErrorStatus(true);
-          });
-      },
-      err =>{
-        this.changeErrorStatus(true);
-      });
   }
 
   checkSession(){
@@ -170,15 +135,10 @@ export class UserService {
     this.httpClient.get(UserService.backendUrl + '/login/logout', {withCredentials: true}).subscribe((instance: any) => {
     });
     this.changeLoginStatus(false);
+    this.changeRegisterStatus(true);
+    this.changeErrorStatus(false);
     this.changeUser(new User(null,'','','','','',false,'',''));
     this.router.navigate(['/login']);
   }
 
-
-  private setLoginValues(user: User) {
-    this.changeErrorStatus(false); // do not display error while loading home page
-    this.changeLoginStatus(true);
-    this.changeUser(user);
-    this.router.navigate(['/']);
-  }
 }

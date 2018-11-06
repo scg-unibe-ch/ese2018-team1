@@ -28,9 +28,8 @@ router.get('/', async (req: Request, res: Response) => {
  */
 router.get('/approved', async (req: Request, res: Response) => {
   const instances = await Job.findAll({
-    where: Sequelize.or(
-      {approved: true},
-      {editing: false}
+    where: Sequelize.and(
+      {approved: true}
     )
   });
   res.statusCode = 200;

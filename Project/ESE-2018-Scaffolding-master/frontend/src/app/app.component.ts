@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   user: User;
 
   constructor(private httpClient: HttpClient, public  userService: UserService) {
-    const js= new JobService(httpClient);
+    const js= new JobService(httpClient, this.userService);
   }
 
   ngOnInit() {

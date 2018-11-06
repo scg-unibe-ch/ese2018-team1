@@ -1,5 +1,4 @@
 export class User {
-  private auth = false;
 
   constructor(
     public id: number,
@@ -14,24 +13,17 @@ export class User {
     ) {
   }
 
-  setAuth(){
-    this.auth = true;
-  }
-
-  isAuthenticated(){
-    return this !== null && this.auth;
-  }
 
   isAdmin(){
-    return this.role === 'admin';
+    return this !== null && this.role === 'admin';
   }
 
   isModerator(){
-    return this.role === 'moderator';
+    return this !== null && this.role === 'moderator';
   }
 
   isCompany(){
-    return this.role === 'company';
+    return this !== null && this.role === 'company';
   }
 
 }

@@ -4,6 +4,7 @@ import {Job} from './job';
 import {Observable} from 'rxjs';
 import {User} from './user';
 import {isBoolean} from 'util';
+import {UserService} from './user.service';
 
 /**
  * Usage:
@@ -17,10 +18,12 @@ import {isBoolean} from 'util';
 export class JobService {
   static httpClient: HttpClient;
   static backendUrl = 'http://localhost:3000';
+  static userService: UserService;
   /*static backendUrl = 'http://**Your Local IP**:3000';*/
 
-  constructor(private hC: HttpClient) {
+  constructor(private hC: HttpClient, private userService: UserService) {
     JobService.httpClient = hC;
+    JobService.userService = userService;
   }
 
   /**
@@ -95,9 +98,19 @@ export class JobService {
     return JobService.httpClient.get(this.backendUrl + '/job/search/' + name + '/' + company + '/' + description + '/' + wage+ '/' + wagePerHour + '/' + start_before+ '/' + start_after+ '/' + end_before+ '/' + end_after+ '/' + percentage_more+ '/' + percentage_less);
   }
 
-
-  static saveJob(job: Job): Observable<Object>{
-    return JobService.httpClient.put(this.backendUrl + '/job/' + job.id,  {
+  /**
+   * saves a job
+   * if the user is a moderator or a admin, it saves the job directly
+   * else it creates a draft, if the job has not been approved yet
+   * @param job
+   * @param user current user
+   */
+  static saveJob(job: Job, user: User): Observable<Object>{
+    let url = '/job/';
+    if(user !== null && !user.isCompany()) {
+      url = '/job/noNewEdit/';
+    }
+    return JobService.httpClient.put(this.backendUrl + url + job.id,  {
       'name': job.name,
       'description': job.description,
       'description_short': job.description_short,
@@ -113,8 +126,13 @@ export class JobService {
       'oldJobId': job.oldJobId,
       'editing': job.editing
     });
+
   }
 
+  /**
+   * approves a job and if the job was a draft, it deletes the old one
+   * @param job
+   */
   static approveJob(job:Job): Observable<Object>{
     const approved = job.approved ? 1 : 0;
     console.log('sending req to: ' + this.backendUrl + '/job/' + job.id);
@@ -136,6 +154,11 @@ export class JobService {
     });
   }
 
+  /**
+   * creates a new job
+   * @param job
+   * @param user
+   */
   static createJob(job: Job, user: User): Observable<Object>{
     console.log('creating job service')
     let companyid = job.company_id;
@@ -165,6 +188,10 @@ export class JobService {
     });
   }
 
+  /**
+   * deletes a job
+   * @param job
+   */
   static deleteJob(job: Job): Observable<Object>{
     return JobService.httpClient.delete(this.backendUrl + '/job/' + job.id);
   }

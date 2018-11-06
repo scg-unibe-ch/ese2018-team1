@@ -14,14 +14,18 @@ const sequelize =  new Sequelize({
 
 const router: Router = Router();
 
-/* returns all the jobs from the db*/
+/**
+ *  returns all the jobs from the db
+ */
 router.get('/', async (req: Request, res: Response) => {
   const instances: Job[] = await Job.findAll();
   res.statusCode = 200;
   res.send(instances.map( e=> e.toSimplification()));
 });
 
-/*returns all approved*/
+/**
+ * returns all approved*
+ */
 router.get('/approved', async (req: Request, res: Response) => {
   const instances = await Job.findAll({
     where: Sequelize.or(
@@ -33,7 +37,9 @@ router.get('/approved', async (req: Request, res: Response) => {
   res.send(instances.map( e=> e.toSimplification()));
 });
 
-/*returns all jobs with 'text' in their name, company_name or description*/
+/**
+ * returns all jobs with 'text' in their name, company_name or description
+ */
 router.get('/search/:text', async (req: Request, res: Response) => {
   const search = req.params.text;
   if(checkSafety(search)) {
@@ -48,7 +54,8 @@ router.get('/search/:text', async (req: Request, res: Response) => {
   }
 });
 
-/*
+/**
+*
 returns all jobs with the following filters:
 name: containing 'name' in their name ('s' is in 'new jobs open', but not in 'now hiring')
 company_name: containing 'company_name' in their company_name('s' is in swisscom, but not in apple)
@@ -63,7 +70,9 @@ percentage_more: job percentage is more than 'percentage_more'
 percentage_less: job percentage is more than 'percentage_less'
 
 * acts as no input
- */
+  *
+  */
+
 router.get('/search/:name/:company_name/:description/:wage/:wagePerHour/:start_before/:start_after/:end_before/:end_after/:percentage_more/:percentage_less', async (req: Request, res: Response) =>{
   const sname = req.params.name;
   const scompany_name = req.params.company_name;
@@ -120,6 +129,9 @@ router.get('/search/:name/:company_name/:description/:wage/:wagePerHour/:start_b
   });
 });
 
+/**
+ * returns all jobs by the company and if they're approved, depending on approved
+ */
 router.get('/search/company/:company_id/:approved', async (req: Request, res: Response) => {
   console.log(req.params)
   const userId = req.params.company_id;
@@ -145,7 +157,10 @@ router.get('/search/company/:company_id/:approved', async (req: Request, res: Re
         where: {
           id: userId
         }
-      }]
+      }],
+      where: {
+        editing: 0
+      }
     });
   }
   res.statusCode = 200;
@@ -153,7 +168,9 @@ router.get('/search/company/:company_id/:approved', async (req: Request, res: Re
 });
 
 
-/*returns one single job with the correct id*/
+/**
+ * returns one single job with the correct id
+ */
 router.get('/:id', async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const instance = await Job.findById(id);
@@ -168,7 +185,9 @@ router.get('/:id', async (req: Request, res: Response) => {
   res.send(instance.toSimplification());
 });
 
-/*creates a new job and returns it */
+/**
+ * creates a new job according to the body
+ */
 router.post('/', async (req: Request, res: Response) => {
   const instance = new Job();
   instance.fromSimplification(req.body);
@@ -177,7 +196,9 @@ router.post('/', async (req: Request, res: Response) => {
   res.send(instance.toSimplification());
 });
 
-/* updates a job according to the message body */
+/**
+ * edits a job with drafting (creates a new job if the old job is not a draft and is approved)
+ */
 router.put('/:id', async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   let instance = await Job.findById(id);
@@ -188,7 +209,7 @@ router.put('/:id', async(req: Request, res: Response) => {
     });
     return;
   }
-  if(instance.oldJobId === null || instance.oldJobId === -1) {
+  if((instance.oldJobId === null || instance.oldJobId === -1) && instance.approved) {
     const newJob = new Job();
     newJob.fromSimplification(req.body);
     newJob.oldJobId = id;
@@ -205,6 +226,28 @@ router.put('/:id', async(req: Request, res: Response) => {
   res.send(instance.toSimplification());
 });
 
+/**
+ * allows editing of a job without drafting
+ */
+router.put('/noNewEdit/:id', async(req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const instance = await Job.findById(id);
+  if (instance == null) {
+    res.statusCode = 404;
+    res.json({
+      'message': 'job not found for updating'
+    });
+    return;
+  }
+  instance.fromSimplification(req.body);
+  await instance.save();
+  res.statusCode = 200;
+  res.send(instance.toSimplification());
+  });
+
+/**
+ * approves a job and if the job is drafted, deletes the old one
+ */
 router.put('/:id/:approve', async  (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const approve = req.params.approve;
@@ -229,7 +272,9 @@ router.put('/:id/:approve', async  (req: Request, res: Response) => {
   res.send(instance.toSimplification());
 })
 
-/*deletes a job */
+/**
+ * deletes a job
+ */
 router.delete('/:id', async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const instance = await Job.findById(id);

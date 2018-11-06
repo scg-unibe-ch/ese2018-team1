@@ -16,7 +16,7 @@ export class ProfilNonPublicComponent implements OnInit {
   showPassword = false;
   showAdmin = false;
   createNewJob = false;
-  editProfil: boolean = false;
+  editProfil = false;
   constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit() {

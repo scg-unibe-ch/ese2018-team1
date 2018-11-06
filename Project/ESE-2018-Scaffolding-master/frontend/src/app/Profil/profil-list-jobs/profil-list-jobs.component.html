@@ -4,11 +4,17 @@
   <h4>
     Liste der jobs
   </h4>
-  <section id="three">
+  <button *ngIf="!showEditJob" (click)="toggleDraft()">{{toggleDraftText}}</button>
+  <section *ngIf="!showEditJob" id="three">
     <div class="job">
-      <div class="inner" *ngFor="let currentJob of jobs">
-        <app-job style="padding: 2em; width: 150%" [link]="'/job/edit'" [linkText]="'Ändern'"  [job]="currentJob"></app-job>
+      <div class="inner" *ngFor="let currentJob of showJobs">
+        <app-job style="padding: 2em; width: 150%" [enableLink]="false" (clicked)="clicked($event)" [linkText]="'Ändern'"  [job]="currentJob"></app-job>
       </div>
     </div>
   </section>
+  <div *ngIf="showEditJob">
+    <button (click)="showList()">Zurück</button>
+    <app-job-edit [job]="editJob" (destroy)="showList()"></app-job-edit><!--if i use the (savedJob) and want to make showEditJob false, it redirects to ?name=... and fucks everything up -->
+  </div>
 </div>
+

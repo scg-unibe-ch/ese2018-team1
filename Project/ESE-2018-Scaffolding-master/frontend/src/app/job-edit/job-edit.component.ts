@@ -25,10 +25,10 @@ export class JobEditComponent implements OnInit {
   @Input()
   editAsModerator: boolean
 
-  @Output()
+  @Output('destroy')
   destroy = new EventEmitter<Job>();
 
-  @Output('saved')
+  @Output('savedJob')
   saved = new EventEmitter();
 
   constructor(public userService: UserService, public router: Router) { }
@@ -92,8 +92,8 @@ export class JobEditComponent implements OnInit {
   onSaveAndBack(){
     JobService.saveJob(this.job, this.user).subscribe((instance: any) => {
       this.job = instance;
-      this.saved.emit();
     });
+    this.saved.emit();
   }
 
   onDestroy() {

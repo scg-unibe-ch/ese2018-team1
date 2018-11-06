@@ -47,23 +47,6 @@ export class ProfilListUserComponent implements OnInit {
     });
   }
 
-  // when ID the same or error (user not found), then save the new user
-  changeEmail (user: User){
-    UserService.getUserByEmail(user.email).subscribe((instance: any) => {
-        if (instance.id === user.id || instance === null) {
-          this.successfulChange = true;
-          this.saveUser(user);
-        }
-        else {
-          this.successfulChange = false;
-        }
-      },
-      err => {
-        this.successfulChange = true;
-        this.saveUser(user);
-      });
-  }
-
   approve (user: User) {
     user.approved = true;
     this.saveUser(user);

@@ -18,6 +18,7 @@ import { ProfilListUserComponent } from './Profil/profil-list-user/profil-list-u
 import { ProfilNewJobComponent } from './Profil/profil-new-job/profil-new-job.component';
 import { ProfilPublicComponent } from './Profil/profil-public/profil-public.component';
 import { ProfilNonPublicComponent } from './Profil/profil-non-public/profil-non-public.component';
+import { ProfilEditComponent } from './Profil/profil-edit/profil-edit.component';
 
 
 
@@ -35,6 +36,7 @@ import { ProfilNonPublicComponent } from './Profil/profil-non-public/profil-non-
     ProfilNewJobComponent,
     ProfilPublicComponent,
     ProfilNonPublicComponent,
+    ProfilEditComponent,
   ],
   imports: [
     BrowserModule,

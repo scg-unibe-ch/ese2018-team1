@@ -17,7 +17,6 @@ export class ProfilNonPublicComponent implements OnInit {
   showAdmin = false;
   createNewJob = false;
   editProfil: boolean = false;
-  successfulChange: boolean = true;
   constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit() {
@@ -32,6 +31,7 @@ export class ProfilNonPublicComponent implements OnInit {
        this.toggleShowPassword(false, true);
      }
     this.passwordChangeUserId = this.user.id;
+     this.ShowList();
   }
 
 
@@ -51,6 +51,7 @@ admin & moderatorMenu switches
   ShowList(){
     this.showAdmin = false;
     this.showPassword = false;
+    this.editProfil = false;
     this.passwordChangeUserId = this.user.id;
   }
 
@@ -99,33 +100,4 @@ end admin Menu switches
   toggleShowCreateNewJob() {
     this.createNewJob = !this.createNewJob;
   }
-
-  saveUser (user: User) {
-    UserService.updateUser(user.id, user).subscribe((instance: any) => {
-      if(instance == null || !instance.approved){
-        console.log('error');
-      }
-      this.userService.changeUser(user);
-    });
-  }
-
-  // when ID the same or error (user not found), then save the new user
-  changeEmail (user: User){
-    UserService.getUserByEmail(user.email).subscribe((instance: any) => {
-      if (instance.id === user.id || instance === null) {
-        this.successfulChange = true;
-        this.saveUser(user);
-      }
-      else {
-        this.successfulChange = false;
-      }
-    },
-    err => {
-      this.successfulChange = true;
-      this.saveUser(user);
-    });
-  }
-
-
-
 }

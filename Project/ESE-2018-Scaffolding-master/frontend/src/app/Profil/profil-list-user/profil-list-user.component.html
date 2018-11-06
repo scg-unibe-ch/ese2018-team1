@@ -2,6 +2,7 @@
   <h4>{{tableName}}</h4>
   <button *ngIf="showAll" (click)="switchView()">Show unapproved Users</button>
   <button *ngIf="!showAll" (click)="switchView()">Show all Users</button>
+  <br>
   <table>
     <tr>
       <th>Name</th>
@@ -37,21 +38,5 @@
 <app-profil-public *ngIf="showCompany" [companyId]="companyId"></app-profil-public>
 <div *ngIf="editProfil">
   <button (click)="editProfile(editUser)">Zurück zur Liste</button>
-  <h4>{{editUser.name}}</h4>
-    <blockquote *ngIf="this.user.isAdmin()">
-    Email
-    <input type="text" [(ngModel)]="editUser.email" value="{{editUser.email}}" (ngModelChange)="saveUser(editUser)"/>
-    </blockquote>
-    <blockquote>
-      Benutzername
-      <input type="text" [(ngModel)]="editUser.name" value="{{editUser.name}}" (ngModelChange)="saveUser(editUser)"/>
-    </blockquote>
-    <blockquote>
-      Kontaktadresse
-      <textarea maxlength="100" [(ngModel)]="editUser.address" value="{{editUser.address}}" (ngModelChange)="saveUser(editUser)"></textarea>
-    </blockquote>
-    <blockquote>
-      Beschreibung
-      <textarea [(ngModel)]="editUser.description" name="description_short" id="description_short" (ngModelChange)="saveUser(editUser)"></textarea>
-    </blockquote>
+  <app-profil-edit [userId]="this.editUser.id"></app-profil-edit>
 </div>

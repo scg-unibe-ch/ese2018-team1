@@ -20,7 +20,6 @@ export class ProfilNonPublicComponent implements OnInit {
   constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit() {
-
     this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
     if(this.user === null || !this.userService.currentLoginStatus){
       this.router.navigateByUrl('/login'); // TODO: redirection does NOT work
@@ -32,6 +31,7 @@ export class ProfilNonPublicComponent implements OnInit {
        this.toggleShowPassword(false, true);
      }
     this.passwordChangeUserId = this.user.id;
+     this.ShowList();
   }
 
 
@@ -51,11 +51,14 @@ admin & moderatorMenu switches
   ShowList(){
     this.showAdmin = false;
     this.showPassword = false;
+    this.editProfil = false;
+    this.passwordChangeUserId = this.user.id;
   }
 
   toggleMenu(showAdmin: boolean, showPassword: boolean){
     this.showAdmin = showAdmin;
     this.showPassword = showPassword;
+    this.passwordChangeUserId = this.user.id;
   }
 /*
 end admin Menu switches
@@ -97,20 +100,4 @@ end admin Menu switches
   toggleShowCreateNewJob() {
     this.createNewJob = !this.createNewJob;
   }
-
-  // TODO: when Email is different, then check if its not occupied (as well as in change profile)
-  saveUser (user: User) {
-    UserService.updateUser(user.id, user).subscribe((instance: any) => {
-      if(instance == null || !instance.approved){
-        console.log('error');
-      }
-      this.userService.changeUser(user);
-    });
-  }
-
-  // when ID the same or error (user not found), then save the new user
-  changeEmail (user: User){
-
-  }
-
 }

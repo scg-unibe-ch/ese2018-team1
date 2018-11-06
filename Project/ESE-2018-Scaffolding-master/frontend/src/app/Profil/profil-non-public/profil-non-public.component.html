@@ -8,6 +8,7 @@
       <h1 *ngIf="showAdmin && !showPassword">
         Profil ~ Benutzer
       </h1>
+      <h1 *ngIf="showAdmin && showPassword"> Profil ~ Bearbeiten</h1>
 
 
 <!--menus-->
@@ -17,10 +18,10 @@
           <button *ngIf="!(!showPassword && !showAdmin)" (click)="toggleMenu(false, false)">Zeige Jobs</button>
           <button style="background-color:#000000" *ngIf="showPassword && !showAdmin" (click)="backToUserList()">Ändere das Passwort</button>
           <button *ngIf="!(showPassword && !showAdmin)" (click)="toggleMenu(false, true)">Ändere das Passwort</button>
-          <button style="background-color:#000000" *ngIf="showAdmin && !showPassword" (click)="toggleMenu(false, false)">Zeige Benutzer</button>
-          <button *ngIf="!(showAdmin && !showPassword)" (click)="toggleMenu(true, false)">Zeige Benutzer</button>
           <button *ngIf="!(showAdmin && showPassword)" (click)="toggleMenu(true, true)">Profil bearbeiten</button>
           <button style="background-color:#000000" *ngIf="showAdmin && showPassword" (click)="toggleMenu(false, false)">Profil bearbeiten</button>
+          <button style="background-color:#000000" *ngIf="showAdmin && !showPassword" (click)="toggleMenu(false, false)">Zeige Benutzer</button>
+          <button *ngIf="!(showAdmin && !showPassword)" (click)="toggleMenu(true, false)">Zeige Benutzer</button>
         </div>
 <label *ngIf="!user.approved">Dieses Benutzerkonto wurde noch nicht bestätigt.</label>
       <!-- company menu control-->
@@ -66,20 +67,5 @@
 <!--profil bearbeiten-->
 <div *ngIf="editProfil || (showAdmin && showPassword)">
   <h4>{{user.name}}</h4>
-  <blockquote>
-    Email
-    <input type="text" [(ngModel)]="user.email" value="{{user.email}}" (ngModelChange)="saveUser(user)"/>
-  </blockquote>
-  <blockquote>
-    Benutzername
-    <input type="text" [(ngModel)]="user.name" value="{{user.name}}" (ngModelChange)="saveUser(user)"/>
-  </blockquote>
-  <blockquote>
-    Kontaktadresse
-    <textarea maxlength="100" [(ngModel)]="user.address" value="{{user.address}}" (ngModelChange)="saveUser(user)"></textarea>
-  </blockquote>
-  <blockquote>
-    Beschreibung
-    <textarea [(ngModel)]="user.description" name="description_short" id="description_short" (ngModelChange)="saveUser(user)"></textarea>
-  </blockquote>
+  <app-profil-edit [userId]="this.user.id"></app-profil-edit>
 </div>

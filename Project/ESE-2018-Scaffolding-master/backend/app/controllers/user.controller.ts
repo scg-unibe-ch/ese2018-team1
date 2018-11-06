@@ -18,9 +18,11 @@ router.get('/session', async (req: Request, res: Response) => {
   if (req.session != null && req.session.user != null) {
     const instance = await User.findById(req.session.user.id);
     if (instance !== null) {
-      instance.password = '';
-      instance.salt = '';
-      return res.status(200).send(  instance);
+      if (req.session.user.email === instance.email) {
+        instance.password = '';
+        instance.salt = '';
+        return res.status(200).send(  instance);
+      }
     }
     return res.status(401).send('Error, User does not exist');
   } else {
@@ -174,24 +176,36 @@ router.get('/:id/:password', async (req: Request, res: Response) => {
   return;
 });
 
-/*creates a new user and returns it */
+/**
+ * creates a new user and returns it
+ *
+ * @param user email
+ *
+ * @return user id, salt, email
+ * @return creates a session without the salt in it
+ * */
 router.post('/', async (req: Request, res: Response) => {
   const instance = new User();
   instance.fromSimplification(req.body);
   instance.salt = getNewSalt();
   await instance.save();
-  instance.password = '';
-  instance.salt = '';
+  instance.password = ''; // salt has to be returned, because otherwise password can not be hashed
   if (req.session) {
     req.session.user = instance;
+    req.session.user.salt = ''; // salt does not need to be stored in the cookie
     res.statusCode = 200;
-    res.send(instance.toSimplification());
-    return;
+    return res.send(instance.toSimplification());
   }
   return res.send('Error creating a session');
 });
 
-/* updates a user according to the message body */
+/** updates a user according to the message body
+ *  function: to change the password of the user
+ *
+ *  @params user id and the new password
+ *
+ *  TODO: no credentails check -> user has to be admin or the same userId like the id where the password is to change
+ * */
 router.put('/:id/:newPassword', async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const instance = await User.findById(id);
@@ -210,8 +224,15 @@ router.put('/:id/:newPassword', async(req: Request, res: Response) => {
   res.send(instance.toSimplification());
 });
 
-/* updates a user according to the message body */
-router.post('/:id', async(req: Request, res: Response) => {
+/** updates a user according to the message body
+ *
+ * Note: password and salt can not be changed!
+ *
+ * @params user id, user body
+ *
+ * @return user body without password & salt, session will be updated
+ * */
+router.put('/:id', async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const instance = await User.findById(id);
   if (instance == null) {
@@ -229,8 +250,13 @@ router.post('/:id', async(req: Request, res: Response) => {
   instance.salt = salt;
   await instance.save();
   instance.password = '';
-  res.status(200);
-  res.send(instance.toSimplification());
+  instance.salt = '';
+  if (req.session) {
+    req.session.user = instance;
+    res.status(200);
+    res.send(instance.toSimplification());
+  }
+  return;
 });
 
 /*deletes a user */

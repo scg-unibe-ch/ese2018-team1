@@ -1,0 +1,20 @@
+<div class="inner">
+<h4>{{userEdit.name}}</h4>
+<blockquote *ngIf="this.user.isAdmin() || this.user.id === this.userId">
+  Email
+  <input type="text" [(ngModel)]="userEdit.email" value="{{userEdit.email}}" (ngModelChange)="changeEmail(userEdit)"/>
+  <input *ngIf="!successfulChange" type="text" contenteditable="false" value="Änderungen nicht gespeichert, da Email schon vergeben"/>
+</blockquote>
+<blockquote>
+  Benutzername
+  <input type="text" [(ngModel)]="userEdit.name" value="{{userEdit.name}}" (ngModelChange)="saveUser(userEdit)"/>
+</blockquote>
+<blockquote>
+  Kontaktadresse
+  <textarea maxlength="100" [(ngModel)]="userEdit.address" value="{{userEdit.address}}" (ngModelChange)="saveUser(userEdit)"></textarea>
+</blockquote>
+<blockquote>
+  Beschreibung
+  <textarea [(ngModel)]="userEdit.description" name="description_short" id="description_short" (ngModelChange)="saveUser(userEdit)"></textarea>
+</blockquote>
+</div>

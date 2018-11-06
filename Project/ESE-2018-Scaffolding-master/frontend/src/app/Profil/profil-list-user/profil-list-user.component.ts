@@ -12,6 +12,7 @@ export class ProfilListUserComponent implements OnInit {
   unapprovedUsers: User[];
   user:User;
   editUser: User;
+  successfulChange: boolean = true;
 
   companyId: number;
   showCompany: boolean = false;

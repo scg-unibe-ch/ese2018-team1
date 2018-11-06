@@ -49,6 +49,9 @@ export class JobEditComponent implements OnInit {
         UserService.getUserById(this.job.company_id).subscribe((user: any) =>{
           this.company = user;
           this.checkForAccess();
+          this.startNow = (this.job.job_start == "");
+          this.temporary = (this.job.job_end != "");
+          this.standardEMail = (this.job.company_email == "");
         });
       });
     }
@@ -58,11 +61,6 @@ export class JobEditComponent implements OnInit {
         this.checkForAccess();
       });
     }
-
-    this.startNow = (this.job.job_start == "");
-    this.temporary = (this.job.job_end != "");
-    this.standardEMail = (this.job.company_email == "");
-
   }
 
   checkForAccess(){
@@ -79,9 +77,15 @@ export class JobEditComponent implements OnInit {
     JobService.saveJob(this.job).subscribe((instance: any) => {
       this.job = instance;
     });
-    if (this.startNow) this.job.job_start = "";
-    if (this.temporary) this.job.job_end = "";
-    if (this.standardEMail) this.job.company_email = this.company.email;
+    if (this.startNow){
+      this.job.job_start = "";
+    }
+    if (this.temporary){
+      this.job.job_end = "";
+    }
+    if (this.standardEMail){
+      this.job.company_email = this.company.email;
+    }
   }
 
   onSaveAndBack(){

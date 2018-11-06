@@ -35,15 +35,15 @@
     <label *ngIf="this.startNow" for="job_start">Job per sofort verfügbar</label>
     <label *ngIf="!this.startNow" for="job_start">Job verfügbar ab:</label>
     <button *ngIf="this.startNow" (click)="onFlipStart()">anderes Startdatum wählen</button>
-    <input *ngIf="!this.startNow" matInput placeholder="start of the job" type="date" maxlength="10" [(ngModel)]="job.job_start" name="job_start" id="job_start" (ngModelChange)="onSave()">
     <button *ngIf="!this.startNow" (click)="onFlipStart()">Job per sofort verfügbar</button>
+    <input *ngIf="!this.startNow" matInput placeholder="start of the job" type="date" maxlength="10" [(ngModel)]="job.job_start" name="job_start" id="job_start" (ngModelChange)="onSave()">
   </div>
   <div class="field half">
     <label *ngIf="this.temporary" for="job_end">Ende des Jobs</label>
     <label *ngIf="!this.temporary" for="job_end">Unbefristeter Job</label>
     <button *ngIf="!this.temporary" (click)="onFlipTemporary()">Angebot befristen</button>
-    <input *ngIf="this.temporary" matInput placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end" (ngModelChange)="onSave()">
     <button *ngIf="this.temporary" (click)="onFlipTemporary()">keine Befristung</button>
+    <input *ngIf="this.temporary" matInput placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end" (ngModelChange)="onSave()">
   </div>
   <div *ngIf="editAsModerator" class="field half">
   <label *ngIf="!job.approved" (click)="toggleApproval()">Öffentlich schalten</label>

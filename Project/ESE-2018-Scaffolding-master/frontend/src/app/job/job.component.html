@@ -1,6 +1,8 @@
 <article style="width: 100%">
   <div class="content">
-    <span class="icon fa-laptop"></span>
+    <span class="icon fa-laptop">
+      <p *ngIf="job.oldJobId !== -1" class="infoBox">DRAFT</p>
+    </span>
     <header>
       <h3>{{job.name}}</h3>
     </header>

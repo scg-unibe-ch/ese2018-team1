@@ -1,3 +1,13 @@
 article {
   vertical-align: center;
 }
+
+.infoBox {
+  float: right;
+  font-size: 0.3em;
+  margin-right: 40%;
+  margin-top: 10%;
+  padding: 0px 5px 0px 5px;
+  color: #ff0000;
+  border: solid #ff0000 2px;
+}

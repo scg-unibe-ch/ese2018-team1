@@ -190,6 +190,8 @@ export class JobService {
 
   /**
    * deletes a job
+   * deletes also the draft of this job if editing=1!!!!!!!
+   * sets editing=0 if this job is a draft
    * @param job
    */
   static deleteJob(job: Job): Observable<Object>{

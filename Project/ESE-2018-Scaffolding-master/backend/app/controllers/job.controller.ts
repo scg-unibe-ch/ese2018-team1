@@ -42,8 +42,8 @@ router.get('/approved', async (req: Request, res: Response) => {
 router.get('/search/:text', async (req: Request, res: Response) => {
   const search = req.params.text;
   if(checkSafety(search)) {
-    let command = 'SELECT `Job`.`id`, `Job`.`name`, `Job`.`description_short`, `Job`.`description`, `Job`.`companyId`, `Job`.`companyEmail`, `Job`.`jobWebsite`, `Job`.`wage`, `Job`.`wagePerHour`, `Job`.`job_start`, `Job`.`job_end`, `Job`.`percentage`, `Job`.`approved`, `user`.`name` AS `user.name`, `user`.`email` AS `user.email` FROM `Job` AS `Job` INNER JOIN `User` AS `user` ON `Job`.`companyId` = `user`.`id`';
-    command += ' WHERE Job.approved=1 AND Job.editing=0 AND (Job.name LIKE \'%' + search + '%\' OR Job.description LIKE \'%' + search + '%\' OR User.name LIKE \'%' + search + '%\')';
+    let command = 'SELECT `Job`.`id`, `Job`.`name`, `Job`.`description_short`, `Job`.`description`, `Job`.`companyId`, `Job`.`companyEmail`, `Job`.`jobWebsite`, `Job`.`wage`, `Job`.`wagePerHour`, `Job`.`job_start`, `Job`.`job_end`, `Job`.`percentage`, `Job`.`approved`, Job.oldJobId, Job.editing, `user`.`name` AS `user.name`, `user`.`email` AS `user.email` FROM `Job` AS `Job` INNER JOIN `User` AS `user` ON `Job`.`companyId` = `user`.`id`';
+    command += ' WHERE Job.approved=1 AND (Job.name LIKE \'%' + search + '%\' OR Job.description LIKE \'%' + search + '%\' OR User.name LIKE \'%' + search + '%\')';
     await sequelize.query(command).then(function (results) {
       res.statusCode = 200;
       res.send(results[0]);
@@ -72,7 +72,7 @@ percentage_less: job percentage is more than 'percentage_less'
   *
   */
 
-router.get('/search/:name/:company_name/:description/:wage/:wagePerHour/:start_before/:start_after/:end_before/:end_after/:percentage_more/:percentage_less', async (req: Request, res: Response) =>{
+router.get('/search/:name/:company_name/:description/:wage/:wagePerHour/:start_before/:start_after/:end_before/:end_after/:percentage_more/:percentage_less', async (req: Request, res: Response) => {
   const sname = req.params.name;
   const scompany_name = req.params.company_name;
   const sdescription = req.params.description;
@@ -84,7 +84,7 @@ router.get('/search/:name/:company_name/:description/:wage/:wagePerHour/:start_b
   const send_after = req.params.end_after ;
   const spercentage_less = req.params.percentage_less === '*' ? -1 : parseInt(req.params.percentage_less);
   const spercentage_more = req.params.percentage_more === '*' ? -1 : parseInt(req.params.percentage_more);
-  let  command = 'SELECT Job.id, Job.name, Job.description_short, Job.description, Job.companyId, Job.companyEmail, Job.jobWebsite, Job.wage, Job.wagePerHour, Job.job_start, Job.job_end, Job.approved FROM Job, User WHERE Job.companyId=User.id AND Job.approved=1 AND Job.editing=0';
+  let  command = 'SELECT Job.id, Job.name, Job.description_short, Job.description, Job.companyId, Job.companyEmail, Job.jobWebsite, Job.wage, Job.wagePerHour, Job.job_start, Job.job_end, Job.approved, Job.oldJobId, Job.editing FROM Job, User WHERE Job.companyId=User.id AND Job.approved=1';
   const originalCommand = command;
   command += ' AND';
   if(sname !== '*' && checkSafety(sname)) {
@@ -145,8 +145,7 @@ router.get('/search/company/:company_id/:approved', async (req: Request, res: Re
         }
       }],
       where: {
-        approved: 1,
-        editing: 0
+        approved: 1
       }
     });
   } else {
@@ -273,6 +272,8 @@ router.put('/:id/:approve', async  (req: Request, res: Response) => {
 
 /**
  * deletes a job
+ * if the job is a draft, set editing at the old one to false
+ * if the job has a draft (editing=1), delete its draft
  */
 router.delete('/:id', async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);
@@ -283,6 +284,23 @@ router.delete('/:id', async(req: Request, res: Response) => {
       'message': 'job not found to delete'
     });
     return;
+  }
+  if(instance.oldJobId !== -1) {
+    const oldJob = await Job.findById(instance.oldJobId);
+    if(oldJob !== null){
+      oldJob.editing = false;
+      await oldJob.save();
+    }
+  }
+  if(instance.editing) {
+    const newJob = await Job.find({
+      where: Sequelize.and(
+        {oldJobId: instance.id}
+      )
+    });
+    if(newJob !== null){
+      await newJob.destroy();
+    }
   }
   instance.fromSimplification(req.body);
   await instance.destroy();
@@ -297,7 +315,7 @@ router.delete('/:id', async(req: Request, res: Response) => {
  */
 function checkSafety(text: string): boolean {
   text = text.toLowerCase();
-  if(text.includes('"') || text.includes('\'') || text.includes('--') || text.includes('UNION')) {
+  if(text.includes('"') || text.includes('\'') || text.includes('--') || text.includes('union')) {
     return false;
   }
   return true;

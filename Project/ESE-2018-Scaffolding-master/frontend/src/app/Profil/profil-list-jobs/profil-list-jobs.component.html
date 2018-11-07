@@ -4,7 +4,7 @@
   <h4>
     Liste der jobs
   </h4>
-  <button *ngIf="!showEditJob" (click)="toggleDraft()">{{toggleDraftText}}</button>
+  <button *ngIf="!showEditJob && !user.isCompany()" (click)="toggleDraft()">{{toggleDraftText}}</button>
   <section *ngIf="!showEditJob" id="three">
     <div class="job">
       <div class="inner" *ngFor="let currentJob of showJobs">
@@ -14,7 +14,7 @@
   </section>
   <div *ngIf="showEditJob">
     <button (click)="showList()">Zurück</button>
-    <app-job-edit [job]="editJob" (destroy)="showList()"></app-job-edit><!--if i use the (savedJob) and want to make showEditJob false, it redirects to ?name=... and fucks everything up -->
+    <app-job-edit [job]="editJob" (savedJob)="showList()" (destroy)="showList()"></app-job-edit><!--if i use the (savedJob) and want to make showEditJob false, it redirects to ?name=... and fucks everything up -->
   </div>
 </div>
 

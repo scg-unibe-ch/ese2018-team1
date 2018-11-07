@@ -19,7 +19,7 @@ export class JobService {
   static httpClient: HttpClient;
   static backendUrl = 'http://localhost:3000';
   static userService: UserService;
-  /*static backendUrl = 'http://**Your Local IP**:3000';*/
+  //static backendUrl = 'http://172.26.243.92:3000';
 
   constructor(private hC: HttpClient, private userService: UserService) {
     JobService.httpClient = hC;

@@ -12,7 +12,7 @@ export class ProfilEditComponent implements OnInit {
 
   user: User;
   userEdit: User;
-  successfulChange: boolean = true;
+  successfulChange = true;
 
   @Input()
   userId: number;

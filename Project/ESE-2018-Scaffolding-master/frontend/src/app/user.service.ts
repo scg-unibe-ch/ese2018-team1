@@ -5,6 +5,7 @@ import {root} from 'rxjs/internal-compatibility';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {sha256} from 'js-sha256';
+import {SurpriseService} from './surprise.service';
 
 @Injectable({
   providedIn: 'root'
@@ -109,6 +110,7 @@ export class UserService {
 
   changeUser (newUser: User){
     this.user.next(newUser);
+    SurpriseService.update();
   }
 
   changeErrorStatus(newStatus: boolean){

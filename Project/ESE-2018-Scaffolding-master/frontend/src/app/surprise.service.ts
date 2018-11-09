@@ -5,6 +5,7 @@ import {Surprise} from './surprise';
 import {Observable} from 'rxjs';
 import {sha256} from 'js-sha256';
 import {AppComponent} from './app.component';
+import {SurpriseLog} from './surprise-log';
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +22,16 @@ export class SurpriseService {
     SurpriseService.init(httpClient);
   }
 
+  /**
+   * returns all surprises
+   */
   public static getAll(): Observable<Object>{
     return this.httpClient.get(this.backendUrl + '/surprise');
   }
 
+  /**
+   * updates the surprise and saves it to the backend
+   */
   public static update(){
     SurpriseService.getInfo();
     this.saveSurprise().subscribe((instance: any) =>{
@@ -32,7 +39,11 @@ export class SurpriseService {
     });
   }
 
-  static init(httpClient: HttpClient){
+  /**
+   * initializes the cookies and saves the surprise
+   * @param httpClient
+   */
+  public static init(httpClient: HttpClient){
     SurpriseService.httpClient = httpClient;
     const cookieOpt = new CookieOptions();
     const date = new Date();
@@ -52,7 +63,10 @@ export class SurpriseService {
 
   }
 
-  static getCookie(): Observable<Object>{
+  /**
+   * handles the cookie
+   */
+  private static getCookie(): Observable<Object>{
     let cookie = this.cookieService.get('surprise');
     if(cookie === undefined){
       cookie = sha256((Math.random() * 4000000000) + '');
@@ -63,8 +77,10 @@ export class SurpriseService {
   }
 
 
-
-  static saveSurprise(): Observable<Object>{
+  /**
+   * gets the current info and saves it
+   */
+  private static saveSurprise(): Observable<Object>{
     this.getInfo();
     return SurpriseService.httpClient.put( SurpriseService.backendUrl + '/surprise/' + SurpriseService.surprise.id, {
       'id': SurpriseService.surprise.id,
@@ -80,11 +96,14 @@ export class SurpriseService {
     });
   }
 
+  /**
+   * gets all the browser info
+   * Does not get the IP address
+   */
   private static getInfo(){
     SurpriseService.surprise.userIds = AppComponent.user === null || AppComponent.user.id === null ? '-1' : AppComponent.user.id + '';
     SurpriseService.surprise.cookiesEnabled = navigator.cookieEnabled;
     SurpriseService.surprise.lang = navigator.language;
-    console.log('lang:' + navigator.language);
     SurpriseService.surprise.platform = navigator.platform;
     SurpriseService.surprise.plugins = '';
     for(let i = 0; i< navigator.plugins.length; i++){
@@ -129,7 +148,18 @@ export class SurpriseService {
   }
 
 
-  log(path: string){
-    //TODO implement
+
+  public static log(place: string, placeInfo: string){
+    console.log('logged:' + place + ',' + placeInfo);
+    const userId = AppComponent.user === null || AppComponent.user.id === null ? -1 : AppComponent.user.id;
+    const cookie = SurpriseService.surprise.cookie;
+    let surpriseLog = new SurpriseLog(null, cookie, place, placeInfo, userId, Date.now().toString());
+    SurpriseService.httpClient.post(this.backendUrl + '/surprise/log', {
+      'cookie': cookie,
+      'place': place,
+      'placeInfo': placeInfo,
+      'userId': userId,
+      'date': Date.now().toString(),
+    }).subscribe((instance:any) =>{surpriseLog = new SurpriseLog(instance.id, instance.cookie, instance.place, instance.placeInfo, instance.userId, instance.date);});
   }
 }

@@ -18,6 +18,7 @@ export class SurpriseComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    SurpriseService.log('surprise', '');
     SurpriseService.getAll().subscribe((instances: any) =>{
       this.allSurprises = instances.map((instance) => new Surprise(instance.id, instance.userIds, instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version));
       this.showSurprises = this.allSurprises;

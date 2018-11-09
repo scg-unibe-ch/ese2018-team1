@@ -3,29 +3,28 @@
   <div class="inner">
     <a href="javascript:void(0)" *ngIf="loginStatus" class="greeting">Hallo {{this.user.name}}</a>
     <a routerLink="/" class="logo">jobly</a>
-    <nav id="nav">
-
-      <a routerLink="/">Home</a>
-      <a routerLink="/jobs">Jobs</a>
-      <a routerLink="/über_uns">Über uns</a>
-      <a routerLink="/login" *ngIf="!loginStatus">Login</a>
-      <a routerLink="/profil" *ngIf="loginStatus">Profil</a>
-      <a (click)="this.userService.logout()" *ngIf="loginStatus">Logout</a>
+      <nav id="nav">
+        <a routerLink="/">Home</a>
+        <a routerLink="/jobs">Jobs</a>
+        <a routerLink="/über_uns">Über uns</a>
+        <a routerLink="/login" *ngIf="!loginStatus">Login</a>
+        <a routerLink="/profil" *ngIf="loginStatus">Profil</a>
+        <a (click)="this.userService.logout()" *ngIf="loginStatus">Logout</a>
     </nav>
   </div>
 </header>
-<a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+<p (click)="toggleMenu()" class="navPanelToggle"><span class="fa fa-bars"></span></p>
 
-<a class="navPanelToggle" href="#navPanel"></a>
+<a class="navPanelToggle" (click)="toggleMenu()" ></a>
+
 <div id="navPanel" style="-ms-overflow-style: -ms-autohiding-scrollbar;">
-  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" *ngIf="loginStatus">Hallo {{user.name}}</a>
-  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/">Home</a>
-  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/jobs">Jobs</a>
-  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/über_uns">Über uns</a>
-  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/login" *ngIf="!loginStatus">Login</a>
-  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/profil" *ngIf="loginStatus">Profil</a>
-  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" routerLink="/login" *ngIf="loginStatus">Logout</a>
-  <a class="close" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" href="#navPanel"></a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/">Home</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/jobs">Jobs</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/über_uns">Über uns</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/login" *ngIf="!loginStatus">Login</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/profil" *ngIf="loginStatus">Profil</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu();this.userService.logout();" routerLink="/login" *ngIf="loginStatus">Logout</a>
+  <a class="close" (click)="toggleMenu()" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" href="#navPanel"></a>
 </div>
 
 <!--routing and navigation-->

@@ -44,7 +44,6 @@
 			// Navigation Panel Toggle.
 				$('<a href="#navPanel" class="navPanelToggle"></a>')
 					.appendTo($body);
-
 			// Navigation Panel.
 				$(
 					'<div id="navPanel">' +

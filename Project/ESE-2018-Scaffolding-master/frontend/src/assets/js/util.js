@@ -4,14 +4,14 @@
 	 * Generate an indented list of links from a nav. Meant for use with panel().
 	 * @return {jQuery} jQuery object.
 	 */
+/*
 	$.fn.navList = function() {
-
+  debugger;
 		var	$this = $(this);
 			$a = $this.find('a'),
 			b = [];
 
 		$a.each(function() {
-
 			var	$this = $(this),
 				indent = Math.max(0, $this.parents('li').length - 1),
 				href = $this.attr('href'),
@@ -33,12 +33,13 @@
 		return b.join('');
 
 	};
-
+*/
 	/**
 	 * Panel-ify an element.
 	 * @param {object} userConfig User config.
 	 * @return {jQuery} jQuery object.
 	 */
+
 	$.fn.panel = function(userConfig) {
 
 		// No elements?
@@ -300,11 +301,12 @@
 	 * Apply "placeholder" attribute polyfill to one or more forms.
 	 * @return {jQuery} jQuery object.
 	 */
+	/*
 	$.fn.placeholder = function() {
 
 		// Browser natively supports placeholders? Bail.
 			if (typeof (document.createElement('input')).placeholder != 'undefined')
-				return $(this);
+ 				//return $(this);
 
 		// No elements?
 			if (this.length == 0)

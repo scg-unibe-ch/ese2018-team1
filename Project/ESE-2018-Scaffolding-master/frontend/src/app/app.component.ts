@@ -30,5 +30,15 @@ export class AppComponent implements OnInit {
     });
   }
 
+  toggleMenu(){
+    console.log('added visible');
+    const menu = document.getElementById('navPanel');
+    if(menu.classList.contains('visible')){
+      menu.classList.remove('visible');
+    }
+    else{
+      menu.classList.add('visible');
+    }
+  }
 
 }

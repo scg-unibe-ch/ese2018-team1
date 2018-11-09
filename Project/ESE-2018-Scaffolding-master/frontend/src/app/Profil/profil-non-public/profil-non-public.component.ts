@@ -3,6 +3,7 @@ import {Job} from '../../job';
 import {User} from '../../user';
 import {UserService} from '../../user.service';
 import {Router} from '@angular/router';
+import {SurpriseService} from '../../surprise.service';
 
 @Component({
   selector: 'app-profil-non-public',
@@ -20,6 +21,7 @@ export class ProfilNonPublicComponent implements OnInit {
   constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit() {
+    SurpriseService.log('profile', '');
     this.userService.currentLoginStatus.subscribe(loginstatus => this.loginStatus = loginstatus);
     this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
     if(!this.loginStatus){

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from "../../user.service";
 import {User} from "../../user";
 import {Router} from "@angular/router";
+import {SurpriseService} from '../../surprise.service';
 
 @Component({
   selector: 'app-profil-edit',
@@ -20,7 +21,11 @@ export class ProfilEditComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
-    this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
+    this.userService.currentUser.subscribe((instance) => {
+      this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description);
+      SurpriseService.log('changed password', this.user.name);
+    });
+    SurpriseService.log('edited profile', this.user.name);
     if (this.user.id === this.userId) {
       this.userEdit = this.user;
     }

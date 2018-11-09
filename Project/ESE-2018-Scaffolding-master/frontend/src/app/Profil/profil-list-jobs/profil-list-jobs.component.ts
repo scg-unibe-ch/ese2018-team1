@@ -4,6 +4,7 @@ import {JobService} from '../../job.service';
 import {UserService} from '../../user.service';
 import {User} from '../../user';
 import {Router} from '@angular/router';
+import {SurpriseService} from '../../surprise.service';
 
 @Component({
   selector: 'app-profil-list-jobs',
@@ -22,6 +23,7 @@ export class ProfilListJobsComponent implements OnInit {
   constructor(public userService: UserService, public router: Router) { }
 
   ngOnInit() {
+    SurpriseService.log('list jobs', '');
     this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
     if(this.user === null || !this.userService.currentLoginStatus){
       this.router.navigateByUrl('/login');

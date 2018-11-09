@@ -4,6 +4,7 @@ import {JobService} from '../../job.service';
 import {Job} from '../../job';
 import {User} from '../../user';
 import {InputMetadataWalker} from 'codelyzer/noInputRenameRule';
+import {SurpriseService} from '../../surprise.service';
 
 @Component({
   selector: 'app-profil-public',
@@ -21,6 +22,7 @@ export class ProfilPublicComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    SurpriseService.log('public profile', this.user.name);
     UserService.getUserById(this.companyId).subscribe((instance: any)=>{
       this.user = instance;
       JobService.getJobsByCompany(this.user.id, true).subscribe((instances: any) => {

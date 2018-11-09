@@ -4,6 +4,7 @@ import {Job} from '../../job';
 import {User} from '../../user';
 import {UserService} from '../../user.service';
 import {JobService} from '../../job.service';
+import {SurpriseService} from '../../surprise.service';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class ProfilNewJobComponent implements OnInit {
   }
 
   ngOnInit() {
+    SurpriseService.log('new job', '');
     this.showDetails = false;
     this.userService.currentUser.subscribe(currentUser => this.user = currentUser);
   }

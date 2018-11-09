@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {User} from '../../user';
 import {UserService} from '../../user.service';
+import {SurpriseService} from '../../surprise.service';
 
 @Component({
   selector: 'app-profil-list-user',
@@ -12,13 +13,13 @@ export class ProfilListUserComponent implements OnInit {
   unapprovedUsers: User[];
   user:User;
   editUser: User;
-  successfulChange: boolean = true;
+  successfulChange = true;
 
   companyId: number;
-  showCompany: boolean = false;
-  showAll: boolean = false;
-  tableName: string = 'Liste der unbestätigten Benutzer';
-  editProfil: boolean = false;
+  showCompany = false;
+  showAll = false;
+  tableName = 'Liste der unbestätigten Benutzer';
+  editProfil = false;
 
   @Output('changePw')
   changePw = new EventEmitter<number>();
@@ -29,6 +30,7 @@ export class ProfilListUserComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
+    SurpriseService.log('user list', '');
     this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
     if(this.user.isAdmin()){
       this.showAll = true;

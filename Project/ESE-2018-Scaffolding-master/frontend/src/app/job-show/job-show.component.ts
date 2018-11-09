@@ -4,6 +4,7 @@ import {Job} from '../job';
 import {UserService} from '../user.service';
 import {User} from '../user';
 import {Router} from '@angular/router';
+import {SurpriseService} from '../surprise.service';
 
 @Component({
   selector: 'app-job-show',
@@ -19,6 +20,7 @@ export class JobShowComponent implements OnInit {
   constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit() {
+    SurpriseService.log('looked at job', this.job.name);
     this.jobId = location.search.replace('?id=', '');
     if (location.search.search('id') === 1 && this.jobId.length >0){
       console.log('found search: ' + this.jobId);

@@ -3,6 +3,7 @@ import {Job} from '../job';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router, RouterModule} from '@angular/router';
 import {JobService} from '../job.service';
+import {SurpriseService} from '../surprise.service';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class JobsComponent implements OnInit {
 
 
   ngOnInit() {
+    SurpriseService.log('jobs', '');
     const temp_Search = location.search.replace('?search=', '');
     if (location.search.search('search') === 1 && temp_Search.length >0){
       this.searchText = temp_Search;

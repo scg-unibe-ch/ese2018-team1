@@ -3,6 +3,7 @@ import {Job} from '../job';
 import {User} from '../user';
 import {UserService} from '../user.service';
 import {Router} from '@angular/router';
+import {SurpriseService} from '../surprise.service';
 
 
 @Component({

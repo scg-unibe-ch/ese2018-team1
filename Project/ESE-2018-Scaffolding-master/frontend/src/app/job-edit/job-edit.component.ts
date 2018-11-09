@@ -5,6 +5,7 @@ import {JobService} from '../job.service';
 import {UserService} from '../user.service';
 import {Router} from '@angular/router';
 import {User} from '../user';
+import {SurpriseService} from '../surprise.service';
 
 @Component({
   selector: 'app-job-edit',
@@ -34,6 +35,7 @@ export class JobEditComponent implements OnInit {
   constructor(public userService: UserService, public router: Router) { }
 
   ngOnInit() {
+    SurpriseService.log('edited job', this.job.name);
     this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
     if(this.user === null || !this.userService.currentLoginStatus){
       this.router.navigateByUrl('/login');

@@ -3,6 +3,7 @@ import {User} from '../user';
 import {HttpClient} from '@angular/common/http';
 import {UserService} from '../user.service';
 import {Router} from '@angular/router';
+import {SurpriseService} from '../surprise.service';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(){
+    SurpriseService.log('login', '');
     this.user.email = this.user.email.toLowerCase();
     let password = this.user.password;
     UserService.getUserByEmail(this.user.email).subscribe((instance: any) => {

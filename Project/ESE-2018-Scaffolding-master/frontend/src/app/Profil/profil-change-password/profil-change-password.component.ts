@@ -2,6 +2,7 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {UserService} from '../../user.service';
 import {User} from '../../user';
 import {Router} from '@angular/router';
+import {SurpriseService} from '../../surprise.service';
 
 
 
@@ -32,7 +33,10 @@ export class ProfilChangePasswordComponent implements OnInit {
   constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit() {
-    this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
+    this.userService.currentUser.subscribe((instance) => {
+      this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description);
+      SurpriseService.log('changed password', this.user.name);
+    });
     if(this.userId === this.user.id){
       this.changePasswordAdmin = false;
     }

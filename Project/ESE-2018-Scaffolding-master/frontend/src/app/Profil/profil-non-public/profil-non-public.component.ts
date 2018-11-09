@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 export class ProfilNonPublicComponent implements OnInit {
   user: User;
   passwordChangeUserId: number;
-
+  loginStatus: boolean;
   showPassword = false;
   showAdmin = false;
   createNewJob = false;
@@ -20,8 +20,9 @@ export class ProfilNonPublicComponent implements OnInit {
   constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit() {
+    this.userService.currentLoginStatus.subscribe(loginstatus => this.loginStatus = loginstatus);
     this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
-    if(this.user === null || !this.userService.currentLoginStatus){
+    if(!this.loginStatus){
       this.router.navigateByUrl('/login'); // TODO: redirection does NOT work
      }
      if (this.user.isModerator() || this.user.isAdmin()) {

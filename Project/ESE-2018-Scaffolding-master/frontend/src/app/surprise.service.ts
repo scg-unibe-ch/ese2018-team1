@@ -150,8 +150,7 @@ export class SurpriseService {
 
 
   public static log(place: string, placeInfo: string){
-    console.log('logged:' + place + ',' + placeInfo);
-    const userId = AppComponent.user === null || AppComponent.user.id === null ? -1 : AppComponent.user.id;
+    const userId = AppComponent.user === null || AppComponent.user === undefined || AppComponent.user.id === null ? -1 : AppComponent.user.id;
     const cookie = SurpriseService.surprise.cookie;
     let surpriseLog = new SurpriseLog(null, cookie, place, placeInfo, userId, Date.now().toString());
     SurpriseService.httpClient.post(this.backendUrl + '/surprise/log', {

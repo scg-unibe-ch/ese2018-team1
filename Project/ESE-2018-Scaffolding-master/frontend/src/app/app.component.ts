@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    SurpriseService.log('loaded page', '');
     this.userService.checkSession();
     this.userService.currentLoginStatus.subscribe(loginstatus => this.loginStatus = loginstatus);
     this.userService.currentUser.subscribe(currentUser => {
@@ -29,6 +28,7 @@ export class AppComponent implements OnInit {
       AppComponent.user = currentUser;
       SurpriseService.init(this.httpClient);
     });
+    SurpriseService.log('loaded page', '');
   }
 
   toggleMenu(){

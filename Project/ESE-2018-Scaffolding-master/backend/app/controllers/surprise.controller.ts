@@ -1,7 +1,7 @@
 import {Request, Response, Router} from 'express';
 import {Sequelize} from 'sequelize-typescript';
 import {Surprise} from '../models/surprise.model';
-import {User} from '../models/user.model';
+import {SurpriseLog} from '../models/surpriseLog.model';
 
 
 const sequelize =  new Sequelize({
@@ -14,6 +14,48 @@ const sequelize =  new Sequelize({
 
 const router: Router = Router();
 
+/**
+ * SURPRISE LOGS
+ */
+
+/**
+ * returns all surprislogs of a cookie
+ */
+router.get('/log/:cookie', async (req: Request, res: Response) =>{
+  const cookie = req.params.cookie;
+  const instances = await SurpriseLog.findAll({
+    where: {
+      cookie: cookie
+    }
+  });
+  if(instances === null){
+    res.statusCode = 404;
+    res.send('surprise not found');
+    return;
+  }
+  res.statusCode = 200;
+  res.send(instances.map((instance) => instance.toSimplification()));
+});
+
+/**
+ * creates a new surpriseLog and saves it
+ */
+router.post('/log', async (req: Request, res: Response) =>{
+  const instance = new SurpriseLog();
+  instance.fromSimplification(req.body);
+  await instance.save();
+  res.statusCode = 200;
+  res.send(instance.toSimplification());
+})
+
+/**
+ * SURPRISE
+ */
+
+
+/**
+ * returns all surprises
+ */
 router.get('/', async (req: Request, res: Response) =>{
   const instances = await Surprise.findAll();
   if(instances === null){
@@ -23,10 +65,13 @@ router.get('/', async (req: Request, res: Response) =>{
   }
   res.statusCode = 200;
   res.send(instances.map((instance) => instance.toSimplification()));
-})
+});
+
+
+
 
 /**
- *  returns all the jobs from the db
+ *  returns the surprise belonging to the cookie
  */
 router.get('/:cookie', async (req: Request, res: Response) => {
   const cookie = req.params.cookie;
@@ -44,6 +89,11 @@ router.get('/:cookie', async (req: Request, res: Response) => {
   res.send(instance.toSimplification());
 });
 
+/**
+ * edits a cookie
+ * handles the userIds so, that a new one will be added to the list.
+ * do not send the list!
+ */
 router.put('/:id', async  (req: Request, res: Response) =>{
   const id = req.params.id;
   const instance = await Surprise.findById(id);
@@ -67,6 +117,10 @@ router.put('/:id', async  (req: Request, res: Response) =>{
   res.send(instance.toSimplification());
 });
 
+/**
+ * does some string testing, if the string is empty, null or -1
+ * @param userId
+ */
 function checkUserId(userId: string): boolean{
   return userId!== null && userId !== '-1' && userId !== '' && userId !== 'null' && userId !== '""' && userId !== '"-1"' && userId !== '"null"';
 }

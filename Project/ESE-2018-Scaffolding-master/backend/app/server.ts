@@ -8,6 +8,7 @@ import {Sequelize} from 'sequelize-typescript';
 import {Job} from './models/job.model';
 import {User} from './models/user.model';
 import {Surprise} from './models/surprise.model';
+import {SurpriseLog} from './models/surpriseLog.model';
 
 export interface Request extends Express.Request {
   session: any;
@@ -20,7 +21,7 @@ const sequelize =  new Sequelize({
   password: '',
   storage: 'db.sqlite'
 });
-sequelize.addModels([Job, User, Surprise]);
+sequelize.addModels([Job, User, Surprise, SurpriseLog]);
 
 // create a new express application instance
 const app: express.Application = express();

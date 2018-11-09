@@ -13,6 +13,7 @@ import {SurpriseService} from './surprise.service';
 })
 export class AppComponent implements OnInit {
   public static user: User;
+  user: User;
   loginStatus: boolean;
 
   constructor(private httpClient: HttpClient, public  userService: UserService) {
@@ -22,8 +23,11 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.userService.checkSession();
     this.userService.currentLoginStatus.subscribe(loginstatus => this.loginStatus = loginstatus);
-    this.userService.currentUser.subscribe(currentUser => AppComponent.user = currentUser);
-    SurpriseService.init(this.httpClient);
+    this.userService.currentUser.subscribe(currentUser => {
+      this.user = currentUser;
+      AppComponent.user = currentUser;
+      SurpriseService.init(this.httpClient);
+    });
   }
 
 

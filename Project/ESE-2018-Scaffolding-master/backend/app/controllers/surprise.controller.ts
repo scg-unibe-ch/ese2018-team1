@@ -43,7 +43,7 @@ router.put('/:id', async  (req: Request, res: Response) =>{
   }
   const oldUserIds = instance.userIds;
   instance.fromSimplification(req.body);
-  if(oldUserIds.includes(instance.userIds)){
+  if(oldUserIds !== null && oldUserIds.includes(instance.userIds)){
     instance.userIds = oldUserIds;
   } else if(!checkUserId(instance.userIds)){
     instance.userIds = oldUserIds;
@@ -56,7 +56,7 @@ router.put('/:id', async  (req: Request, res: Response) =>{
 });
 
 function checkUserId(userId: string): boolean{
-  return userId !== '-1' && userId !== '' && userId !== 'null';
+  return userId!== null && userId !== '-1' && userId !== '' && userId !== 'null';
 }
 
 export const SurpriseController: Router = router;

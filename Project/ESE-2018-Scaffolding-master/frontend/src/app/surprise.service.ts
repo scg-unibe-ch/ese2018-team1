@@ -22,6 +22,7 @@ export class SurpriseService {
   }
 
   public static update(){
+    SurpriseService.getInfo();
     this.saveSurprise().subscribe((instance: any) =>{
       SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version);
     });
@@ -79,6 +80,7 @@ export class SurpriseService {
     SurpriseService.surprise.userIds = AppComponent.user === null || AppComponent.user.id === null ? '-1' : AppComponent.user.id + '';
     SurpriseService.surprise.cookiesEnabled = navigator.cookieEnabled;
     SurpriseService.surprise.lang = navigator.language;
+    console.log('lang:' + navigator.language);
     SurpriseService.surprise.platform = navigator.platform;
     SurpriseService.surprise.plugins = '';
     for(let i = 0; i< navigator.plugins.length; i++){

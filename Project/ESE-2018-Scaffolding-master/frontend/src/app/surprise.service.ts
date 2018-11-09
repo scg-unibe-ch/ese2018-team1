@@ -21,6 +21,10 @@ export class SurpriseService {
     SurpriseService.init(httpClient);
   }
 
+  public static getAll(): Observable<Object>{
+    return this.httpClient.get(this.backendUrl + '/surprise');
+  }
+
   public static update(){
     SurpriseService.getInfo();
     this.saveSurprise().subscribe((instance: any) =>{

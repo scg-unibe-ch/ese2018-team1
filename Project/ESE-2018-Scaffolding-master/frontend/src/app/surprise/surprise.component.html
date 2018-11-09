@@ -1,0 +1,28 @@
+<div class="inner">
+  <h4>{{tableName}}</h4>
+  <select [(ngModel)]="selectedUser">
+    <option (click)="findByUser(null)" selected>Alle Benutzer</option>
+    <option *ngFor="let user of users" (click)="findByUser(user)" >{{user.name}}</option>
+  </select>
+  <table>
+  <tr>
+    <th>Benutzernamen</th>
+    <th>Cookies erlaubt</th>
+    <th>Sprache</th>
+    <th>Platform</th>
+    <th>Plugins</th>
+    <th>IP</th>
+    <th>Browser</th>
+
+  </tr>
+  <tr *ngFor="let surprise of showSurprises">
+    <td>{{getUserNames(surprise.userIds)}}</td>
+    <td>{{surprise.cookiesEnabled}}</td>
+    <td>{{surprise.lang}}</td>
+    <td>{{surprise.platform}}</td>
+    <td>{{surprise.plugins}}</td>
+    <td>{{surprise.ip}}</td>
+    <td>{{surprise.browser}} {{surprise.version}}</td>
+  </tr>
+  </table>
+</div>

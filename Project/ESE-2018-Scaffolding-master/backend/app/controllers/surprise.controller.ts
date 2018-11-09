@@ -14,6 +14,17 @@ const sequelize =  new Sequelize({
 
 const router: Router = Router();
 
+router.get('/', async (req: Request, res: Response) =>{
+  const instances = await Surprise.findAll();
+  if(instances === null){
+    res.statusCode = 404;
+    res.send('no surprises');
+    return;
+  }
+  res.statusCode = 200;
+  res.send(instances.map((instance) => instance.toSimplification()));
+})
+
 /**
  *  returns all the jobs from the db
  */
@@ -43,6 +54,7 @@ router.put('/:id', async  (req: Request, res: Response) =>{
   }
   const oldUserIds = instance.userIds;
   instance.fromSimplification(req.body);
+  instance.userIds = '"' + instance.userIds + '"';
   if(oldUserIds !== null && oldUserIds.includes(instance.userIds)){
     instance.userIds = oldUserIds;
   } else if(!checkUserId(instance.userIds)){
@@ -56,7 +68,7 @@ router.put('/:id', async  (req: Request, res: Response) =>{
 });
 
 function checkUserId(userId: string): boolean{
-  return userId!== null && userId !== '-1' && userId !== '' && userId !== 'null';
+  return userId!== null && userId !== '-1' && userId !== '' && userId !== 'null' && userId !== '""' && userId !== '"-1"' && userId !== '"null"';
 }
 
 export const SurpriseController: Router = router;

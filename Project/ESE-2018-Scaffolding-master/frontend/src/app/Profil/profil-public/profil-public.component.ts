@@ -22,9 +22,9 @@ export class ProfilPublicComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    SurpriseService.log('public profile', this.user.name);
     UserService.getUserById(this.companyId).subscribe((instance: any)=>{
       this.user = instance;
+      SurpriseService.log('public profile', this.user.name);
       JobService.getJobsByCompany(this.user.id, true).subscribe((instances: any) => {
         this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
           instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));

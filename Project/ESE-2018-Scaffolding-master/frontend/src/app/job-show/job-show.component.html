@@ -1,21 +1,26 @@
 <div class="inner"><br>
-<h2>{{job.name}}</h2>
-<b>Unternehmen</b>
-  <br>
-  <a routerLink="/profil" [queryParams]="{id: job.company_id}">{{this.user.name}}</a>
-  <br>
-  <p>{{this.user.description}}</p>
-<b>Beschreibung</b>
-  <p *ngIf="job.job_website !== null && job.job_website !== ''"><a href="{{job.job_website}}">Job Ausschreibung</a> </p>
-  <p>{{job.description}}</p>
-<p *ngIf="job.job_start !== null && job.job_start !== ''">Startdatum: {{job.job_start}}</p>
-<p *ngIf="job.job_start === null || job.job_start === ''">Startdatum: Nach Vereinbarung</p>
-
-<p *ngIf="job.job_end !== null && job.job_end !== ''">Enddatum: {{job.job_end}}</p>
-  <p *ngIf="job.job_end === null || job.job_end === ''">Enddatum: unbefristet</p>
-
-<p>Anstellung: {{job.percentage === null || job.percentage <1 ? 'keine Angabe' : job.percentage + '%'}}</p>
-<p *ngIf="job.wage !== null && job.wage >0">Bezahlung: {{job.wage}} CHF {{wageStyle}}</p>
-<p *ngIf="job.wage === null || job.wage < 1">Bezahlung: Verhandelbar</p>
-
+  <h2>{{job.name}}</h2>
+    <b>Unternehmen</b>
+      <br>
+      <a routerLink="/profil" [queryParams]="{id: job.company_id}">{{this.user.name}}</a>
+      <br>
+    <p>{{this.user.description}}</p>
+    <b>Beschreibung</b>
+      <p *ngIf="job.job_website !== null && job.job_website !== ''"><a href="{{job.job_website}}">Job Ausschreibung</a> </p>
+      <p>{{job.description}}</p>
+      <p *ngIf="job.job_start !== null && job.job_start !== ''">Startdatum: {{job.job_start}}</p>
+      <p *ngIf="job.job_start === null || job.job_start === ''">Startdatum: Nach Vereinbarung</p>
+      <p *ngIf="job.job_end !== null && job.job_end !== ''">Enddatum: {{job.job_end}}</p>
+      <p *ngIf="job.job_end === null || job.job_end === ''">Enddatum: unbefristet</p>
+      <p>Anstellung: {{job.percentage === null || job.percentage <1 ? 'keine Angabe' : job.percentage + '%'}}</p>
+      <p *ngIf="job.wage !== null && job.wage >0">Bezahlung: {{job.wage}} CHF {{wageStyle}}</p>
+      <p *ngIf="job.wage === null || job.wage < 1">Bezahlung: Verhandelbar</p>
+  <button *ngIf="!showContactBoolean" (click)="showContact()">Kontakt aufnehmen</button>
+  <div *ngIf="showContactBoolean">
+    <b>Email:</b>
+      <p>{{job.company_email}}</p>
+    <b>Adresse:</b>
+      <p>{{user.address}}</p>
+  </div>
+  <div *ngIf="!showContactBoolean"><br></div> <!--spacer-->
 </div>

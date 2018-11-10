@@ -27,8 +27,21 @@
   <a class="close" (click)="toggleMenu()" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" href="#navPanel"></a>
 </div>
 
+<!--  if the user has contacted a company for a job and the job is deleted now, show him this-->
+<div *ngIf="contactedJob" class="fullscreen">
+  <div *ngFor="let info of contactedJobInfos" class="showContact">
+    <p>Sie haben kürzlich das Unternehemen {{info.placeInfo.split(',')[2]}} beim Job {{info.placeInfo.split(',')[1]}} kontaktiert.</p>
+    <p>Wie war Ihre Erfahrung?</p>
+    <input type="text" [(ngModel)]="contactedJobResponse" placeholder="Erfahung"/>
+    <button (click)="showJobContact(false, info)">done</button>
+    <br><br>
+  </div>
+</div>
+
 <!--routing and navigation-->
   <router-outlet></router-outlet>
+
+
 
 <!-- footer-->
 <section id="footer">

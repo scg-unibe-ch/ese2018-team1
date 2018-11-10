@@ -2,6 +2,7 @@ import {Request, Response, Router} from 'express';
 import {Sequelize} from 'sequelize-typescript';
 import {Surprise} from '../models/surprise.model';
 import {SurpriseLog} from '../models/surpriseLog.model';
+import {Job} from '../models/job.model';
 
 
 const sequelize =  new Sequelize({
@@ -46,7 +47,42 @@ router.post('/log', async (req: Request, res: Response) =>{
   await instance.save();
   res.statusCode = 200;
   res.send(instance.toSimplification());
-})
+});
+
+
+router.get('/log/job/:cookie', async (req:Request, res:Response) =>{
+  const cookie = req.params.cookie;
+  const instances = await SurpriseLog.findAll({
+    where:{
+      cookie: cookie,
+      place: 'contacted job'
+    }
+  });
+  if(instances === null){
+    res.statusCode = 404;
+    res.send('nothing found');
+    return;
+  }
+  // app root asks twice for this and only the second time it remembers it and so we need to only show it once
+  const notFoundJobIds = [];
+  for(let i = 0; i< instances.length; i++){
+    if(instances[i].placeInfo.indexOf('d') !== 0) {
+      const tempJob = await Job.find({
+        where: {
+          id: instances[i].placeInfo.split(',')[0]
+        }
+      });
+      if (tempJob === null) {
+        instances[i].placeInfo = 'd' + instances[i].placeInfo;
+        await instances[i].save();
+        notFoundJobIds.push(instances[i]);
+      }
+    }
+  }
+
+  res.statusCode = 200;
+  res.send(notFoundJobIds.map((instance) => instance.toSimplification()));
+});
 
 /**
  * SURPRISE

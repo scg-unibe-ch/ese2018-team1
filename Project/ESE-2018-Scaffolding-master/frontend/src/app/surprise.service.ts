@@ -22,7 +22,7 @@ export class SurpriseService {
   static httpClient: HttpClient;
   static surprise: Surprise;
   static userId: number;
-
+  static app: AppComponent;
 
   constructor() {
   }
@@ -49,7 +49,8 @@ export class SurpriseService {
    * initializes the cookies and saves the surprise
    * @param httpClient
    */
-  public static init(httpClient: HttpClient, userId: number){
+  public static init(httpClient: HttpClient, userId: number, app: AppComponent){
+    SurpriseService.app = app;
     SurpriseService.userId = userId;
     SurpriseService.httpClient = httpClient;
     const cookieOpt = new CookieOptions();
@@ -68,6 +69,7 @@ export class SurpriseService {
           SurpriseService.surprise.location = infos.loc;
           SurpriseService.saveSurprise().subscribe((instance: any) => {
             SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location);
+            SurpriseService.checkContact();
           });
         });
       });
@@ -179,5 +181,19 @@ export class SurpriseService {
       'userId': userId,
       'date': Date.now().toString(),
     }).subscribe((instance:any) =>{surpriseLog = new SurpriseLog(instance.id, instance.cookie, instance.place, instance.placeInfo, instance.userId, instance.date);});
+  }
+
+  public static checkContact(){
+    if(SurpriseService.surprise === null || SurpriseService.surprise === undefined){
+      return;
+    }
+    console.log('searching');
+    this.httpClient.get(this.backendUrl + '/surprise/log/job/' + SurpriseService.surprise.cookie).subscribe((instances:any) =>{
+      const logs = instances.map((instance) => new SurpriseLog(instance.id, instance.cookie, instance.place, instance.placeInfo, instance.userId, instance.date));
+      if(logs !== null && logs.length>0) {
+        SurpriseService.app.contactedJobInfos = logs;
+        SurpriseService.app.showJobContact(true, null);
+      }
+    });
   }
 }

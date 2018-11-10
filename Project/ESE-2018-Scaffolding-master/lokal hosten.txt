@@ -7,4 +7,4 @@ login.component.ts => (falls requests noch nicht in user service implementiert) 
 
 Starte:
 Backend kann normal gestartet werden.
-Starte Frontend mit dem Befehl: ng serve --host 0.0.0.0 --post 80 --open
+Starte Frontend mit dem Befehl: ng serve --host 0.0.0.0 --port 80 --open

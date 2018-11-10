@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {sha256} from 'js-sha256';
 import {SurpriseService} from './surprise.service';
+import {AppComponent} from './app.component';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,6 @@ export class UserService {
   
 
   static httpClient: HttpClient;
-  static backendUrl = 'http://localhost:3000';
-  backendUrl = 'http://localhost:3000';
-  /*static backendUrl = 'http://**Your Local IP**:3000';*/
   private loginStatus = new BehaviorSubject<boolean>(false);
   currentLoginStatus = this.loginStatus.asObservable();
   private user = new BehaviorSubject<User>(new User(null,'','','','','',false,'',''));
@@ -32,7 +30,7 @@ export class UserService {
   }
 
   static getAllUnapproved(){
-    return this.httpClient.get(UserService.backendUrl+'/login/unapproved', {withCredentials: true});
+    return this.httpClient.get(AppComponent.backendUrl+'/login/unapproved', {withCredentials: true});
   }
 
   /**
@@ -43,15 +41,15 @@ export class UserService {
    */
   static changePassword(id: string, salt:string, newPassword: string): Observable<Object>{
     newPassword = this.hashPassword(newPassword, salt);
-    return UserService.httpClient.put(UserService.backendUrl + '/login/' + id + '/' + newPassword, '[]', {withCredentials: true});
+    return UserService.httpClient.put(AppComponent.backendUrl + '/login/' + id + '/' + newPassword, '[]', {withCredentials: true});
   }
 
   static getNewSalt(id: string){
-    return UserService.httpClient.get( UserService.backendUrl + '/login/salt/' + id, {withCredentials: true});
+    return UserService.httpClient.get( AppComponent.backendUrl + '/login/salt/' + id, {withCredentials: true});
   }
 
   static updateUser(id: number, user: User) {
-    return UserService.httpClient.put(UserService.backendUrl + '/login/'+id, {
+    return UserService.httpClient.put(AppComponent.backendUrl + '/login/'+id, {
       'id': user.id,
       'name': user.name,
       'password': '',
@@ -69,14 +67,14 @@ export class UserService {
    * @param id
    */
   static getUserById(id: string): Observable<Object>{
-    return this.httpClient.get(UserService.backendUrl + '/login/company/' + id, {withCredentials: true});
+    return this.httpClient.get(AppComponent.backendUrl + '/login/company/' + id, {withCredentials: true});
   }
 
   /**
    * return all users
    */
   static getAllUsers(): Observable<Object>{
-    return this.httpClient.get(this.backendUrl + '/login', {withCredentials: true});
+    return this.httpClient.get(AppComponent.backendUrl + '/login', {withCredentials: true});
   }
 
   static hashPassword(password: string, salt: string){
@@ -84,15 +82,15 @@ export class UserService {
   }
 
   static getUserByEmail(email: string) {
-    return this.httpClient.get(this.backendUrl + '/login/' + email, {withCredentials: true});
+    return this.httpClient.get(AppComponent.backendUrl + '/login/' + email, {withCredentials: true});
   }
 
   static checkPassword(id: number, password: string){
-   return this.httpClient.get(this.backendUrl + '/login/' + id + '/' + password, {withCredentials: true});
+   return this.httpClient.get(AppComponent.backendUrl + '/login/' + id + '/' + password, {withCredentials: true});
   }
 
   static register(user: User){
-    return this.httpClient.post(UserService.backendUrl + '/login/',  {
+    return this.httpClient.post(AppComponent.backendUrl + '/login/',  {
       withCredentials: true,
       'id': user.id,
       'name': user.name,
@@ -122,7 +120,7 @@ export class UserService {
   }
 
   checkSession(){
-    this.httpClient.get(UserService.backendUrl + '/login/session', {withCredentials: true}).subscribe(
+    this.httpClient.get(AppComponent.backendUrl + '/login/session', {withCredentials: true}).subscribe(
       (instance: any) => {
         if (instance !== null) {
           this.changeUser(instance);
@@ -134,7 +132,7 @@ export class UserService {
   }
 
   logout () {
-    this.httpClient.get(UserService.backendUrl + '/login/logout', {withCredentials: true}).subscribe((instance: any) => {
+    this.httpClient.get(AppComponent.backendUrl + '/login/logout', {withCredentials: true}).subscribe((instance: any) => {
     });
     this.changeLoginStatus(false);
     this.changeRegisterStatus(true);

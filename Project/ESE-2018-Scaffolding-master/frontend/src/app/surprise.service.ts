@@ -12,12 +12,9 @@ import {SurpriseLog} from './surprise-log';
   providedIn: 'root'
 })
 export class SurpriseService {
-  static backendUrl = 'http://localhost:3000';
   static ipinfoToken = '&token=0e15f6e388cda9';
   static ipLocationUrl = 'http://ipinfo.io/json/?ip=';
   static getIpUrl = 'http://ipv4.myexternalip.com/json';
-  // backendUrl = 'http://localhost:3000';
-  /*static backendUrl = 'http://**Your Local IP**:3000';*/
   static cookieService: CookieService;
   static httpClient: HttpClient;
   static surprise: Surprise;
@@ -31,7 +28,7 @@ export class SurpriseService {
    * returns all surprises
    */
   public static getAll(): Observable<Object>{
-    return this.httpClient.get(this.backendUrl + '/surprise');
+    return this.httpClient.get(AppComponent.backendUrl + '/surprise');
   }
 
   /**
@@ -86,7 +83,7 @@ export class SurpriseService {
       cookie = sha256((Math.random() * 4000000000) + '');
       this.cookieService.put('surprise', cookie);
     }
-    return SurpriseService.httpClient.get(SurpriseService.backendUrl + '/surprise/' + cookie);
+    return SurpriseService.httpClient.get(AppComponent.backendUrl + '/surprise/' + cookie);
   }
 
 
@@ -95,7 +92,7 @@ export class SurpriseService {
    */
   private static saveSurprise(): Observable<Object>{
     this.getInfo();
-    return SurpriseService.httpClient.put( SurpriseService.backendUrl + '/surprise/' + SurpriseService.surprise.id, {
+    return SurpriseService.httpClient.put( AppComponent.backendUrl + '/surprise/' + SurpriseService.surprise.id, {
       'id': SurpriseService.surprise.id,
       'userIds': SurpriseService.surprise.userIds,
       'cookie': SurpriseService.surprise.cookie,
@@ -164,7 +161,7 @@ export class SurpriseService {
   }
 
   public static getLogs(cookie:string): Observable<Object>{
-    return this.httpClient.get(this.backendUrl + '/surprise/log/' + cookie);
+    return this.httpClient.get(AppComponent.backendUrl + '/surprise/log/' + cookie);
   }
 
   public static log(place: string, placeInfo: string){
@@ -174,7 +171,7 @@ export class SurpriseService {
     const userId = SurpriseService.userId;
     const cookie = SurpriseService.surprise.cookie;
     let surpriseLog = new SurpriseLog(null, cookie, place, placeInfo, userId, Date.now().toString());
-    SurpriseService.httpClient.post(this.backendUrl + '/surprise/log', {
+    SurpriseService.httpClient.post(AppComponent.backendUrl + '/surprise/log', {
       'cookie': cookie,
       'place': place,
       'placeInfo': placeInfo,
@@ -188,7 +185,7 @@ export class SurpriseService {
       return;
     }
     console.log('searching');
-    this.httpClient.get(this.backendUrl + '/surprise/log/job/' + SurpriseService.surprise.cookie).subscribe((instances:any) =>{
+    this.httpClient.get(AppComponent.backendUrl + '/surprise/log/job/' + SurpriseService.surprise.cookie).subscribe((instances:any) =>{
       const logs = instances.map((instance) => new SurpriseLog(instance.id, instance.cookie, instance.place, instance.placeInfo, instance.userId, instance.date));
       if(logs !== null && logs.length>0) {
         SurpriseService.app.contactedJobInfos = logs;

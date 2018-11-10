@@ -13,6 +13,8 @@ import {SurpriseLog} from './surprise-log';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  public static backendUrl = 'http://localhost:3000';
+  //public static backendUrl = 'http://**YourIpHere**:3000';
   user: User;
   loginStatus: boolean;
   public contactedJob = false;

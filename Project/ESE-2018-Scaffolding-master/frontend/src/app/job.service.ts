@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {User} from './user';
 import {isBoolean} from 'util';
 import {UserService} from './user.service';
+import {AppComponent} from './app.component';
 
 /**
  * Usage:
@@ -17,9 +18,8 @@ import {UserService} from './user.service';
 })
 export class JobService {
   static httpClient: HttpClient;
-  static backendUrl = 'http://localhost:3000';
   static userService: UserService;
-  //static backendUrl = 'http://172.26.243.92:3000';
+  
 
   constructor(private hC: HttpClient, private userService: UserService) {
     JobService.httpClient = hC;
@@ -30,14 +30,14 @@ export class JobService {
    * returns all jobs
    */
   static getAllJobs(): Observable<Object>{
-    return JobService.httpClient.get(this.backendUrl + '/job');
+    return JobService.httpClient.get(AppComponent.backendUrl + '/job');
   }
 
   /**
    * returns all jobs
    */
   static getAllApprovedJobs(): Observable<Object>{
-    return JobService.httpClient.get(this.backendUrl + '/job/approved');
+    return JobService.httpClient.get(AppComponent.backendUrl + '/job/approved');
   }
 
   /**
@@ -45,7 +45,7 @@ export class JobService {
    * @param id
    */
   static getJobById(id: string): Observable<Object>{
-    return JobService.httpClient.get(this.backendUrl + '/job/' + id);
+    return JobService.httpClient.get(AppComponent.backendUrl + '/job/' + id);
   }
 
   /**
@@ -54,7 +54,7 @@ export class JobService {
    * @param approved true if you only want approved jobs, false if you want all jobs of this company
    */
   static getJobsByCompany(id: number, approved: boolean): Observable<Object>{
-    return JobService.httpClient.get(this.backendUrl + '/job/search/company/' + id + '/' + (approved?'1':'0'));
+    return JobService.httpClient.get(AppComponent.backendUrl + '/job/search/company/' + id + '/' + (approved?'1':'0'));
   }
 
   /**
@@ -64,7 +64,7 @@ export class JobService {
    * @param description
    */
   static getJobsByEasySearch(search: string): Observable<Object>{
-    return JobService.httpClient.get(this.backendUrl + '/job/search/' + search );
+    return JobService.httpClient.get(AppComponent.backendUrl + '/job/search/' + search );
   }
 
   /**
@@ -95,7 +95,7 @@ export class JobService {
     end_after = end_after.length>0 ? end_after : '*';
     percentage_more = percentage_more.length>0 ? percentage_more : '-1';
     percentage_less = percentage_less.length>0 ? percentage_less : '-1';
-    return JobService.httpClient.get(this.backendUrl + '/job/search/' + name + '/' + company + '/' + description + '/' + wage+ '/' + wagePerHour + '/' + start_before+ '/' + start_after+ '/' + end_before+ '/' + end_after+ '/' + percentage_more+ '/' + percentage_less);
+    return JobService.httpClient.get(AppComponent.backendUrl + '/job/search/' + name + '/' + company + '/' + description + '/' + wage+ '/' + wagePerHour + '/' + start_before+ '/' + start_after+ '/' + end_before+ '/' + end_after+ '/' + percentage_more+ '/' + percentage_less);
   }
 
   /**
@@ -110,7 +110,7 @@ export class JobService {
     if(user !== null && !user.isCompany()) {
       url = '/job/noNewEdit/';
     }
-    return JobService.httpClient.put(this.backendUrl + url + job.id,  {
+    return JobService.httpClient.put(AppComponent.backendUrl + url + job.id,  {
       'name': job.name,
       'description': job.description,
       'description_short': job.description_short,
@@ -135,8 +135,8 @@ export class JobService {
    */
   static approveJob(job:Job): Observable<Object>{
     const approved = job.approved ? 1 : 0;
-    console.log('sending req to: ' + this.backendUrl + '/job/' + job.id);
-    return JobService.httpClient.put(this.backendUrl + '/job/' + job.id + '/' + approved,  {
+    console.log('sending req to: ' + AppComponent.backendUrl + '/job/' + job.id);
+    return JobService.httpClient.put(AppComponent.backendUrl + '/job/' + job.id + '/' + approved,  {
       'name': job.name,
       'description': job.description,
       'description_short': job.description_short,
@@ -170,7 +170,7 @@ export class JobService {
       companyemail = user.email;
     }
     console.log('posting')
-    return JobService.httpClient.post(this.backendUrl + '/job', {
+    return JobService.httpClient.post(AppComponent.backendUrl + '/job', {
       'name': job.name,
       'description': job.description,
       'description_short': job.description_short,
@@ -195,7 +195,7 @@ export class JobService {
    * @param job
    */
   static deleteJob(job: Job): Observable<Object>{
-    return JobService.httpClient.delete(this.backendUrl + '/job/' + job.id);
+    return JobService.httpClient.delete(AppComponent.backendUrl + '/job/' + job.id);
   }
 
 }

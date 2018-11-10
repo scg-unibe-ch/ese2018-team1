@@ -5,6 +5,9 @@ job.service.ts => ändere static backendURL zu deiner localen IP (benütze den aus
 login.component.ts => (falls requests noch nicht in user service implementiert) ändere backendURL zu deiner localen IP (benütze den auskommentierten)
 
 
+BACKEND:
+bei server.ts ändere bei res.header('Access-Control-Allow-Origin', '**die deine IP**')
+
 Starte:
 Backend kann normal gestartet werden.
 Starte Frontend mit dem Befehl: ng serve --host 0.0.0.0 --port 80 --open

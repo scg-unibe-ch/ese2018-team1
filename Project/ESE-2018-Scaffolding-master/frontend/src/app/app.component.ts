@@ -12,9 +12,9 @@ import {SurpriseService} from './surprise.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public static user: User;
   user: User;
   loginStatus: boolean;
+
 
   constructor(private httpClient: HttpClient, public  userService: UserService) {
     const js= new JobService(httpClient, this.userService);
@@ -22,17 +22,18 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.userService.checkSession();
-    this.userService.currentLoginStatus.subscribe(loginstatus => this.loginStatus = loginstatus);
+    this.userService.currentLoginStatus.subscribe(loginstatus =>this.loginStatus = loginstatus);
     this.userService.currentUser.subscribe(currentUser => {
       this.user = currentUser;
-      AppComponent.user = currentUser;
-      SurpriseService.init(this.httpClient);
+      console.log('app component');
+      console.log(currentUser);
+      SurpriseService.init(this.httpClient, currentUser.id);
+      SurpriseService.log('loaded page', '');
     });
-    SurpriseService.log('loaded page', '');
+
   }
 
   toggleMenu(){
-    console.log('added visible');
     const menu = document.getElementById('navPanel');
     if(menu.classList.contains('visible')){
       menu.classList.remove('visible');

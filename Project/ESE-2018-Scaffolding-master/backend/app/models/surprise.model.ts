@@ -31,6 +31,14 @@ export class Surprise extends Model<Surprise> {
   @Column
   version!: string;
 
+  @Column
+  country!: string;
+
+  @Column
+  region!: string;
+
+  @Column
+  location!: string;
 
   toSimplification(): any {
     return {
@@ -43,7 +51,10 @@ export class Surprise extends Model<Surprise> {
       'plugins': this.plugins,
       'ip': this.ip,
       'browser': this.browser,
-      'version': this.version
+      'version': this.version,
+      'country': this.country,
+      'region': this.region,
+      'location': this.location
     };
   }
 
@@ -57,6 +68,9 @@ export class Surprise extends Model<Surprise> {
     this.ip = simplification['ip'];
     this.browser = simplification['browser'];
     this.version = simplification['version'];
+    this.country = simplification['country'];
+    this.region = simplification['region'];
+    this.location = simplification['location'];
   }
 
 }

@@ -1,4 +1,4 @@
-<div class="inner">
+<div class="inner" *ngIf="!showLogs">
   <h4>{{tableName}}</h4>
   <select [(ngModel)]="selectedUser">
     <option (click)="findByUser(null)" selected>Alle Benutzer</option>
@@ -13,7 +13,7 @@
     <th>Plugins</th>
     <th>IP</th>
     <th>Browser</th>
-
+    <th>Logs</th>
   </tr>
   <tr *ngFor="let surprise of showSurprises">
     <td>{{getUserNames(surprise.userIds)}}</td>
@@ -23,6 +23,26 @@
     <td>{{surprise.plugins}}</td>
     <td>{{surprise.ip}}</td>
     <td>{{surprise.browser}} {{surprise.version}}</td>
+    <td><a (click)="showInfos(surprise.cookie)">Logs</a> </td>
   </tr>
+  </table>
+</div>
+
+<div class="inner" *ngIf="showLogs">
+  <h4>Logs</h4>
+  <button (click)="showLogs = false">Zurück</button>
+  <table>
+    <tr>
+      <th>Ort</th>
+      <th>Infos zum Ort</th>
+      <th>Benutzer</th>
+      <th>Datum</th>
+    </tr>
+    <tr *ngFor="let log of logs">
+      <td>{{log.place}}</td>
+      <td>{{log.placeInfo}}</td>
+      <td>{{getUserNames(log.userId + '')}}</td>
+      <td>{{getDate(log.date)}}</td>
+    </tr>
   </table>
 </div>

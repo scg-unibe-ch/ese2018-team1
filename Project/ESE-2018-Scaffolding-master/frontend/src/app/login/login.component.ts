@@ -28,14 +28,12 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(){
-    SurpriseService.log('login', '');
+    //SurpriseService.log('login', '');
     this.user.email = this.user.email.toLowerCase();
     let password = this.user.password;
     UserService.getUserByEmail(this.user.email).subscribe((instance: any) => {
         const user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description);
-        console.log('pw + salt: ' + password + user.salt + ',');
         password = UserService.hashPassword(password, user.salt);
-        console.log(' = ' + password);
         // check password
         UserService.checkPassword(user.id, password).subscribe(
           (instance: any) =>{

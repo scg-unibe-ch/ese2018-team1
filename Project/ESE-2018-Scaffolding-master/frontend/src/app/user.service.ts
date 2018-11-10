@@ -110,7 +110,7 @@ export class UserService {
 
   changeUser (newUser: User){
     this.user.next(newUser);
-    SurpriseService.update();
+    SurpriseService.update(newUser.id);
   }
 
   changeErrorStatus(newStatus: boolean){

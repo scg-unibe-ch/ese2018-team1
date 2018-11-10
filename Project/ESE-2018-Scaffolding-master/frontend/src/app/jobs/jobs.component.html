@@ -62,7 +62,7 @@
 <section id="three">
   <div class="job">
     <div class="inner" *ngFor="let currentJob of jobs">
-      <app-job style="padding: 2em; width: 150%" [link]="'/job'" [linkText]="'Mehr sehen'"  [job]="currentJob"></app-job>
+      <app-job style="padding: 2em; width: 150%" [link]="'/job'" [enableLink]="true" [linkText]="'Mehr sehen'"  [job]="currentJob"></app-job>
     </div>
   </div>
 </section>

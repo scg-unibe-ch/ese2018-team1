@@ -10,7 +10,10 @@ export class Surprise {
     public plugins: string,
     public ip: string,
     public browser: string,
-    public version: string
+    public version: string,
+    public country: string,
+    public region: string,
+    public location: string,
   ){
   }
 }

@@ -7,19 +7,24 @@ import {sha256} from 'js-sha256';
 import {AppComponent} from './app.component';
 import {SurpriseLog} from './surprise-log';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class SurpriseService {
   static backendUrl = 'http://localhost:3000';
+  static ipinfoToken = '&token=0e15f6e388cda9';
+  static ipLocationUrl = 'http://ipinfo.io/json/?ip=';
+  static getIpUrl = 'http://ipv4.myexternalip.com/json';
   // backendUrl = 'http://localhost:3000';
   /*static backendUrl = 'http://**Your Local IP**:3000';*/
   static cookieService: CookieService;
   static httpClient: HttpClient;
   static surprise: Surprise;
+  static userId: number;
 
-  constructor(private httpClient: HttpClient) {
-    SurpriseService.init(httpClient);
+
+  constructor() {
   }
 
   /**
@@ -32,10 +37,11 @@ export class SurpriseService {
   /**
    * updates the surprise and saves it to the backend
    */
-  public static update(){
+  public static update(userId: number){
+    SurpriseService.userId = userId;
     SurpriseService.getInfo();
     this.saveSurprise().subscribe((instance: any) =>{
-      SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version);
+      SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location);
     });
   }
 
@@ -43,7 +49,8 @@ export class SurpriseService {
    * initializes the cookies and saves the surprise
    * @param httpClient
    */
-  public static init(httpClient: HttpClient){
+  public static init(httpClient: HttpClient, userId: number){
+    SurpriseService.userId = userId;
     SurpriseService.httpClient = httpClient;
     const cookieOpt = new CookieOptions();
     const date = new Date();
@@ -52,11 +59,16 @@ export class SurpriseService {
     SurpriseService.cookieService = new CookieService(cookieOpt);
 
     SurpriseService.getCookie().subscribe((instance: any) =>{
-      SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version);
-      this.httpClient.get('http://ipv4.myexternalip.com/json').subscribe((instance: any) => {
+      SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location);
+      this.httpClient.get(this.getIpUrl).subscribe((instance: any) => {
         SurpriseService.surprise.ip = instance.ip;
-        SurpriseService.saveSurprise().subscribe((instance: any) => {
-          SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version);
+        this.httpClient.get( this.ipLocationUrl + SurpriseService.surprise.ip + this.ipinfoToken).subscribe((infos: any) =>{
+          SurpriseService.surprise.country = infos.country;
+          SurpriseService.surprise.region = infos.region;
+          SurpriseService.surprise.location = infos.loc;
+          SurpriseService.saveSurprise().subscribe((instance: any) => {
+            SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location);
+          });
         });
       });
     });
@@ -71,7 +83,6 @@ export class SurpriseService {
     if(cookie === undefined){
       cookie = sha256((Math.random() * 4000000000) + '');
       this.cookieService.put('surprise', cookie);
-      console.log('cookie:' + cookie);
     }
     return SurpriseService.httpClient.get(SurpriseService.backendUrl + '/surprise/' + cookie);
   }
@@ -92,7 +103,10 @@ export class SurpriseService {
       'plugins': SurpriseService.surprise.plugins,
       'ip': SurpriseService.surprise.ip,
       'browser': SurpriseService.surprise.browser,
-      'version': SurpriseService.surprise.version
+      'version': SurpriseService.surprise.version,
+      'country': SurpriseService.surprise.country,
+      'region': SurpriseService.surprise.region,
+      'location': SurpriseService.surprise.location
     });
   }
 
@@ -101,7 +115,7 @@ export class SurpriseService {
    * Does not get the IP address
    */
   private static getInfo(){
-    SurpriseService.surprise.userIds = AppComponent.user === null || AppComponent.user.id === null ? '-1' : AppComponent.user.id + '';
+    SurpriseService.surprise.userIds = SurpriseService.userId + '';
     SurpriseService.surprise.cookiesEnabled = navigator.cookieEnabled;
     SurpriseService.surprise.lang = navigator.language;
     SurpriseService.surprise.platform = navigator.platform;
@@ -147,10 +161,15 @@ export class SurpriseService {
     SurpriseService.surprise.version = fullVersion;
   }
 
-
+  public static getLogs(cookie:string): Observable<Object>{
+    return this.httpClient.get(this.backendUrl + '/surprise/log/' + cookie);
+  }
 
   public static log(place: string, placeInfo: string){
-    const userId = AppComponent.user === null || AppComponent.user === undefined || AppComponent.user.id === null ? -1 : AppComponent.user.id;
+    if(SurpriseService.surprise === null || SurpriseService.surprise === undefined){
+      return;
+    }
+    const userId = SurpriseService.userId;
     const cookie = SurpriseService.surprise.cookie;
     let surpriseLog = new SurpriseLog(null, cookie, place, placeInfo, userId, Date.now().toString());
     SurpriseService.httpClient.post(this.backendUrl + '/surprise/log', {

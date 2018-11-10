@@ -1,9 +1,23 @@
 <div class="inner" *ngIf="!showLogs">
+  <br>
+  <button *ngIf="!showDiagrams" (click)="toggleDiagrams()">Lade Diagramme</button>
+  <h4 *ngIf="showDiagrams">Diagramme</h4>
+  <div class="grid">
+    <canvas *ngIf="showDiagrams" class="diagrams" id="siteLoadings" baseChart [chartType]="'line'" [datasets]="siteLoadingsData" [labels]="siteLoadingsLabels" [options]="siteLoadingOptions" [legend]="true"></canvas>
+    <canvas *ngIf="showDiagrams" class="diagrams diagramRight" id="siteUsers" baseChart [chartType]="'line'" [datasets]="siteUsersData" [labels]="siteUsersLabels" [options]="siteLoadingOptions" [legend]="true"></canvas>
+  </div>
+  <br><br>
   <h4>{{tableName}}</h4>
+  <div class="grid">
   <select [(ngModel)]="selectedUser">
     <option (click)="findByUser(null)" selected>Alle Benutzer</option>
     <option *ngFor="let user of users" (click)="findByUser(user)" >{{user.name}}</option>
   </select>
+  <select [(ngModel)]="selectedRegion">
+    <option (click)="findByRegion(null)" selected>Alle Regionen</option>
+    <option *ngFor="let region of regions" (click)="findByRegion(region)" >{{region}}</option>
+  </select>
+  </div>
   <table>
   <tr>
     <th>Benutzernamen</th>
@@ -13,6 +27,8 @@
     <th>Plugins</th>
     <th>IP</th>
     <th>Browser</th>
+    <th>Land</th>
+    <th>Region</th>
     <th>Logs</th>
   </tr>
   <tr *ngFor="let surprise of showSurprises">
@@ -23,6 +39,8 @@
     <td>{{surprise.plugins}}</td>
     <td>{{surprise.ip}}</td>
     <td>{{surprise.browser}} {{surprise.version}}</td>
+    <td>{{surprise.country}}</td>
+    <td>{{surprise.region}}</td>
     <td><a (click)="showInfos(surprise.cookie)">Logs</a> </td>
   </tr>
   </table>

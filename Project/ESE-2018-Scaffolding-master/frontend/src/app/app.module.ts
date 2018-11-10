@@ -7,6 +7,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule, routingComponents} from './app-routing.module';
 // Add css components from angular material
 import {MatButtonModule, MatCardModule, MatCheckboxModule, MatInputModule, MatListModule} from '@angular/material';
+import {ChartsModule} from 'ng2-charts';
 import {FormsModule} from '@angular/forms';
 import { JobComponent } from './job/job.component';
 import { JobEditComponent } from './job-edit/job-edit.component';
@@ -19,7 +20,6 @@ import { ProfilNewJobComponent } from './Profil/profil-new-job/profil-new-job.co
 import { ProfilPublicComponent } from './Profil/profil-public/profil-public.component';
 import { ProfilNonPublicComponent } from './Profil/profil-non-public/profil-non-public.component';
 import { ProfilEditComponent } from './Profil/profil-edit/profil-edit.component';
-
 
 
 @NgModule({
@@ -48,7 +48,8 @@ import { ProfilEditComponent } from './Profil/profil-edit/profil-edit.component'
     MatInputModule,
     MatCheckboxModule,
     MatCardModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

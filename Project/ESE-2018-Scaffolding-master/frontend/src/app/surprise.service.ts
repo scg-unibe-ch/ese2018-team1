@@ -71,7 +71,13 @@ export class SurpriseService {
         });
       });
     });
+  }
 
+  /**
+   * returns all surpriselogs
+   */
+  public static getAllLogs(){
+    return SurpriseService.httpClient.get(AppComponent.backendUrl + '/surprise/log');
   }
 
   /**

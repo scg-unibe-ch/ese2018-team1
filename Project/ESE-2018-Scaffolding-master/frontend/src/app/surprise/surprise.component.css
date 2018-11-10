@@ -1,0 +1,9 @@
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.diagrams{
+  width: 100%!important;
+  height: auto!important;
+}

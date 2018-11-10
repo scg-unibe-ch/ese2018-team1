@@ -19,6 +19,17 @@ const router: Router = Router();
  * SURPRISE LOGS
  */
 
+router.get('/log', async (req: Request, res: Response) =>{
+  const instances = await SurpriseLog.findAll();
+  if(instances === null){
+    res.statusCode = 404;
+    res.send('none found');
+    return;
+  }
+  res.statusCode = 200;
+  res.send(instances.map((instance) => instance.toSimplification()));
+})
+
 /**
  * returns all surprislogs of a cookie
  */

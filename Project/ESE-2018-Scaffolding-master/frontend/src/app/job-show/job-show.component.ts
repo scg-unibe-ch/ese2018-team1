@@ -41,6 +41,6 @@ export class JobShowComponent implements OnInit {
 
   showContact(){
     this.showContactBoolean = true;
-    SurpriseService.log('contacted job', this.job.id + '');
+    SurpriseService.log('contacted job', this.job.id + ','+ this.job.name + ',' + this.user.name);
   }
 }

@@ -26,13 +26,15 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.checkSession();
-    this.userService.currentLoginStatus.subscribe(loginstatus =>this.loginStatus = loginstatus);
-    this.userService.currentUser.subscribe(currentUser => {
-      this.user = currentUser;
-      SurpriseService.init(this.httpClient, currentUser.id, this);
-      SurpriseService.log('loaded page', '');
-    });
+      UserService.checkSession();
+      UserService.getLoginStatus().subscribe(loginStatus => this.loginStatus = loginStatus);
+      UserService.getCurrentUser().subscribe(currentUser => {
+        this.user = currentUser;
+        SurpriseService.init(this.httpClient, currentUser.id, this);
+        SurpriseService.log('loaded page', '');
+      });
+
+
 
   }
 
@@ -52,6 +54,10 @@ export class AppComponent implements OnInit {
     if(!show){
       SurpriseService.log('asked about job contact' + log.placeInfo, this.contactedJobResponse);
     }
+  }
+
+  logout(){
+    UserService.logout();
   }
 
 

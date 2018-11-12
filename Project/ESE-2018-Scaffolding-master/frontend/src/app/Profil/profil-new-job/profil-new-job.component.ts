@@ -27,7 +27,7 @@ export class ProfilNewJobComponent implements OnInit {
   ngOnInit() {
     SurpriseService.log('new job', '');
     this.showDetails = false;
-    this.userService.currentUser.subscribe(currentUser => this.user = currentUser);
+    UserService.currentUser.subscribe(currentUser => this.user = currentUser);
   }
 
   onCreateJob() {

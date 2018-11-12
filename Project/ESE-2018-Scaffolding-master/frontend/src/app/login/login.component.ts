@@ -21,10 +21,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.currentLoginStatus.subscribe(successfulLogin => this.successfulLogin = successfulLogin);
-    this.userService.currentUser.subscribe(user => this.user = user);
-    this.userService.currentErrorStatus.subscribe(error => this.error = error);
-    this.userService.registerStatus.subscribe(registerStatus => this.successfulRegister = registerStatus);
+    UserService.currentLoginStatus.subscribe(successfulLogin => this.successfulLogin = successfulLogin);
+    UserService.currentUser.subscribe(user => this.user = user);
+    UserService.currentErrorStatus.subscribe(error => this.error = error);
+    UserService.registerStatus.subscribe(registerStatus => this.successfulRegister = registerStatus);
   }
 
   onLogin(){
@@ -37,15 +37,15 @@ export class LoginComponent implements OnInit {
         // check password
         UserService.checkPassword(user.id, password).subscribe(
           (instance: any) =>{
-            this.userService.changeUser(new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description));
+            UserService.changeUser(new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description));
             this.setLoginValues(true);
             },
           err =>{
-            this.userService.changeErrorStatus(true);
+            UserService.changeErrorStatus(true);
           });
       },
       err =>{
-        this.userService.changeErrorStatus(true);
+        UserService.changeErrorStatus(true);
       });
   }
 
@@ -54,20 +54,20 @@ export class LoginComponent implements OnInit {
     const password = this.user.password;
     this.user.password = '';
     UserService.getUserByEmail(this.user.email).subscribe((instance: any) => {
-      this.userService.changeRegisterStatus(false);
-      this.userService.changeUser(null);
+      UserService.changeRegisterStatus(false);
+        UserService.changeUser(null);
     },
     err => { // means the email address does not exist yet
       UserService.register(this.user).subscribe((instance: any) => {
         this.user.id = instance.id;
         UserService.getUserById(this.user.id+'').subscribe((instance: any) => {
             UserService.changePassword(this.user.id+'',instance.salt,password).subscribe((instance: any) => {});
-            this.userService.changeUser(this.user);
+          UserService.changeUser(this.user);
             this.setLoginValues(true);
           });
       },
         err => {
-        this.userService.changeErrorStatus(true);
+          UserService.changeErrorStatus(true);
         });
     });
   }
@@ -77,9 +77,9 @@ export class LoginComponent implements OnInit {
   }
 
   private setLoginValues(newStatus: boolean){
-    this.userService.changeErrorStatus(false); // do not display error while loading home page
-    this.userService.changeLoginStatus(newStatus);
-    this.userService.changeRegisterStatus(false);
+    UserService.changeErrorStatus(false); // do not display error while loading home page
+    UserService.changeLoginStatus(newStatus);
+    UserService.changeRegisterStatus(false);
     if (!newStatus){
       location.href = '/login';
     }

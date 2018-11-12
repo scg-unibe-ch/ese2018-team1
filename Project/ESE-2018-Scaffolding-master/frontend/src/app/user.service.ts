@@ -12,22 +12,24 @@ import {AppComponent} from './app.component';
   providedIn: 'root'
 })
 export class UserService {
-  
-
-  static httpClient: HttpClient;
-  private loginStatus = new BehaviorSubject<boolean>(false);
-  currentLoginStatus = this.loginStatus.asObservable();
-  private user = new BehaviorSubject<User>(new User(null,'','','','','',false,'',''));
-  currentUser = this.user.asObservable();
-  private error = new BehaviorSubject<boolean>(false);
-  currentErrorStatus = this.error.asObservable();
-  private register = new BehaviorSubject<boolean>(true);
-  registerStatus = this.register.asObservable();
 
 
   constructor(public httpClient: HttpClient, private router: Router) {
     UserService.httpClient = httpClient;
   }
+  static httpClient: HttpClient;
+
+  private static loginStatus = new BehaviorSubject<boolean>(false);
+  static currentLoginStatus = UserService.loginStatus.asObservable();
+
+  private static user = new BehaviorSubject<User>(new User(null,'','','','','',false,'',''));
+  static currentUser = UserService.user.asObservable();
+
+  private static error = new BehaviorSubject<boolean>(false);
+  static currentErrorStatus = UserService.error.asObservable();
+
+  private static registered = new BehaviorSubject<boolean>(true);
+  static registerStatus = UserService.registered.asObservable();
 
   static getAllUnapproved(){
     return this.httpClient.get(AppComponent.backendUrl+'/login/unapproved', {withCredentials: true});
@@ -102,43 +104,54 @@ export class UserService {
     }, {withCredentials: true});
   }
 
-  changeLoginStatus (newStatus: boolean){
+
+
+  static changeLoginStatus (newStatus: boolean){
     this.loginStatus.next(newStatus);
   }
 
-  changeUser (newUser: User){
+  static changeUser (newUser: User){
     this.user.next(newUser);
     SurpriseService.update(newUser.id);
   }
 
-  changeErrorStatus(newStatus: boolean){
+  static changeErrorStatus(newStatus: boolean){
     this.error.next(newStatus);
   }
 
-  changeRegisterStatus(newStatus: boolean){
-    this.register.next(newStatus);
+  static changeRegisterStatus(newStatus: boolean){
+    this.registered.next(newStatus);
   }
 
-  checkSession(){
-    this.httpClient.get(AppComponent.backendUrl + '/login/session', {withCredentials: true}).subscribe(
-      (instance: any) => {
-        if (instance !== null) {
-          this.changeUser(instance);
-          this.changeLoginStatus(true);
-        } else {
-          this.changeUser(new User(null,'','','','','',false,'',''));
-        }
-      });
-  }
-
-  logout () {
+  static logout () {
     this.httpClient.get(AppComponent.backendUrl + '/login/logout', {withCredentials: true}).subscribe((instance: any) => {
     });
     this.changeLoginStatus(false);
     this.changeRegisterStatus(true);
     this.changeErrorStatus(false);
     this.changeUser(new User(null,'','','','','',false,'',''));
-    this.router.navigate(['/login']);
+    location.href = ('/login');
   }
 
+  static checkSession(){
+    this.httpClient.get(AppComponent.backendUrl + '/login/session', {withCredentials: true}).subscribe(
+      (instance: any) => {
+        if (instance !== null && instance.email !== '') {
+          UserService.changeLoginStatus(true);
+          UserService.changeUser(new User(instance.id,instance.name,'','',instance.email,instance.role,instance.approved,instance.address,instance.description));
+
+        } else {
+          UserService.changeLoginStatus(false);
+          UserService.changeUser(null);
+        }
+      });
+  }
+
+  static getCurrentUser(): Observable<User>{
+    return this.currentUser;
+  }
+
+  static getLoginStatus(): Observable<boolean>{
+    return this.currentLoginStatus;
+  }
 }

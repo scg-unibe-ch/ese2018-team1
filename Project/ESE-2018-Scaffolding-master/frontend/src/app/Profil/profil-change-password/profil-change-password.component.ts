@@ -33,7 +33,7 @@ export class ProfilChangePasswordComponent implements OnInit {
   constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit() {
-    this.userService.currentUser.subscribe((instance) => {
+    UserService.currentUser.subscribe((instance) => {
       this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description);
       SurpriseService.log('changed password', this.user.name);
     });
@@ -66,7 +66,7 @@ export class ProfilChangePasswordComponent implements OnInit {
           UserService.getNewSalt(id + '').subscribe((instance: any) =>{
             UserService.changePassword(id + '', instance.salt, this.newPassword).subscribe((instance: any) => {
               if (!this.changePasswordAdmin) {
-                this.userService.changeUser(new User(instance.id, instance.name, instance.password, instance.salt, instance.email, instance.role, instance.approved, instance.address, instance.description));
+                UserService.changeUser(new User(instance.id, instance.name, instance.password, instance.salt, instance.email, instance.role, instance.approved, instance.address, instance.description));
               }
               this.changedPw.emit(null);
             }, err => {

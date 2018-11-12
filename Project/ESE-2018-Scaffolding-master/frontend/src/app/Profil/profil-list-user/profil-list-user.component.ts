@@ -31,7 +31,7 @@ export class ProfilListUserComponent implements OnInit {
 
   ngOnInit() {
     SurpriseService.log('user list', '');
-    this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
+    UserService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
     if(this.user.isAdmin()){
       this.showAll = true;
       this.tableName = 'Liste aller Benutzer';

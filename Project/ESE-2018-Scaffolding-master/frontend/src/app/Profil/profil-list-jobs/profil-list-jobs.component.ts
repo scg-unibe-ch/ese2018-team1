@@ -24,8 +24,8 @@ export class ProfilListJobsComponent implements OnInit {
 
   ngOnInit() {
     SurpriseService.log('list jobs', '');
-    this.userService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
-    if(this.user === null || !this.userService.currentLoginStatus){
+    UserService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
+    if(this.user === null || !UserService.currentLoginStatus){
       this.router.navigateByUrl('/login');
       return;
     }

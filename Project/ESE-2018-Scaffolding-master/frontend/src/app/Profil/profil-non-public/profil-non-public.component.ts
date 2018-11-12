@@ -31,11 +31,11 @@ export class ProfilNonPublicComponent implements OnInit {
      if (this.user.isModerator() || this.user.isAdmin()) {
        this.backToUserList();
      }
-     if (!this.user.approved) {
-       this.toggleShowPassword(false, true);
-     }
     this.passwordChangeUserId = this.user.id;
      this.ShowList();
+    if (!UserService.CurrentUser.approved) {
+      this.toggleUserMenu(false, true);
+    }
   }
 
 
@@ -71,7 +71,7 @@ end admin Menu switches
   /**
    * company menu switches
    */
-  toggleShowPassword(showPassword: boolean, editProfil: boolean){
+  toggleUserMenu(showPassword: boolean, editProfil: boolean){
     this.editProfil = editProfil;
     this.showPassword = showPassword;
   }

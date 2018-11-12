@@ -19,19 +19,24 @@
         </div>
 <label *ngIf="!user.approved">Dieses Benutzerkonto wurde noch nicht bestätigt.</label>
       <!-- company menu control-->
-        <div *ngIf="!this.user.isAdmin() && !this.user.isModerator()">
-          <button style="background-color:#000000" *ngIf="!(showPassword || editProfil) && user.approved" (click)="toggleShowPassword(false, false)">Zeige Jobs</button>
-          <button *ngIf="(showPassword || editProfil) && user.approved" (click)="toggleShowPassword(false, false)">Zeige Jobs</button>
-          <button style="background-color:#000000"  *ngIf="showPassword" (click)="toggleShowPassword(true, false)">Ändere das Passwort</button>
-          <button *ngIf="!showPassword" (click)="toggleShowPassword(true, false)">Ändere das Passwort</button>
-          <button style="background-color:#000000" *ngIf="editProfil" (click)="toggleShowPassword(false, true)">Profil bearbeiten</button>
-          <button *ngIf="!editProfil" (click)="toggleShowPassword(false, true)">Profil bearbeiten</button>
+        <div *ngIf="!this.user.isAdmin() && !this.user.isModerator() && this.user.approved">
+          <button style="background-color:#000000" *ngIf="!showPassword && !editProfil && user.approved" (click)="toggleUserMenu(false, false)">Zeige Jobs</button>
+          <button *ngIf="!(!showPassword && !editProfil) && user.approved" (click)="toggleUserMenu(false, false)">Zeige Jobs</button>
+          <button style="background-color:#000000" *ngIf="showPassword && !editProfil" (click)="toggleUserMenu(false, false)">Ändere das Passwort</button>
+          <button *ngIf="!(showPassword && !editProfil)" (click)="toggleUserMenu(true, false)">Ändere das Passwort</button>
+          <button *ngIf="!(editProfil && !showPassword)" (click)="toggleUserMenu(false, true)">Profil bearbeiten</button>
+          <button style="background-color:#000000" *ngIf="editProfil && !showPassword" (click)="toggleUserMenu(false, false)">Profil bearbeiten</button>
         </div>
+        <!-- unapproved company menu control -->
+      <div *ngIf="!this.user.isAdmin() && !this.user.isModerator() && !this.user.approved">
+        <button *ngIf="!(showPassword && !editProfil)" (click)="toggleUserMenu(true, false)">Ändere das Passwort</button>
+        <button *ngIf="!(editProfil && !showPassword)" (click)="toggleUserMenu(false, true)">Profil bearbeiten</button>
+      </div>
 <br><br>
 
 
 <!-- passwort ändern-->
-      <div *ngIf="(showPassword && !showAdmin)">
+      <div *ngIf="(showPassword && !showAdmin) || (showPassword && !editProfil)">
         <app-profil-change-password [userId]="passwordChangeUserId" (changedPw)="backToUserList()"></app-profil-change-password>
         <br><br>
       </div>
@@ -45,7 +50,7 @@
 
 <!--job liste-->
       <!--menu neuen Job erstellen-->
-        <div *ngIf="!showPassword && !showAdmin && !editProfil">
+        <div *ngIf="!showPassword && !showAdmin && !editProfil && this.user.approved">
           <button *ngIf="!createNewJob" (click)="toggleShowCreateNewJob()">neuen Job erstellen</button>
           <button *ngIf="createNewJob" (click)="toggleShowCreateNewJob()">zurück</button>
           <br><br>
@@ -57,12 +62,12 @@
         </div>
 
       <!--liste der jobs-->
-        <div *ngIf="!showPassword && !showAdmin && !createNewJob && !editProfil">
+        <div *ngIf="!showPassword && !showAdmin && !createNewJob && !editProfil && this.user.approved">
           <app-profil-list-jobs></app-profil-list-jobs>
         </div>
 
 <!--profil bearbeiten-->
-<div *ngIf="editProfil || (showAdmin && showPassword)">
+<div *ngIf="(editProfil && !showPassword) || (showAdmin && showPassword)">
   <h4>{{user.name}}</h4>
   <app-profil-edit [userId]="this.user.id"></app-profil-edit>
 </div>

@@ -1,34 +1,26 @@
 <!--titel-->
-      <h1 *ngIf="showPassword && !showAdmin">
-        Profil ~ Passwort
-      </h1>
-      <h1 *ngIf="!showPassword && !showAdmin">
-        Profil ~ Jobs
-      </h1>
-      <h1 *ngIf="showAdmin && !showPassword">
-        Profil ~ Benutzer
-      </h1>
+      <h1 *ngIf="showPassword && !showAdmin">Profil ~ Passwort</h1>
+      <h1 *ngIf="!showPassword && !showAdmin">Profil ~ Jobs</h1>
+      <h1 *ngIf="showAdmin && !showPassword">Profil ~ Benutzer</h1>
       <h1 *ngIf="showAdmin && showPassword"> Profil ~ Bearbeiten</h1>
 
 
 <!--menus-->
       <!-- admin or moderator menu control-->
         <div *ngIf="this.user.isAdmin() || this.user.isModerator()">
-          <button style="background-color:#000000" *ngIf="!showPassword && !showAdmin" (click)="toggleMenu(false, false)">Zeige Jobs</button>
-          <button *ngIf="!(!showPassword && !showAdmin)" (click)="toggleMenu(false, false)">Zeige Jobs</button>
-          <button style="background-color:#000000" *ngIf="showPassword && !showAdmin" (click)="backToUserList()">Ändere das Passwort</button>
-          <button *ngIf="!(showPassword && !showAdmin)" (click)="toggleMenu(false, true)">Ändere das Passwort</button>
-          <button *ngIf="!(showAdmin && showPassword)" (click)="toggleMenu(true, true)">Profil bearbeiten</button>
-          <button style="background-color:#000000" *ngIf="showAdmin && showPassword" (click)="toggleMenu(false, false)">Profil bearbeiten</button>
-          <button style="background-color:#000000" *ngIf="showAdmin && !showPassword" (click)="toggleMenu(false, false)">Zeige Benutzer</button>
-          <button *ngIf="!(showAdmin && !showPassword)" (click)="toggleMenu(true, false)">Zeige Benutzer</button>
+          <button (click)="toggleMenu(false, false)">Zeige Jobs</button>
+          <button (click)="toggleMenu(false, true)">Ändere das Passwort</button>
+          <button (click)="toggleMenu(true, true)">Profil bearbeiten</button>
+          <button style="background-color:#000000" (click)="toggleMenu(false, false)">Zeige Benutzer</button>
+
         </div>
-<label *ngIf="!user.approved">Dieses Benutzerkonto wurde noch nicht bestätigt.</label>
+      <label *ngIf="!user.approved">Dieses Benutzerkonto wurde noch nicht bestätigt.</label>
+
       <!-- company menu control-->
         <div *ngIf="!this.user.isAdmin() && !this.user.isModerator()">
-          <button *ngIf="!showPassword" (click)="toggleShowPassword(true, false)">Ändere das Passwort</button>
-          <button *ngIf="(showPassword || editProfil) && user.approved" (click)="toggleShowPassword(false, false)">Zeige Jobs</button>
-          <button *ngIf="!editProfil" (click)="toggleShowPassword(false, true)">Profil bearbeiten</button>
+          <button *ngIf=" user.approved" (click)="toggleShowPassword(false, false)">Zeige Jobs</button>
+          <button (click)="toggleShowPassword(true, false)">Ändere das Passwort</button>
+          <button (click)="toggleShowPassword(false, true)">Profil bearbeiten</button>
         </div>
 <br><br>
 

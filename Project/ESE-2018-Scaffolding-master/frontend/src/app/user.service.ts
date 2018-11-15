@@ -123,6 +123,7 @@ export class UserService {
     this.changeErrorStatus(false);
     this.user = null;
     this.router.navigate(['/login']);
+    location.href = '/login'; // TODO: make one working
   }
 
   static checkSession(){

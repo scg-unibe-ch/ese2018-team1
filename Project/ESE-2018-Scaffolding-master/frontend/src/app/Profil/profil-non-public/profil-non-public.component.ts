@@ -20,9 +20,6 @@ export class ProfilNonPublicComponent implements OnInit {
 
   ngOnInit() {
     SurpriseService.log('profile', '');
-   /* if(!UserService.loggedIn){
-        this.router.navigateByUrl('/login'); // TODO: does redirect every time (also when logged in)
-      }*/
      if (UserService.user.isModerator() || UserService.user.isAdmin()) {
        this.backToUserList();
      }

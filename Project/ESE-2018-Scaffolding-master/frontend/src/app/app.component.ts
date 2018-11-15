@@ -5,6 +5,7 @@ import {JobService} from './job.service';
 import {UserService} from './user.service';
 import {SurpriseService} from './surprise.service';
 import {SurpriseLog} from './surprise-log';
+import {FeedbackService} from "./feedback.service";
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit {
 
   contactedJobResponse = '';
 
-  constructor(private httpClient: HttpClient, public  userService: UserService) {
+  constructor(private httpClient: HttpClient, public  userService: UserService, public feedbackService: FeedbackService) {
     const js= new JobService(httpClient, this.userService);
   }
 
@@ -27,9 +28,6 @@ export class AppComponent implements OnInit {
       UserService.checkSession();
       SurpriseService.init(this.httpClient, UserService.user.id, this);
       SurpriseService.log('loaded page', '');
-
-
-
   }
 
   toggleMenu(){
@@ -52,6 +50,10 @@ export class AppComponent implements OnInit {
 
   logout(){
     UserService.logout();
+  }
+
+  deleteMessages(){
+    this.feedbackService.clearMessages();
   }
 
 

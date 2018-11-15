@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {UserService} from '../user.service';
 import {Router} from '@angular/router';
 import {SurpriseService} from '../surprise.service';
+import {FeedbackService} from "../feedback.service";
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   successfulRegister: boolean;
   user: User;
 
-  constructor(private httpClient: HttpClient, private userService: UserService, public router: Router) {
+  constructor(private httpClient: HttpClient, private userService: UserService, public router: Router, private feedbackService: FeedbackService) {
   }
 
   ngOnInit() {
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
             UserService.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description);
             this.setLoginValues(true);
             this.user = null;
+            this.feedbackService.addMessage('Erfolgreiches Login');
             },
           err =>{
             UserService.changeErrorStatus(true);

@@ -11,29 +11,24 @@ import {SurpriseService} from '../../surprise.service';
   styleUrls: ['./profil-non-public.component.css']
 })
 export class ProfilNonPublicComponent implements OnInit {
-  user: User;
   passwordChangeUserId: number;
-  loginStatus: boolean;
   showPassword = false;
   showAdmin = false;
   createNewJob = false;
   editProfil = false;
-  constructor(private userService:UserService, private router: Router) { }
+  constructor(public userService:UserService, private router: Router) { }
 
   ngOnInit() {
     SurpriseService.log('profile', '');
-    UserService.currentLoginStatus.subscribe(loginStatus => this.loginStatus = loginStatus);
-    UserService.currentUser.subscribe((instance) => {this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description);
-      if(!this.loginStatus){
+   /* if(!UserService.loggedIn){
         this.router.navigateByUrl('/login'); // TODO: does redirect every time (also when logged in)
-      }
-    });
-     if (this.user.isModerator() || this.user.isAdmin()) {
+      }*/
+     if (UserService.user.isModerator() || UserService.user.isAdmin()) {
        this.backToUserList();
      }
-    this.passwordChangeUserId = this.user.id;
+    this.passwordChangeUserId = UserService.user.id;
      this.ShowList();
-    if (!UserService.CurrentUser.approved) {
+    if (!UserService.user.approved) {
       this.toggleUserMenu(false, true);
     }
   }
@@ -56,13 +51,13 @@ admin & moderatorMenu switches
     this.showAdmin = false;
     this.showPassword = false;
     this.editProfil = false;
-    this.passwordChangeUserId = this.user.id;
+    this.passwordChangeUserId = UserService.user.id;
   }
 
   toggleMenu(showAdmin: boolean, showPassword: boolean){
     this.showAdmin = showAdmin;
     this.showPassword = showPassword;
-    this.passwordChangeUserId = this.user.id;
+    this.passwordChangeUserId = UserService.user.id;
   }
 /*
 end admin Menu switches
@@ -83,7 +78,7 @@ end admin Menu switches
    */
   backToUserList(){
     this.ShowList();
-    this.passwordChangeUserId = this.user.id;
+    this.passwordChangeUserId = UserService.user.id;
   }
 
   /**

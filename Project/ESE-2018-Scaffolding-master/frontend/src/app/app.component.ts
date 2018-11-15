@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Job} from './job';
 import {HttpClient} from '@angular/common/http';
-import {User} from './user';
 import {JobService} from './job.service';
 import {UserService} from './user.service';
 import {SurpriseService} from './surprise.service';
@@ -15,10 +14,9 @@ import {SurpriseLog} from './surprise-log';
 export class AppComponent implements OnInit {
   public static backendUrl = 'http://localhost:3000';
   //public static backendUrl = 'http://**YourIpHere**:3000';
-  user: User;
-  loginStatus: boolean;
   public contactedJob = false;
   public contactedJobInfos: SurpriseLog[] = [];
+
   contactedJobResponse = '';
 
   constructor(private httpClient: HttpClient, public  userService: UserService) {
@@ -27,12 +25,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
       UserService.checkSession();
-      UserService.getLoginStatus().subscribe(loginStatus => this.loginStatus = loginStatus);
-      UserService.getCurrentUser().subscribe(currentUser => {
-        this.user = currentUser;
-        SurpriseService.init(this.httpClient, currentUser.id, this);
-        SurpriseService.log('loaded page', '');
-      });
+      SurpriseService.init(this.httpClient, UserService.user.id, this);
+      SurpriseService.log('loaded page', '');
 
 
 

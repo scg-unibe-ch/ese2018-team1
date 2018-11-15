@@ -16,7 +16,6 @@ export class ProfilNewJobComponent implements OnInit {
   job: Job = new Job(null, '', '', '', '','','', 0, false,'', '', 0, false, -1, false);
   showDetails: boolean;
   errorName: boolean;
-  user: User;
 
   @Output('saved')
   saved = new EventEmitter();
@@ -27,15 +26,14 @@ export class ProfilNewJobComponent implements OnInit {
   ngOnInit() {
     SurpriseService.log('new job', '');
     this.showDetails = false;
-    UserService.currentUser.subscribe(currentUser => this.user = currentUser);
   }
 
   onCreateJob() {
     console.log('creating');
     if (this.job.name){
-      this.job.company_id = this.user.id + '';
+      this.job.company_id = UserService.user.id + '';
       console.log('name exists');
-      JobService.createJob(this.job, this.user).subscribe((instance: any) => {
+      JobService.createJob(this.job, UserService.user).subscribe((instance: any) => {
         this.job = instance;
         this.showDetails = true;
         console.log('showing job edit');

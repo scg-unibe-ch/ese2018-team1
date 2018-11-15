@@ -11,25 +11,21 @@ import {SurpriseService} from '../../surprise.service';
 })
 export class ProfilEditComponent implements OnInit {
 
-  user: User;
   userEdit: User;
   successfulChange = true;
 
   @Input()
   userId: number;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(public userService: UserService, private router: Router) { }
 
   ngOnInit() {
-    UserService.currentUser.subscribe((instance) => {
-      this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description);
-      SurpriseService.log('changed password', this.user.name);
-    });
-    SurpriseService.log('edited profile', this.user.name);
-    if (this.user.id === this.userId) {
-      this.userEdit = this.user;
+    SurpriseService.log('changed password', UserService.user.name);
+    SurpriseService.log('edited profile', UserService.user.name);
+    if (UserService.user.id === this.userId) {
+      this.userEdit = UserService.user;
     }
-    if (this.user.isAdmin() || this.user.isModerator()){
+    if (UserService.user.isAdmin() || UserService.user.isModerator()){
       UserService.getUserById(this.userId+'').subscribe((instance: User) => this.userEdit = new User(instance.id, instance.name,'','', instance.email, instance.role, instance.approved, instance.address, instance.description));
     }
   }
@@ -39,8 +35,8 @@ export class ProfilEditComponent implements OnInit {
       if(instance == null || !instance.approved){
         console.log('error');
       }
-      if (!(this.user.isModerator() || this.user.isAdmin())){
-        UserService.changeUser(user);
+      if (!(UserService.user.isModerator() || UserService.user.isAdmin())){
+        UserService.user = user;
       }
     });
   }

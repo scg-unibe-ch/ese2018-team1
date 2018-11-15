@@ -11,7 +11,6 @@ import {SurpriseService} from '../../surprise.service';
 export class ProfilListUserComponent implements OnInit {
   users: User[];
   unapprovedUsers: User[];
-  user:User;
   editUser: User;
   successfulChange = true;
 
@@ -27,12 +26,11 @@ export class ProfilListUserComponent implements OnInit {
   @Output('changeUser')
   changeUserEmitter = new EventEmitter<number>();
 
-  constructor(private userService: UserService) { }
+  constructor(public userService: UserService) { }
 
   ngOnInit() {
     SurpriseService.log('user list', '');
-    UserService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
-    if(this.user.isAdmin()){
+    if(UserService.user.isAdmin()){
       this.showAll = true;
       this.tableName = 'Liste aller Benutzer';
     }

@@ -12,7 +12,6 @@ import {SurpriseService} from '../../surprise.service';
   styleUrls: ['./profil-change-password.component.css']
 })
 export class ProfilChangePasswordComponent implements OnInit {
-  user: User;
   passwordChangeUserName: string;
   changePasswordAdmin = false;
 
@@ -33,15 +32,12 @@ export class ProfilChangePasswordComponent implements OnInit {
   constructor(private userService:UserService, private router: Router) { }
 
   ngOnInit() {
-    UserService.currentUser.subscribe((instance) => {
-      this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description);
-      SurpriseService.log('changed password', this.user.name);
-    });
-    if(this.userId === this.user.id){
+   SurpriseService.log('changed password', UserService.user.name);
+    if(this.userId === UserService.user.id){
       this.changePasswordAdmin = false;
     }
     else{
-      if(!this.user.isAdmin()){
+      if(!UserService.user.isAdmin()){
         this.router.navigateByUrl('/login');
       }
       else{
@@ -66,7 +62,7 @@ export class ProfilChangePasswordComponent implements OnInit {
           UserService.getNewSalt(id + '').subscribe((instance: any) =>{
             UserService.changePassword(id + '', instance.salt, this.newPassword).subscribe((instance: any) => {
               if (!this.changePasswordAdmin) {
-                UserService.changeUser(new User(instance.id, instance.name, instance.password, instance.salt, instance.email, instance.role, instance.approved, instance.address, instance.description));
+                UserService.user = new User(instance.id, instance.name, instance.password, instance.salt, instance.email, instance.role, instance.approved, instance.address, instance.description);
               }
               this.changedPw.emit(null);
             }, err => {

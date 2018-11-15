@@ -13,7 +13,6 @@ import {SurpriseService} from '../../surprise.service';
 })
 export class ProfilListJobsComponent implements OnInit {
   jobs: Job[] = [];
-  user: User;
   editJob: Job;
   showEditJob = false;
   draftJobs: Job[] = [];
@@ -24,8 +23,7 @@ export class ProfilListJobsComponent implements OnInit {
 
   ngOnInit() {
     SurpriseService.log('list jobs', '');
-    UserService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
-    if(this.user === null || !UserService.currentLoginStatus){
+    if(UserService.user === null || !UserService.loggedIn){
       this.router.navigateByUrl('/login');
       return;
     }
@@ -36,15 +34,15 @@ export class ProfilListJobsComponent implements OnInit {
    * gets the jobs according to the user
    */
   updateJobs(){
-    if (this.user.isCompany()) {
-      JobService.getJobsByCompany(this.user.id, false).subscribe((instances: any) => {
+    if (UserService.user.isCompany()) {
+      JobService.getJobsByCompany(UserService.user.id, false).subscribe((instances: any) => {
         this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
           instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
         this.showJobs = this.jobs;
       });
     }
 
-    if (this.user.isModerator() || this.user.isAdmin()) {
+    if (UserService.user.isModerator() || UserService.user.isAdmin()) {
       JobService.getAllJobs().subscribe((instances: any) => {
         this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
           instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));

@@ -1,3 +1,7 @@
+<b *ngIf="!userService.getLoginStatus()">
+  <app-login></app-login>
+</b>
+<b *ngIf="userService.getLoginStatus()">
 <!--titel-->
       <h1 *ngIf="showPassword && !showAdmin">Profil ~ Passwort</h1>
       <h1 *ngIf="!showPassword && !showAdmin">Profil ~ Jobs</h1>
@@ -7,7 +11,7 @@
 
 <!--menus-->
       <!-- admin or moderator menu control-->
-        <div *ngIf="this.user.isAdmin() || this.user.isModerator()">
+        <div *ngIf="userService.getUser().isAdmin() || userService.getUser().isModerator()">
           <button style="background-color:#000000" *ngIf="!showPassword && !showAdmin" (click)="toggleMenu(false, false)">Zeige Jobs</button>
           <button *ngIf="!(!showPassword && !showAdmin)" (click)="toggleMenu(false, false)">Zeige Jobs</button>
           <button style="background-color:#000000" *ngIf="showPassword && !showAdmin" (click)="backToUserList()">Ändere das Passwort</button>
@@ -17,18 +21,18 @@
           <button style="background-color:#000000" *ngIf="showAdmin && !showPassword" (click)="toggleMenu(false, false)">Zeige Benutzer</button>
           <button *ngIf="!(showAdmin && !showPassword)" (click)="toggleMenu(true, false)">Zeige Benutzer</button>
         </div>
-<label *ngIf="!user.approved">Dieses Benutzerkonto wurde noch nicht bestätigt.</label>
+<label *ngIf="!userService.getUser().approved">Dieses Benutzerkonto wurde noch nicht bestätigt.</label>
       <!-- company menu control-->
-        <div *ngIf="!this.user.isAdmin() && !this.user.isModerator() && this.user.approved">
-          <button style="background-color:#000000" *ngIf="!showPassword && !editProfil && user.approved" (click)="toggleUserMenu(false, false)">Zeige Jobs</button>
-          <button *ngIf="!(!showPassword && !editProfil) && user.approved" (click)="toggleUserMenu(false, false)">Zeige Jobs</button>
+        <div *ngIf="!userService.getUser().isAdmin() && !userService.getUser().isModerator() && userService.getUser().approved">
+          <button style="background-color:#000000" *ngIf="!showPassword && !editProfil && userService.getUser().approved" (click)="toggleUserMenu(false, false)">Zeige Jobs</button>
+          <button *ngIf="!(!showPassword && !editProfil) && userService.getUser().approved" (click)="toggleUserMenu(false, false)">Zeige Jobs</button>
           <button style="background-color:#000000" *ngIf="showPassword && !editProfil" (click)="toggleUserMenu(false, false)">Ändere das Passwort</button>
           <button *ngIf="!(showPassword && !editProfil)" (click)="toggleUserMenu(true, false)">Ändere das Passwort</button>
           <button *ngIf="!(editProfil && !showPassword)" (click)="toggleUserMenu(false, true)">Profil bearbeiten</button>
           <button style="background-color:#000000" *ngIf="editProfil && !showPassword" (click)="toggleUserMenu(false, false)">Profil bearbeiten</button>
         </div>
         <!-- unapproved company menu control -->
-      <div *ngIf="!this.user.isAdmin() && !this.user.isModerator() && !this.user.approved">
+      <div *ngIf="!userService.getUser().isAdmin() && !userService.getUser().isModerator() && !userService.getUser().approved">
         <button *ngIf="!(showPassword && !editProfil)" (click)="toggleUserMenu(true, false)">Ändere das Passwort</button>
         <button *ngIf="!(editProfil && !showPassword)" (click)="toggleUserMenu(false, true)">Profil bearbeiten</button>
       </div>
@@ -36,21 +40,21 @@
 
 
 <!-- passwort ändern-->
-      <div *ngIf="(showPassword && !showAdmin) || (showPassword && !editProfil)">
+      <div *ngIf="(showPassword && !showAdmin && !userService.getUser().isCompany()) || (showPassword && !editProfil && userService.getUser().isCompany())">
         <app-profil-change-password [userId]="passwordChangeUserId" (changedPw)="backToUserList()"></app-profil-change-password>
         <br><br>
       </div>
 
 
 <!-- liste der benutzer-->
-      <div *ngIf="(this.user.isAdmin() || this.user.isModerator()) && showAdmin && !showPassword">
+      <div *ngIf="(userService.getUser().isAdmin() || userService.getUser().isModerator()) && showAdmin && !showPassword">
         <app-profil-list-user (changePw)="changePassword($event)"></app-profil-list-user>
       </div>
 
 
 <!--job liste-->
       <!--menu neuen Job erstellen-->
-        <div *ngIf="!showPassword && !showAdmin && !editProfil && this.user.approved">
+        <div *ngIf="!showPassword && !showAdmin && !editProfil && userService.getUser().approved">
           <button *ngIf="!createNewJob" (click)="toggleShowCreateNewJob()">neuen Job erstellen</button>
           <button *ngIf="createNewJob" (click)="toggleShowCreateNewJob()">zurück</button>
           <br><br>
@@ -62,12 +66,13 @@
         </div>
 
       <!--liste der jobs-->
-        <div *ngIf="!showPassword && !showAdmin && !createNewJob && !editProfil && this.user.approved">
+        <div *ngIf="!showPassword && !showAdmin && !createNewJob && !editProfil && userService.getUser().approved">
           <app-profil-list-jobs></app-profil-list-jobs>
         </div>
 
 <!--profil bearbeiten-->
 <div *ngIf="(editProfil && !showPassword) || (showAdmin && showPassword)">
-  <h4>{{user.name}}</h4>
-  <app-profil-edit [userId]="this.user.id"></app-profil-edit>
+  <h4>{{userService.getUser().name}}</h4>
+  <app-profil-edit [userId]="userService.getUser().id"></app-profil-edit>
 </div>
+</b>

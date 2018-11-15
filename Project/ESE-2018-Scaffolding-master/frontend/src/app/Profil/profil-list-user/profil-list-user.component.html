@@ -7,7 +7,7 @@
     <tr>
       <th>Name</th>
       <th>Email</th>
-      <th *ngIf="this.user.isAdmin()">change Password</th>
+      <th *ngIf="userService.getUser().isAdmin()">change Password</th>
       <th>role</th>
       <th>change Profile</th>
       <th>approval status</th>
@@ -15,12 +15,12 @@
     <tr *ngFor="let currentUser of unapprovedUsers">
       <td><a (click)="showCompanyProfile(currentUser.id)">{{currentUser.name}}</a></td>
       <td>{{currentUser.email}}</td>
-      <td *ngIf="this.user.isAdmin()"><a (click)="changePassword(currentUser.id)">change Password</a></td>
+      <td *ngIf="userService.getUser().isAdmin()"><a (click)="changePassword(currentUser.id)">change Password</a></td>
       <td>
         <select [(ngModel)]="currentUser.role" (change)="saveUser(currentUser)">
           <option value="company">company</option>
           <option value="moderator">moderator</option>
-          <option *ngIf="this.user.isAdmin()" value="admin">admin</option>
+          <option *ngIf="userService.getUser().isAdmin()" value="admin">admin</option>
         </select>
       </td>
       <td><a (click)="editProfile(currentUser)">change Profile</a></td> <!-- add anchor to correct link-->

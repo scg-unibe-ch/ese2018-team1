@@ -14,7 +14,6 @@ import {SurpriseService} from '../surprise.service';
 })
 export class JobEditComponent implements OnInit {
   jobId: string;
-  user: User;
   company: User;
   startNow: boolean;
   temporary: boolean;
@@ -36,12 +35,11 @@ export class JobEditComponent implements OnInit {
 
   ngOnInit() {
     SurpriseService.log('edited job', this.job.name);
-    UserService.currentUser.subscribe((instance) => this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description));
-    if(this.user === null || !UserService.currentLoginStatus){
+    if(UserService.user === null || !UserService.loggedIn){
       this.router.navigateByUrl('/login');
       return;
     }
-    if(this.user.isModerator() || this.user.isAdmin()){
+    if(UserService.user.isModerator() || UserService.user.isAdmin()){
       this.editAsModerator = true;
     }
     this.jobId = location.search.replace('?id=', '');
@@ -66,9 +64,9 @@ export class JobEditComponent implements OnInit {
   }
 
   checkForAccess(){
-    console.log('company id:' + this.job.company_id + ', user id: ' + this.user.id);
+    console.log('company id:' + this.job.company_id + ', user id: ' + UserService.user.id);
     // check for unauthorized access
-    if(parseInt(this.job.company_id) !== this.user.id && !this.user.isModerator() && !this.user.isAdmin()){
+    if(parseInt(this.job.company_id) !== UserService.user.id && !UserService.user.isModerator() && !UserService.user.isAdmin()){
       console.log('no access');
       this.router.navigateByUrl('/login');
       return;
@@ -85,14 +83,14 @@ export class JobEditComponent implements OnInit {
     if (this.standardEMail){
       this.job.company_email = this.company.email;
     }
-    JobService.saveJob(this.job, this.user).subscribe((instance: any) => {
+    JobService.saveJob(this.job, UserService.user).subscribe((instance: any) => {
       this.job = instance;
     });
     
   }
 
   onSaveAndBack(){
-    JobService.saveJob(this.job, this.user).subscribe((instance: any) => {
+    JobService.saveJob(this.job, UserService.user).subscribe((instance: any) => {
       this.job = instance;
     });
     this.saved.emit();

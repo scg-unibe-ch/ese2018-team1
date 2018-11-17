@@ -11,7 +11,7 @@ import {FeedbackService, stages} from '../feedback.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  register: boolean = false; // if false the login form is shown, if true, the register form is shown
+  register = false; // if false the login form is shown, if true, the register form is shown
   error: boolean;
   successfulLogin: boolean;
   successfulRegister: boolean;

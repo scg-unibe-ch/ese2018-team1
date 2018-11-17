@@ -19,4 +19,64 @@
   top: 10%;
 }
 
+.fbHolder{
+  z-index: 100000;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+}
 
+.feedBack{
+  position:relative;
+  border-radius: 10px;
+  text-align: center;
+  width: 50%;
+  left: 25%;
+  margin: 16px 0px 16px ;
+
+  -webkit-animation: fadeOut ease-out 1s;
+  -moz-animation: fadeOut ease-out 1s;
+  animation: fadeOut ease-out 1s;
+  -webkit-animation-fill-mode:forwards;
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+  -webkit-animation-delay: 1s;
+  -moz-animation-delay: 1s;
+  animation-delay: 1s;
+}
+
+@-webkit-keyframes fadeOut {
+  from {opacity: 1}
+  to{ opacity: 0}
+}
+@-moz-keyframes fadeOut {
+  from {opacity: 1}
+  to{ opacity: 0}
+}
+@keyframes fadeOut {
+  from {opacity: 1}
+  to{ opacity: 0}
+}
+
+.hidden{
+  display: none;
+
+}
+
+.success{
+  background-color: #00ff00;
+  color: white;
+}
+
+.warning {
+  background-color: #ffff00;
+  color: white;
+}
+
+.error {
+  background-color: #ff0000;
+  color: white;
+}

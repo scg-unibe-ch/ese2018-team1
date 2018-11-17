@@ -38,10 +38,10 @@
   </div>
 </div>
 
-<div *ngIf="feedbackService.messages.length" class="fullscreen" (timeupdate)="5">
-  <div *ngFor="let message of feedbackService.messages" class="showContact">
-    <p (click)="FeedbackService.clearMessages()">{{message}}</p>
-    <br><br>
+<div class="fbHolder" *ngIf="!fbHidden">
+  <br><br>
+  <div *ngFor="let fb of feedbacks">
+    <p class="feedBack {{fb.level}}" [ngClass]="{'hidden': fb.hidden}">{{fb.message}}</p>
   </div>
 </div>
 

@@ -30,6 +30,7 @@
     "ng2-charts": "^1.6.0",
     "ng2-cookie": "^1.1.0",
     "rxjs": "^6.0.0",
+    "timers": "^0.1.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

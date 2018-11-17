@@ -39,14 +39,15 @@ export class LoginComponent implements OnInit {
             UserService.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description);
             this.setLoginValues(true);
             this.user = null;
-            FeedbackService.addMessage('Erfolgreiches Login', stages.success);
             },
           err =>{
-            UserService.changeErrorStatus(true);
+            FeedbackService.addMessage('Benutzername oder Password ist falsch', stages.error);
+            //UserService.changeErrorStatus(true);
           });
       },
       err =>{
-        UserService.changeErrorStatus(true);
+        FeedbackService.addMessage('Benutzername oder Password ist falsch', stages.error);
+        //UserService.changeErrorStatus(true);
       });
   }
 

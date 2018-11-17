@@ -6,6 +6,8 @@ import {UserService} from './user.service';
 import {SurpriseService} from './surprise.service';
 import {SurpriseLog} from './surprise-log';
 import {FeedbackService, stages} from './feedback.service';
+import {Feedback} from './feedback';
+import {setInterval} from 'timers'; //v
 
 @Component({
   selector: 'app-root',
@@ -20,12 +22,30 @@ export class AppComponent implements OnInit {
   public contactedJobInfos: SurpriseLog[] = [];
   contactedJobResponse = '';
 
-  fbMessage = '';
-  fbStage: stages;
+  fbHidden = true;
+  feedbacks: Feedback[] = [];
 
-  static showFeedback(msg: string, level: stages){
-    AppComponent.app.fbMessage = msg;
-    AppComponent.app.fbStage = level;
+  static showFeedback(){
+    console.log('shown feedback');
+    AppComponent.app.feedbacks = FeedbackService.feedbacks;
+    AppComponent.app.fbHidden = false;
+    setTimeout(() =>{
+      AppComponent.app.feedbacks[AppComponent.app.feedbacks.length-1].hidden = true;
+      AppComponent.app.clearFbMessage(AppComponent.app.feedbacks[AppComponent.app.feedbacks.length-1]);
+    }, 2000);
+  }
+
+  clearFbMessage(fb: Feedback){
+    const fbs = FeedbackService.clearMessage(fb);
+    for(let i = 0; i< fbs.length; i++){
+      if(this.feedbacks[i] !== fbs[i]){
+        this.feedbacks.splice(i,1);
+      }
+    }
+    FeedbackService.feedbacks = this.feedbacks;
+    if(this.feedbacks.length === 0){
+      this.fbHidden = true;
+    }
   }
 
   constructor(private httpClient: HttpClient, public  userService: UserService) {
@@ -40,6 +60,9 @@ export class AppComponent implements OnInit {
       SurpriseService.log('loaded page', '');
   }
 
+  /**
+   * toggles the mobile menu on or off
+   */
   toggleMenu(){
     const menu = document.getElementById('navPanel');
     if(menu.classList.contains('visible')){
@@ -49,6 +72,7 @@ export class AppComponent implements OnInit {
       menu.classList.add('visible');
     }
   }
+
 
   showJobContact(show: boolean, log: SurpriseLog){
     document.getElementById('mainBody').style.overflow = show ? 'hidden': 'visible';
@@ -60,13 +84,6 @@ export class AppComponent implements OnInit {
 
   logout(){
     UserService.logout();
-  }
-
-  /**
-   * clear the fb message queue
-   */
-  deleteMessages(){
-    FeedbackService.clearMessages();
   }
 
 

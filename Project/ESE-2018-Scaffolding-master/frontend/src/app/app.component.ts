@@ -5,7 +5,7 @@ import {JobService} from './job.service';
 import {UserService} from './user.service';
 import {SurpriseService} from './surprise.service';
 import {SurpriseLog} from './surprise-log';
-import {FeedbackService} from "./feedback.service";
+import {FeedbackService, stages} from './feedback.service';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +15,24 @@ import {FeedbackService} from "./feedback.service";
 export class AppComponent implements OnInit {
   public static backendUrl = 'http://localhost:3000';
   //public static backendUrl = 'http://**YourIpHere**:3000';
+  static app: AppComponent;
   public contactedJob = false;
   public contactedJobInfos: SurpriseLog[] = [];
-
   contactedJobResponse = '';
 
-  constructor(private httpClient: HttpClient, public  userService: UserService, public feedbackService: FeedbackService) {
+  fbMessage = '';
+  fbStage: stages;
+
+  static showFeedback(msg: string, level: stages){
+    AppComponent.app.fbMessage = msg;
+    AppComponent.app.fbStage = level;
+  }
+
+  constructor(private httpClient: HttpClient, public  userService: UserService) {
+    AppComponent.app = this;
     const js= new JobService(httpClient, this.userService);
   }
+
 
   ngOnInit() {
       UserService.checkSession();
@@ -52,8 +62,11 @@ export class AppComponent implements OnInit {
     UserService.logout();
   }
 
+  /**
+   * clear the fb message queue
+   */
   deleteMessages(){
-    this.feedbackService.clearMessages();
+    FeedbackService.clearMessages();
   }
 
 

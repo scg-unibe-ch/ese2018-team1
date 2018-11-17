@@ -1,12 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Job} from '../job';
-import {HttpClient, HttpParams} from '@angular/common/http';
 import {JobService} from '../job.service';
 import {UserService} from '../user.service';
 import {Router} from '@angular/router';
 import {User} from '../user';
 import {SurpriseService} from '../surprise.service';
-import {FeedbackService} from "../feedback.service";
+import {FeedbackService, stages} from '../feedback.service';
 
 @Component({
   selector: 'app-job-edit',
@@ -32,7 +31,7 @@ export class JobEditComponent implements OnInit {
   @Output('savedJob')
   saved = new EventEmitter();
 
-  constructor(public userService: UserService, public router: Router, public feedbackService: FeedbackService) { }
+  constructor(public userService: UserService, public router: Router) { }
 
   ngOnInit() {
     SurpriseService.log('edited job', this.job.name);
@@ -87,7 +86,7 @@ export class JobEditComponent implements OnInit {
     JobService.saveJob(this.job, UserService.user).subscribe((instance: any) => {
       this.job = instance;
     });
-    this.feedbackService.addMessage('Der Job wurde erstellt. Sobald ihn ein Moderator bestätigt hat, wird er öffentlich geschaltet');
+    FeedbackService.addMessage('Der Job wurde erstellt. Sobald ihn ein Moderator bestätigt hat, wird er öffentlich geschaltet', stages.success);
     
   }
 

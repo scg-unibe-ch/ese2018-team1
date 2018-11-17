@@ -40,7 +40,7 @@
 
 <div *ngIf="feedbackService.messages.length" class="fullscreen" (timeupdate)="5">
   <div *ngFor="let message of feedbackService.messages" class="showContact">
-    <p (click)="feedbackService.clearMessages()">{{message}}</p>
+    <p (click)="FeedbackService.clearMessages()">{{message}}</p>
     <br><br>
   </div>
 </div>

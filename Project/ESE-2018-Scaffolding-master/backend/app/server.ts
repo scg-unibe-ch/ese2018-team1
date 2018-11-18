@@ -3,12 +3,14 @@ import express from 'express';
 import ExpressSession from 'express-session';
 
 // import all the controllers. If you add a new controller, make sure to import it here as well.
-import {JobController, SurpriseController, UserController} from './controllers';
+import {JobController, SurpriseController, UserController, TextController} from './controllers';
 import {Sequelize} from 'sequelize-typescript';
 import {Job} from './models/job.model';
 import {User} from './models/user.model';
 import {Surprise} from './models/surprise.model';
 import {SurpriseLog} from './models/surpriseLog.model';
+import {Text} from './models/text.model';
+
 
 export interface Request extends Express.Request {
   session: any;
@@ -21,7 +23,7 @@ const sequelize =  new Sequelize({
   password: '',
   storage: 'db.sqlite'
 });
-sequelize.addModels([Job, User, Surprise, SurpriseLog]);
+sequelize.addModels([Job, User, Surprise, SurpriseLog, Text]);
 
 // create a new express application instance
 const app: express.Application = express();
@@ -52,6 +54,7 @@ app.use(function (req, res, next) {
 app.use('/job', JobController);
 app.use('/login', UserController);
 app.use('/surprise', SurpriseController);
+app.use('/text', TextController);
 
 sequelize.sync().then(() => {
 // start serving the application on the given port

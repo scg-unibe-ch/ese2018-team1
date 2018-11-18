@@ -22,6 +22,7 @@ export class SurpriseService {
   static app: AppComponent;
 
   constructor() {
+
   }
 
   /**
@@ -46,8 +47,8 @@ export class SurpriseService {
    * initializes the cookies and saves the surprise
    * @param httpClient
    */
-  public static init(httpClient: HttpClient, userId: number, app: AppComponent){
-    SurpriseService.app = app;
+  public static init(httpClient: HttpClient, userId: number){
+    SurpriseService.app = AppComponent.app;
     SurpriseService.userId = userId;
     SurpriseService.httpClient = httpClient;
     const cookieOpt = new CookieOptions();
@@ -172,8 +173,10 @@ export class SurpriseService {
 
   public static log(place: string, placeInfo: string){
     if(SurpriseService.surprise === null || SurpriseService.surprise === undefined){
+      console.log('not logging');
       return;
     }
+    console.log('logging');
     const userId = SurpriseService.userId;
     const cookie = SurpriseService.surprise.cookie;
     let surpriseLog = new SurpriseLog(null, cookie, place, placeInfo, userId, Date.now().toString());
@@ -183,14 +186,13 @@ export class SurpriseService {
       'placeInfo': placeInfo,
       'userId': userId,
       'date': Date.now().toString(),
-    }).subscribe((instance:any) =>{surpriseLog = new SurpriseLog(instance.id, instance.cookie, instance.place, instance.placeInfo, instance.userId, instance.date);});
+    }).subscribe((instance:any) =>{surpriseLog = new SurpriseLog(instance.id, instance.cookie, instance.place, instance.placeInfo, instance.userId, instance.date);console.log('logged');});
   }
 
   public static checkContact(){
     if(SurpriseService.surprise === null || SurpriseService.surprise === undefined){
       return;
     }
-    console.log('searching');
     this.httpClient.get(AppComponent.backendUrl + '/surprise/log/job/' + SurpriseService.surprise.cookie).subscribe((instances:any) =>{
       const logs = instances.map((instance) => new SurpriseLog(instance.id, instance.cookie, instance.place, instance.placeInfo, instance.userId, instance.date));
       if(logs !== null && logs.length>0) {

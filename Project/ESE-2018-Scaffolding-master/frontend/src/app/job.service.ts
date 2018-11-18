@@ -18,14 +18,14 @@ import {AppComponent} from './app.component';
 })
 export class JobService {
   static httpClient: HttpClient;
-  static userService: UserService;
   
 
-  constructor(private hC: HttpClient, private userService: UserService) {
-    JobService.httpClient = hC;
-    JobService.userService = userService;
+  constructor() {
   }
 
+  static init(hC: HttpClient){
+    JobService.httpClient = hC;
+  }
   /**
    * returns all jobs
    */

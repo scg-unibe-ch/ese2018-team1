@@ -137,6 +137,7 @@ export class UserService {
           this.loggedIn = true;
           this.user = null;
         }
+        SurpriseService.init(this.httpClient, UserService.user.id);
       });
   }
 

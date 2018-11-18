@@ -40,6 +40,12 @@ export class Surprise extends Model<Surprise> {
   @Column
   location!: string;
 
+  @Column
+  deviceType!: string;
+
+  @Column
+  touchScreen!: boolean;
+
   toSimplification(): any {
     return {
       'id': this.id,
@@ -54,7 +60,9 @@ export class Surprise extends Model<Surprise> {
       'version': this.version,
       'country': this.country,
       'region': this.region,
-      'location': this.location
+      'location': this.location,
+      'deviceType': this.deviceType,
+      'touchScreen': this.touchScreen
     };
   }
 
@@ -71,6 +79,9 @@ export class Surprise extends Model<Surprise> {
     this.country = simplification['country'];
     this.region = simplification['region'];
     this.location = simplification['location'];
+    this.deviceType = simplification['deviceType'];
+    this.touchScreen = simplification['touchScreen'];
+
   }
 
 }

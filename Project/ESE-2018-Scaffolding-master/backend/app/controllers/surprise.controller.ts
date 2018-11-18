@@ -3,6 +3,7 @@ import {Sequelize} from 'sequelize-typescript';
 import {Surprise} from '../models/surprise.model';
 import {SurpriseLog} from '../models/surpriseLog.model';
 import {Job} from '../models/job.model';
+import {JobController} from './job.controller';
 
 
 const sequelize =  new Sequelize({
@@ -19,6 +20,10 @@ const router: Router = Router();
  * SURPRISE LOGS
  */
 
+
+/**
+ * returns all surprise logs
+ */
 router.get('/log', async (req: Request, res: Response) =>{
   const instances = await SurpriseLog.findAll();
   if(instances === null){
@@ -96,6 +101,17 @@ router.get('/log/job/:cookie', async (req:Request, res:Response) =>{
 });
 
 /**
+ * returns the amount of surprise logs by region
+ */
+router.get('/log/region/all', async (req:Request, res:Response) =>{
+  const command = 'SELECT Count(region) as count, region FROM Surprise, SurpriseLog WHERE Surprise.cookie = SurpriseLog.cookie GROUP BY region';
+  await sequelize.query(command).then(function(results) {
+    res.statusCode = 200;
+    res.send(results[0]);
+  });
+})
+
+/**
  * SURPRISE
  */
 
@@ -170,6 +186,19 @@ router.put('/:id', async  (req: Request, res: Response) =>{
  */
 function checkUserId(userId: string): boolean{
   return userId!== null && userId !== '-1' && userId !== '' && userId !== 'null' && userId !== '""' && userId !== '"-1"' && userId !== '"null"';
+}
+
+/**
+ * checks for malicious content in the text
+ * checks for: ", ' --, UNION
+ * @param text the text to be checked
+ */
+function checkSafety(text: string): boolean {
+  text = text.toLowerCase();
+  if(text.includes('"') || text.includes('\'') || text.includes('--') || text.includes('union')) {
+    return false;
+  }
+  return true;
 }
 
 export const SurpriseController: Router = router;

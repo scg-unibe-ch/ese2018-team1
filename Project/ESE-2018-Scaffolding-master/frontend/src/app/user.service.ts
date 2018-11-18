@@ -32,7 +32,7 @@ export class UserService {
   static registerStatus = UserService.registered.asObservable();
 
   static user: User;
-  static loggedIn: boolean = false;
+  static loggedIn = false;
 
   static getAllUnapproved(){
     return this.httpClient.get(AppComponent.backendUrl+'/login/unapproved', {withCredentials: true});
@@ -137,7 +137,7 @@ export class UserService {
           this.loggedIn = true;
           this.user = null;
         }
-        SurpriseService.init(this.httpClient, UserService.user.id);
+        SurpriseService.init(this.httpClient, UserService.user);
       });
   }
 

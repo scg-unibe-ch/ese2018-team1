@@ -14,6 +14,8 @@ import {Chart} from 'chart.js';
 export class SurpriseComponent implements OnInit {
   allSurprises: Surprise[];
   showSurprises: Surprise[];
+  regionSurprises: Surprise[];
+  userSurprises: Surprise[];
   allLogs: SurpriseLog[];
   tableName = 'Alle Überraschungen';
   users: User[];
@@ -22,6 +24,8 @@ export class SurpriseComponent implements OnInit {
   selectedRegion:string;
   logs: SurpriseLog[];
   showLogs = false;
+  moreButtonText = 'Mehr sehen';
+  showMore = false;
 
   /**
    * diagram variables
@@ -32,8 +36,8 @@ export class SurpriseComponent implements OnInit {
   siteLoadingsLabels: string[] = []
   siteLoadingOptions;
 
-  siteUsersData = [{data: [0], label: 'laden'}];
-  siteUsersLabels: string[] = [];
+  siteLoadingsPerRegionData = [{data: [0], label: 'laden'}];
+  siteLoadingsPerRegionLabels: string[] = [];
 
   constructor() { }
 
@@ -41,8 +45,11 @@ export class SurpriseComponent implements OnInit {
     this.getLogs();
     SurpriseService.log('surprise', '');
     SurpriseService.getAll().subscribe((instances: any) =>{
-      this.allSurprises = instances.map((instance) => new Surprise(instance.id, instance.userIds, instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location));
+      this.allSurprises = instances.map((instance) => new Surprise(instance.id, instance.userIds, instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location, instance.deviceType, instance.touchScreen));
       this.showSurprises = this.allSurprises;
+      this.regionSurprises = this.allSurprises;
+      this.userSurprises = this.allSurprises;
+      console.log('got all surprises');
       this.getRegions();
       UserService.getAllUsers().subscribe((instances: any) =>{
         this.users = instances.map((instance) => new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description));
@@ -56,7 +63,7 @@ export class SurpriseComponent implements OnInit {
    */
   toggleDiagrams(){
     this.getSiteLoads();
-    this.getUserLoads();
+    this.getLoadingsPerRegion();
     this.showDiagrams = true;
   }
 
@@ -90,21 +97,19 @@ export class SurpriseComponent implements OnInit {
   /**
    * * gets all site loadings per user in a form, that chart.js can read it for the diagrams
    */
-  getUserLoads(){
+  getLoadingsPerRegion(){
     const amounts: number[] = [];
-    const cookies: string[] = [];
-    for(let i = 0; i<this.allLogs.length; i++){
-      if(!cookies.includes(this.allLogs[i].cookie)){
-        cookies.push(this.allLogs[i].cookie);
-        this.siteUsersLabels.push('user '+ this.siteUsersLabels.length);
-        amounts[this.siteUsersLabels.length-1] = 1;
+    SurpriseService.getSurpriseLogsByRegion().subscribe((instances: any[]) =>{
+      if(instances === null || instances === undefined){
+        return;
       }
-      else{
-        amounts[this.siteUsersLabels.length-1]++;
+      for(let i = 0; i<instances.length; i++){
+        amounts.push(instances[i].count);
+        this.siteLoadingsPerRegionLabels.push(instances[i].region);
       }
-    }
-    this.siteUsersData = [];
-    this.siteUsersData = [{data:amounts, label: 'Seitenladungen pro Benutzer'}];
+    this.siteLoadingsPerRegionData = [];
+    this.siteLoadingsPerRegionData.push( {data: amounts, label: 'Seitenladungen pro Region'});
+    });
   }
 
   /**
@@ -127,17 +132,28 @@ export class SurpriseComponent implements OnInit {
    * @param user
    */
   findByUser(user: User){
-    if(user === null || user === undefined){
+    if(user === null){
       this.showSurprises = this.allSurprises;
       return;
     }
     const userSurprises: Surprise[] = [];
-    for(let i = 0; i< this.showSurprises.length; i++){
-      if(this.showSurprises[i].userIds !== null && this.showSurprises[i].userIds.includes(user.id + '')){
-        userSurprises.push(this.showSurprises[i]);
+    if(user === undefined){
+      // get all surprises without logins
+      for(let i = 0; i< this.regionSurprises.length; i++){
+        if(this.regionSurprises[i].userIds === null || this.regionSurprises[i].userIds === ''){
+          userSurprises.push(this.regionSurprises[i]);
+        }
+      }
+    }
+    else {
+      for (let i = 0; i < this.regionSurprises.length; i++) {
+        if (this.regionSurprises[i].userIds !== null && this.regionSurprises[i].userIds.includes(user.id + '')) {
+          userSurprises.push(this.regionSurprises[i]);
+        }
       }
     }
     this.showSurprises = userSurprises;
+    this.userSurprises = userSurprises;
   }
 
   /**
@@ -151,12 +167,13 @@ export class SurpriseComponent implements OnInit {
     }
     console.log('region: '+ region);
     const regionSurprises: Surprise[] = [];
-    for(let i = 0; i< this.showSurprises.length; i++){
-      if(this.showSurprises[i].region !== null && this.showSurprises[i].region.includes(region)){
-        regionSurprises.push(this.showSurprises[i]);
+    for(let i = 0; i< this.userSurprises.length; i++){
+      if(this.userSurprises[i].region !== null && this.userSurprises[i].region.includes(region)){
+        regionSurprises.push(this.userSurprises[i]);
       }
     }
     this.showSurprises = regionSurprises;
+    this.regionSurprises = regionSurprises;
   }
 
   /**
@@ -173,13 +190,29 @@ export class SurpriseComponent implements OnInit {
     }
   }
 
+  prettyfyPlace(place: string, info:string): string{
+    switch(place){
+      case 'contacted job':
+        const infos1 = info.split(',');
+        return 'contacted ' + infos1[2] + ' for job named ' + infos1[1];
+      case 'asked about job contact':
+        const infos2 = place.split(',');
+        return 'Kundenfeedback zum Job ' + infos2[1] + ' der Firma' + infos2[2] + ': ' + info;
+      default:
+        if(info !== null && info !== undefined && info.length>0){
+          return place + ' ' + info;
+        }
+        return place;
+    }
+  }
+
   /**
    * gets all users of the parameter and returns their real names
    * @param userIds in form "*id","*id",...
    */
   getUserNames(userIds: string):string{
     if(userIds === null || userIds === undefined || userIds.length<1){
-      return '';
+      return 'nicht eingeloggt';
     }
     let userNames = '';
     let users = [userIds];

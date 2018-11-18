@@ -6,6 +6,8 @@ import {Observable} from 'rxjs';
 import {sha256} from 'js-sha256';
 import {AppComponent} from './app.component';
 import {SurpriseLog} from './surprise-log';
+import {UserService} from './user.service';
+import {User} from './user';
 
 
 @Injectable({
@@ -39,17 +41,19 @@ export class SurpriseService {
     SurpriseService.userId = userId;
     SurpriseService.getInfo();
     this.saveSurprise().subscribe((instance: any) =>{
-      SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location);
+      SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location, instance.deviceType, instance.touchScreen);
     });
   }
 
   /**
    * initializes the cookies and saves the surprise
    * @param httpClient
+   * @param user
    */
-  public static init(httpClient: HttpClient, userId: number){
+  public static init(httpClient: HttpClient, user: User){
+    console.log('init ss');
     SurpriseService.app = AppComponent.app;
-    SurpriseService.userId = userId;
+    SurpriseService.userId = user === null || user === undefined ? null : user.id;
     SurpriseService.httpClient = httpClient;
     const cookieOpt = new CookieOptions();
     const date = new Date();
@@ -58,7 +62,7 @@ export class SurpriseService {
     SurpriseService.cookieService = new CookieService(cookieOpt);
 
     SurpriseService.getCookie().subscribe((instance: any) =>{
-      SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location);
+      SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location, instance.deviceType, instance.touchScreen);
       this.httpClient.get(this.getIpUrl).subscribe((instance: any) => {
         SurpriseService.surprise.ip = instance.ip;
         this.httpClient.get( this.ipLocationUrl + SurpriseService.surprise.ip + this.ipinfoToken).subscribe((infos: any) =>{
@@ -66,8 +70,9 @@ export class SurpriseService {
           SurpriseService.surprise.region = infos.region;
           SurpriseService.surprise.location = infos.loc;
           SurpriseService.saveSurprise().subscribe((instance: any) => {
-            SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location);
+            SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location, instance.deviceType, instance.touchScreen);
             SurpriseService.checkContact();
+            console.log(SurpriseService.surprise);
           });
         });
       });
@@ -79,6 +84,10 @@ export class SurpriseService {
    */
   public static getAllLogs(){
     return SurpriseService.httpClient.get(AppComponent.backendUrl + '/surprise/log');
+  }
+
+  public static getSurpriseLogsByRegion(){
+    return SurpriseService.httpClient.get(AppComponent.backendUrl + '/surprise/log/region/all');
   }
 
   /**
@@ -112,19 +121,22 @@ export class SurpriseService {
       'version': SurpriseService.surprise.version,
       'country': SurpriseService.surprise.country,
       'region': SurpriseService.surprise.region,
-      'location': SurpriseService.surprise.location
+      'location': SurpriseService.surprise.location,
+      'deviceType': SurpriseService.surprise.deviceType,
+      'touchScreen': SurpriseService.surprise.touchScreen,
     });
   }
 
   /**
    * gets all the browser info
-   * Does not get the IP address
+   * Does not get the IP address, location and region
    */
   private static getInfo(){
     SurpriseService.surprise.userIds = SurpriseService.userId + '';
     SurpriseService.surprise.cookiesEnabled = navigator.cookieEnabled;
     SurpriseService.surprise.lang = navigator.language;
     SurpriseService.surprise.platform = navigator.platform;
+    SurpriseService.surprise.touchScreen = navigator.maxTouchPoints && navigator.maxTouchPoints>0;
     SurpriseService.surprise.plugins = '';
     for(let i = 0; i< navigator.plugins.length; i++){
       SurpriseService.surprise.plugins += navigator.plugins[i].name;
@@ -132,39 +144,110 @@ export class SurpriseService {
     const agent = navigator.userAgent;
     let browserName  = 'Internet Explorer';
     let fullVersion  = '11.0';
-    //if the browser is opera, the agent contains OPR
+    let type = '';
+    //if the browser is Mobile, the agent contains Mobile
+    if(agent.indexOf('Mobile') !== -1){
+      browserName = 'Mobile';
+      fullVersion = agent.substring(agent.indexOf('Mobile') + 7);
+      type = 'Handy';
+    }
+    if(agent.indexOf('iPhone') !== -1){
+      browserName = 'iPhone';
+      fullVersion = agent.substring(agent.indexOf('iPhone') + 7);
+      type = 'Handy';
+    }
+    if(agent.indexOf('iPod') !== -1){
+      browserName = 'iPod';
+      fullVersion = agent.substring(agent.indexOf('iPod') + 5);
+      type = 'Handy';
+    }
+    if(agent.indexOf('IEMobile') !== -1){
+      browserName = 'IEMobile';
+      fullVersion = agent.substring(agent.indexOf('IEMobile') + 9);
+      type = 'Handy';
+    }
+    if(agent.indexOf('Windows Phone') !== -1){
+      browserName = 'Windows Phone';
+      fullVersion = agent.substring(agent.indexOf('Windows Phone') + 14);
+      type = 'Handy';
+    }
+    if(agent.indexOf('Android') !== -1){
+      browserName = 'Android';
+      fullVersion = agent.substring(agent.indexOf('Android') + 8);
+      type = 'Handy';
+    }
+    if(agent.indexOf('BlackBerry') !== -1){
+      browserName = 'BlackBerry';
+      fullVersion = agent.substring(agent.indexOf('BlackBerry') + 10);
+      type = 'Handy';
+    }
+    if(agent.indexOf('webOs') !== -1){
+      browserName = 'webOs';
+      fullVersion = agent.substring(agent.indexOf('webOs') + 6);
+      type = 'Handy';
+    }
+    if(agent.indexOf('Tablet') !== -1){
+      browserName = 'Tablet';
+      fullVersion = agent.substring(agent.indexOf('Tablet') + 7);
+      type = 'Tablet';
+    }
+    if(agent.indexOf('iPad') !== -1){
+      browserName = 'iPad';
+      fullVersion = agent.substring(agent.indexOf('iPad') + 5);
+      type = 'Tablet';
+    }
+    if(agent.indexOf('Nexus 7') !== -1){
+      browserName = 'Nexus 7';
+      fullVersion = agent.substring(agent.indexOf('Nexus 7') + 8);
+      type = 'Tablet';
+    }
+    if(agent.indexOf('Nexus 10') !== -1){
+      browserName = 'Nexus 10';
+      fullVersion = agent.substring(agent.indexOf('Nexus 10') + 9);
+      type = 'Tablet';
+    }
+    if(agent.indexOf('KFAPWI') !== -1){
+      browserName = 'Amazon Kindle';
+      fullVersion = agent.substring(agent.indexOf('KFAPWI') + 7);
+      type = 'Tablet';
+    }
     if(agent.indexOf('OPR') !== -1){
       browserName = 'Opera';
       fullVersion = agent.substring(agent.indexOf('OPR') + 4);
+      type = 'Desktop';
     }
-    //if the browser is IE, the agent contains MSIE
     else if(agent.indexOf('MSIE') !== -1){
       browserName = 'Internet Explorer';
       fullVersion = agent.substring(agent.indexOf('MSIE') + 5);
+      type = 'Desktop';
     }
-    // if the browser is edge, it contains Edge
     else if(agent.indexOf('Edge') !== -1){
       browserName = 'Edge';
       fullVersion = agent.substring(agent.indexOf('Edge') + 5);
+      type = 'Desktop';
     }
     // if the browser is chrome, it does not contain OPR, MSIE and Edge and contains Chrome
     else if(agent.indexOf('Chrome') !== -1){
       browserName = 'Chrome';
       fullVersion = agent.substring(agent.indexOf('Chrome') + 7);
+      type = 'Desktop';
     }
     // if the browser is Safari, it does not contain OPR, MSIE, Edge and Chrome and contains Safari
     else if(agent.indexOf('Safari') !== -1){
       browserName = 'Safari';
       fullVersion = agent.substring(agent.indexOf('Safari') + 7);
+      type = 'Desktop';
     }
     // if the browser is Firefox, it does not contain OPR, MSIE, Edge, Chrome and Safari and contains Firefox
     else if(agent.indexOf('Firefox') !== -1){
       browserName = 'Firefox';
       fullVersion = agent.substring(agent.indexOf('Firefox') + 8);
+      type = 'Desktop';
     }
     fullVersion = fullVersion.split(' ')[0].split(';')[0];
     SurpriseService.surprise.browser = browserName;
     SurpriseService.surprise.version = fullVersion;
+    SurpriseService.surprise.deviceType = type;
   }
 
   public static getLogs(cookie:string): Observable<Object>{
@@ -174,6 +257,7 @@ export class SurpriseService {
   public static log(place: string, placeInfo: string){
     if(SurpriseService.surprise === null || SurpriseService.surprise === undefined){
       console.log('not logging');
+      SurpriseService.init(UserService.httpClient, UserService.user);
       return;
     }
     console.log('logging');

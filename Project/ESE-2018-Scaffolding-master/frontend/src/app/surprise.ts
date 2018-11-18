@@ -14,6 +14,8 @@ export class Surprise {
     public country: string,
     public region: string,
     public location: string,
+    public deviceType: string,
+    public touchScreen: boolean,
   ){
   }
 }

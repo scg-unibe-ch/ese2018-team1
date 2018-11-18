@@ -2,14 +2,12 @@ import {Table, Column, Model} from 'sequelize-typescript';
 
 @Table
 export class Text extends Model<Text> {
+
   @Column
   title!: string;
 
   @Column
   content!: string;
-
-  @Column
-  id!: Number;
 
   toSimplification(): any {
     return {

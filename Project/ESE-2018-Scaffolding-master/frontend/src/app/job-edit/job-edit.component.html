@@ -18,6 +18,7 @@
   <div class="field">
     <label for="description">kurze Beschreibung</label>
     <textarea maxlength="100" [(ngModel)]="job.description_short" name="description_short" id="description_short" (ngModelChange)="onSave()"></textarea>
+    <label>{{job.description_short.length}}/100 Zeichen</label>
   </div>
   <div class="field">
     <label for="description">Beschreibung</label>

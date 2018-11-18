@@ -4,6 +4,8 @@
       <h1>{{user.name}}</h1>
       <b>Kontakt</b>
       <p>Email: {{user.email}}</p>
+      <p>Addresse: {{user.address}}</p>
+      <p>Beschreibung von {{user.name}}: {{user.description}}</p>
       <b>Alle Jobs des Unternehmens</b>
       <div *ngIf="jobs.length === 0"><p>keine Jobs vorhanden</p><br><br><br><br><br></div>
     </header>

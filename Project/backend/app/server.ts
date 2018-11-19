@@ -54,7 +54,7 @@ app.use(function (req, res, next) {
 app.use('/job', JobController);
 app.use('/login', UserController);
 app.use('/surprise', SurpriseController);
-app.use('/currentText', TextController);
+app.use('/text', TextController);
 
 sequelize.sync().then(() => {
 // start serving the application on the given port

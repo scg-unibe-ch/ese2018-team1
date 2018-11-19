@@ -11,7 +11,7 @@ router.get('/', async (req: Request, res: Response) => {
   if( instances == null) {
     res.statusCode = 404;
     res.json({
-      'message':'this text could not be found'
+      'message':'this currentText could not be found'
     });
     return;
   }
@@ -45,7 +45,7 @@ router.put('/:id', async(req: Request, res: Response) => {
   if (instance == null) {
     res.statusCode = 404;
     res.json({
-      'message': 'text not found for updating'
+      'message': 'currentText not found for updating'
     });
     return;
   }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Text} from '../text';
 import {TextService} from '../text.service';
-import {SurpriseService} from '../surprise.service';
 
 @Component({
   selector: 'app-text',
@@ -14,7 +13,6 @@ export class TextComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    SurpriseService.log('texts','');
     TextService.getAllTexts().subscribe((instances:any) => {
       this.texts = instances.map((instance) => new Text(instance.id, instance.title, instance.content));
       console.log(this.texts);

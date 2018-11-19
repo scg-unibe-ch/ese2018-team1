@@ -52,14 +52,13 @@ export class AppComponent implements OnInit {
   constructor(private httpClient: HttpClient, public  userService: UserService) {
     AppComponent.app = this;
     JobService.init(this.httpClient);
-
+    TextService.init(this.httpClient);
   }
 
 
   ngOnInit() {
     UserService.checkSession();
     SurpriseService.log('loaded page', '');
-    TextService.init(this.httpClient);
   }
 
   /**

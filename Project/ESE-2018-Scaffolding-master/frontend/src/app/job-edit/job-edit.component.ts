@@ -19,6 +19,8 @@ export class JobEditComponent implements OnInit {
   temporary: boolean;
   standardEMail = true;
 
+  oldJob: Job;
+
   @Input()
   job: Job;
 
@@ -46,21 +48,29 @@ export class JobEditComponent implements OnInit {
     if (location.search.search('id') === 1 && this.jobId.length >0){
       JobService.getJobById(this.jobId).subscribe((instance: any) => {
         this.job = instance;
-        UserService.getUserById(this.job.company_id).subscribe((user: any) =>{
-          this.company = user;
-          this.checkForAccess();
-          this.startNow = (this.job.job_start === '');
-          this.temporary = (this.job.job_end !== '');
-          this.standardEMail = (this.job.company_email === '');
-        });
+        this.initiateUser();
       });
     }
     else{
-      UserService.getUserById(this.job.company_id).subscribe((instance: any) =>{
-        this.company = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description);
-        this.checkForAccess();
-      });
+      this.initiateUser();
     }
+  }
+
+  initiateUser() {
+    UserService.getUserById(this.job.company_id).subscribe((user: any) =>{
+      this.company = user;
+      this.checkForAccess();
+      this.startNow = (this.job.job_start === '');
+      this.temporary = (this.job.job_end !== '');
+      this.standardEMail = (this.job.company_email === '');
+      if (this.job.oldJobId != -1) {
+        JobService.getJobById("" + this.job.oldJobId).subscribe((instance1: any) => {
+          this.oldJob = instance1;
+        });
+      }else {
+        this.oldJob = null;
+      }
+    });
   }
 
   checkForAccess(){

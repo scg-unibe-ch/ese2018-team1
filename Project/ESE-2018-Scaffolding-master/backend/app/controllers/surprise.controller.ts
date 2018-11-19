@@ -189,9 +189,9 @@ function checkUserId(userId: string): boolean{
 }
 
 /**
- * checks for malicious content in the text
+ * checks for malicious content in the currentText
  * checks for: ", ' --, UNION
- * @param text the text to be checked
+ * @param text the currentText to be checked
  */
 function checkSafety(text: string): boolean {
   text = text.toLowerCase();

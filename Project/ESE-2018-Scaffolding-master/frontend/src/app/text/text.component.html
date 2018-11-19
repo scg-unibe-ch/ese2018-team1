@@ -1,0 +1,13 @@
+<div *ngFor="let currentText of texts" class="inner">
+  <div class="field half first">
+    <label for="title">Titel</label>
+    <input type="text" name="{{'title' + currentText.id}}" [(ngModel)]="currentText.title" id="title" (ngModelChange)="onSave(currentText)" />
+  </div><br>
+  <div class="field">
+    <label *ngIf="currentText.id !== 1" style="float: right">{{currentText.content.length}}/300 Zeichen</label>
+    <label for="content">Text</label>
+    <textarea *ngIf="currentText.id === 1" name="{{'content' + currentText.id}}" [(ngModel)]="currentText.content" id="content" (ngModelChange)="onSave(currentText)" ></textarea>
+    <textarea maxlength="300" *ngIf="currentText.id !== 1" name="{{'content' + currentText.id}}" [(ngModel)]="currentText.content" id="content" (ngModelChange)="onSave(currentText)" ></textarea>
+  </div>
+  <br><br>
+</div>

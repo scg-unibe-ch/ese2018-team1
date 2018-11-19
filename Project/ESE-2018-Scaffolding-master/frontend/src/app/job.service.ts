@@ -34,7 +34,7 @@ export class JobService {
   }
 
   /**
-   * returns all jobs
+   * returns all approved jobs
    */
   static getAllApprovedJobs(): Observable<Object>{
     return JobService.httpClient.get(AppComponent.backendUrl + '/job/approved');

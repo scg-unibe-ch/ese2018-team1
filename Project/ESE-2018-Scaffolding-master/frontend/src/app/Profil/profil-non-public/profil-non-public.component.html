@@ -71,8 +71,8 @@
         </div>
 
 <!--profil bearbeiten-->
-<div *ngIf="(editProfil && !showPassword) || (showAdmin && showPassword)">
-  <h4>{{userService.getUser().name}}</h4>
-  <app-profil-edit [userId]="userService.getUser().id"></app-profil-edit>
-</div>
+      <div *ngIf="(editProfil && !showPassword) || (showAdmin && showPassword)">
+        <h4>{{userService.getUser().name}}</h4>
+        <app-profil-edit [userId]="userService.getUser().id"></app-profil-edit>
+      </div>
 </b>

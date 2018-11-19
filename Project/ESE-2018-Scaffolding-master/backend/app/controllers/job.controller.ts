@@ -37,9 +37,9 @@ router.get('/approved', async (req: Request, res: Response) => {
 });
 
 /**
- * returns all jobs with 'text' in their name, company_name or description
+ * returns all jobs with 'currentText' in their name, company_name or description
  */
-router.get('/search/:text', async (req: Request, res: Response) => {
+router.get('/search/:currentText', async (req: Request, res: Response) => {
   const search = req.params.text;
   if(checkSafety(search)) {
     let command = 'SELECT `Job`.`id`, `Job`.`name`, `Job`.`description_short`, `Job`.`description`, `Job`.`companyId`, `Job`.`companyEmail`, `Job`.`jobWebsite`, `Job`.`wage`, `Job`.`wagePerHour`, `Job`.`job_start`, `Job`.`job_end`, `Job`.`percentage`, `Job`.`approved`, Job.oldJobId, Job.editing, `user`.`name` AS `user.name`, `user`.`email` AS `user.email` FROM `Job` AS `Job` INNER JOIN `User` AS `user` ON `Job`.`companyId` = `user`.`id`';
@@ -309,9 +309,9 @@ router.delete('/:id', async(req: Request, res: Response) => {
 });
 
 /**
- * checks for malicious content in the text
+ * checks for malicious content in the currentText
  * checks for: ", ' --, UNION
- * @param text the text to be checked
+ * @param text the currentText to be checked
  */
 function checkSafety(text: string): boolean {
   text = text.toLowerCase();

@@ -19,11 +19,11 @@ please use routerlink in a anchor tag instead of href, so the website automatica
 <section id="one">
   <div class="inner">
     <header>
-      <h2>Job-Suche</h2>
+      <h2>{{texts[0].title}}</h2>
     </header>
-    <p>Wir schalten Jobangebote von Unternehmungen auf...
-
-      Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscin sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu, erisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante.</p>
+    <p>
+      {{texts[0].content}}
+    </p>
     <ul class="actions">
       <li><a routerLink="/" class="button alt">Mehr</a></li>
     </ul>
@@ -36,12 +36,12 @@ please use routerlink in a anchor tag instead of href, so the website automatica
     <article>
       <div class="content">
         <header>
-          <h3>Job suchen</h3>
+          <h3>{{texts[1].title}}</h3>
         </header>
         <div class="image fit">
           <img src="images/pic01.jpg" alt="" />
         </div>
-        <p>Suche mit uns den besten Job für dich.</p>
+        <p> {{texts[1].content}}</p>
         <ul class="actions">
           <li><a routerLink="/jobs" class="button alt">Mehr</a></li>
         </ul>
@@ -50,12 +50,12 @@ please use routerlink in a anchor tag instead of href, so the website automatica
     <article class="alt">
       <div class="content">
         <header>
-          <h3>Job aufgeben</h3>
+          <h3>{{texts[2].title}}</h3>
         </header>
         <div class="image fit">
           <img src="images/pic02.jpg" alt="" />
         </div>
-        <p>Geben Sie hier Ihre Jobs auf, um die besten Studenten zu finden, die Ihnen Kaffee bringen.</p>
+        <p> {{texts[2].content}}</p>
         <ul class="actions">
           <li><a routerLink="/login" class="button alt">Mehr</a></li>
         </ul>

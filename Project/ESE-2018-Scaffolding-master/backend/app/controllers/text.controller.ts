@@ -11,7 +11,7 @@ router.get('/', async (req: Request, res: Response) => {
   if( instances == null) {
     res.statusCode = 404;
     res.json({
-      'message':'this text could not be found'
+      'message':'this currentText could not be found'
     });
     return;
   }
@@ -20,7 +20,7 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 /**
- * returns one single text with the correct id
+ * returns one single currentText with the correct id
  */
 router.get('/:id', async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
@@ -37,7 +37,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 /**
- * allows editing of a text
+ * allows editing of a currentText
  */
 router.put('/:id', async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);
@@ -45,7 +45,7 @@ router.put('/:id', async(req: Request, res: Response) => {
   if (instance == null) {
     res.statusCode = 404;
     res.json({
-      'message': 'text not found for updating'
+      'message': 'currentText not found for updating'
     });
     return;
   }

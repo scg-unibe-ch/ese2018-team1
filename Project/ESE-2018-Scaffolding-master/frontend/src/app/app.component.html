@@ -9,6 +9,7 @@
         <a routerLink="/über_uns">Über uns</a>
         <a routerLink="/login" *ngIf="!userService.getLoginStatus()">Login</a>
         <a routerLink="/profil" *ngIf="userService.getLoginStatus()">Profil</a>
+        <a routerLink="/text" *ngIf="userService.getUser() !== null && userService.getUser() !== undefined && (userService.getUser().isAdmin() || userService.getUser().isModerator())">Texte</a>
         <a (click)="logout()" *ngIf="userService.getLoginStatus()">Logout</a>
     </nav>
   </div>
@@ -23,6 +24,7 @@
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/über_uns">Über uns</a>
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/login" *ngIf="!userService.getLoginStatus()">Login</a>
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/profil" *ngIf="userService.getLoginStatus()">Profil</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/text" *ngIf="userService.getUser() !== null && userService.getUser() !== undefined && (userService.getUser().isAdmin() || userService.getUser().isModerator())">Texte</a>
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu();logout();" routerLink="/login" *ngIf="userService.getLoginStatus()">Logout</a>
   <a class="close" (click)="toggleMenu()" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" href="#navPanel"></a>
 </div>
@@ -59,7 +61,7 @@
     </header>
     <div class="copyright">
       &copy; Jobly: <a href="https://jobly.ch/">Jobly.ch</a>
-      <a routerLink="/surprise">&nbsp;&nbsp;nothing to see here</a>
+      <a routerLink="/surprise">&nbsp;&nbsp;nothing to see here</a><br>
     </div>
   </div>
 </section>

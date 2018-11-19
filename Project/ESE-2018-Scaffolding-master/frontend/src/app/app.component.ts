@@ -7,7 +7,8 @@ import {SurpriseService} from './surprise.service';
 import {SurpriseLog} from './surprise-log';
 import {FeedbackService, stages} from './feedback.service';
 import {Feedback} from './feedback';
-import {setInterval} from 'timers'; //v
+import {setInterval} from 'timers';
+import {TextService} from './text.service'; //v
 
 @Component({
   selector: 'app-root',
@@ -51,6 +52,7 @@ export class AppComponent implements OnInit {
   constructor(private httpClient: HttpClient, public  userService: UserService) {
     AppComponent.app = this;
     JobService.init(this.httpClient);
+    TextService.init(this.httpClient);
   }
 
 

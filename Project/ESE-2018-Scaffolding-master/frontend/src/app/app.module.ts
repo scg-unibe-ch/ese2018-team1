@@ -22,6 +22,7 @@ import { ProfilNonPublicComponent } from './Profil/profil-non-public/profil-non-
 import { ProfilEditComponent } from './Profil/profil-edit/profil-edit.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

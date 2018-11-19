@@ -9,6 +9,7 @@ import {JobEditComponent} from './job-edit/job-edit.component';
 import {JobShowComponent} from './job-show/job-show.component';
 import {ProfilNewJobComponent} from './Profil/profil-new-job/profil-new-job.component';
 import { SurpriseComponent } from './surprise/surprise.component';
+import {TextComponent} from './text/text.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path: 'profil', component: JobManagementComponent},
   {path: 'job/edit', component: JobEditComponent},
   {path: 'job', component: JobShowComponent},
-  {path: 'surprise', component: SurpriseComponent}
+  {path: 'surprise', component: SurpriseComponent},
+  {path: 'text', component: TextComponent}
 ];
 
 @NgModule({
@@ -28,7 +30,7 @@ const routes: Routes = [
 })
 
 export class AppRoutingModule{}
-export const routingComponents = [HomeComponent, JobsComponent, UeberUnsComponent, LoginComponent, ProfilNewJobComponent, JobManagementComponent, JobEditComponent, JobShowComponent, SurpriseComponent]
+export const routingComponents = [HomeComponent, JobsComponent, UeberUnsComponent, LoginComponent, ProfilNewJobComponent, JobManagementComponent, JobEditComponent, JobShowComponent, SurpriseComponent, TextComponent]
 
 
 /*

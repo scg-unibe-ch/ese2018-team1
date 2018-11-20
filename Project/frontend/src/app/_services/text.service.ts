@@ -42,6 +42,18 @@ export class TextService {
       'content': text.content,
     });
   }
+
+  static fallback(): Text[]{
+    console.log('fallback started');
+    const texts: Text[] = [];
+    texts.push(new Text(0,'Job-Suchen', 'Wir schalten Jobangebote von Unternehmungen auf... Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscin sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu, erisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante.' ));
+    texts.push(new Text(1, 'Job Suchen', 'Suche mit uns den besten Job für dich.'));
+    texts.push(new Text(2,'Job aufgeben', 'Geben Sie hier Ihre Jobs auf, um die besten Studenten zu finden, die Ihnen Kaffee bringen.'));
+    texts.push(new Text(4,'CGSH Software Solutions', 'Noch kein Text.' ))
+    texts.push(new Text(1, 'Job Suchen', 'Suche mit uns den besten Job für dich. ausführlich'));
+    texts.push(new Text(2,'Job aufgeben', 'Geben Sie hier Ihre Jobs auf, um die besten Studenten zu finden, die Ihnen Kaffee bringen.ausführlich'));
+    return texts;
+  }
 }
 
 

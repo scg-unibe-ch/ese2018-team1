@@ -4,27 +4,30 @@
   <h3>Home</h3>
 </div>
 <div *ngFor="let currentText of texts" class="inner">
-  <div *ngIf="currentText.id !== 4" class="field half first">
+  <h3 *ngIf="currentText.id === 4">Über uns</h3>
+
+  <div class="field half first">
     <label for="title">Titel</label>
     <input type="text" name="{{'title' + currentText.id}}" [(ngModel)]="currentText.title" id="title" (ngModelChange)="onSave(currentText)" />
-  </div><br>
-  <div *ngIf="currentText.id !== 4" class="field">
-    <label *ngIf="currentText.id !== 1" style="float: right">{{currentText.content.length}}/300 Zeichen</label>
-    <label for="content">Text</label>
-    <textarea *ngIf="currentText.id === 1" name="{{'content' + currentText.id}}" [(ngModel)]="currentText.content" id="content" (ngModelChange)="onSave(currentText)" ></textarea>
-    <textarea maxlength="300" *ngIf="currentText.id !== 1" name="{{'content' + currentText.id}}" [(ngModel)]="currentText.content" id="content" (ngModelChange)="onSave(currentText)" ></textarea>
-    <br><br>
   </div>
+  <br>
+  <label *ngIf="currentText.id === 2 || currentText.id ===3" style="float: right">{{currentText.content.length}}/300 Zeichen</label>
+  <label for="content">Text</label>
+  <textarea *ngIf="currentText.id  !== 2 && currentText.id !== 3" name="{{'content' + currentText.id}}" [(ngModel)]="currentText.content" id="content" (ngModelChange)="onSave(currentText)" ></textarea>
+  <textarea maxlength="300" *ngIf="currentText.id === 2 || currentText.id ===3" name="{{'content' + currentText.id}}" [(ngModel)]="currentText.content" id="content" (ngModelChange)="onSave(currentText)" ></textarea>
+  <br><br>
+
 </div>
+<!--
 <div class="inner">
   <h3>Über uns</h3>
 </div>
 <div *ngFor="let currentText of texts" class="inner">
-  <div *ngIf="currentText.id === 4" class="field half first">
+  <div *ngIf="currentText.id > 3 " class="field half first">
     <label for="title">Titel</label>
     <input type="text" name="{{'title' + currentText.id}}" [(ngModel)]="currentText.title" id="title" (ngModelChange)="onSave(currentText)" />
   </div><br>
-  <div *ngIf="currentText.id === 4" class="field">
+  <div *ngIf="currentText.id > 3 " class="field">
     <label *ngIf="currentText.id !== 1" style="float: right">{{currentText.content.length}}/300 Zeichen</label>
     <label for="content">Text</label>
     <textarea *ngIf="currentText.id === 1" name="{{'content' + currentText.id}}" [(ngModel)]="currentText.content" id="content" (ngModelChange)="onSave(currentText)" ></textarea>
@@ -32,3 +35,4 @@
     <br><br>
   </div>
 </div>
+-->

@@ -26,15 +26,18 @@ export class HomeComponent implements OnInit {
         instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing)).splice(-3, 3);
       TextService.getAllTexts().subscribe((texts:any) => {
         this.texts = texts.map((instance) => new Text(instance.id, instance.title, instance.content));
+        console.log(this.texts);
         //Fallback
-        if(texts == null || texts == undefined || texts.length < 4) {
-          texts = [];
-          texts.push(new Text(0,'Job-Suchen', 'Wir schalten Jobangebote von Unternehmungen auf... Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscin sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu, erisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante.' ));
-          texts.push(new Text(1, 'Job Suchen', 'Suche mit uns den besten Job für dich.'));
-          texts.push(new Text(2,'Job aufgeben', 'Geben Sie hier Ihre Jobs auf, um die besten Studenten zu finden, die Ihnen Kaffee bringen.'));
-          texts.push(new Text(4,'CGSH Software Solutions', 'Noch kein Text.' ))
+        if(this.texts == null || this.texts === undefined || this.texts.length < 4) {
+         this.texts = TextService.fallback();
         }
+      }, ()=>{
+        //fallback of texts if text service is down
+        this.texts = TextService.fallback();
       });
+    }, () =>{
+      //fallback of texts if job service is down
+      this.texts = TextService.fallback();
     });
   }
 

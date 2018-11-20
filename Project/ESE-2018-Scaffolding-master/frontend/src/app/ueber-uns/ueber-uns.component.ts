@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Job} from '../job';
 import {HttpClient} from '@angular/common/http';
-import {JobService} from '../job.service';
 import {UserService} from '../user.service';
-import {User} from '../user';
 import {SurpriseService} from '../surprise.service';
-
-/*
-TEMPORARLY ADDED THIS HERE FOR THE EXERCISE
-*/
+import {TextService} from '../text.service';
+import {Text} from '../text';
 
 @Component({
   selector: 'app-ueber-uns',
@@ -16,33 +11,23 @@ TEMPORARLY ADDED THIS HERE FOR THE EXERCISE
   styleUrls: ['./ueber-uns.component.css']
 })
 export class UeberUnsComponent implements OnInit {
-  jobs: Job[] = [];
-  job: Job = new Job(null, '', '', '', '','','', 0, false,'', '', 0, false, -1, false);
+  texts: Text[];
   constructor(private httpClient: HttpClient, private userService: UserService) {
   }
 
 
   ngOnInit() {
     SurpriseService.log('about', '');
-    JobService.getAllJobs().subscribe((instances: any) => {
-      this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
-        instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
+    TextService.getAllTexts().subscribe((texts:any) => {
+      this.texts = texts.map((instance) => new Text(instance.id, instance.title, instance.content));
+      //Fallback
+      if(texts == null || texts == undefined || texts.length < 4) {
+        texts = [];
+        texts.push(new Text(0,'Job-Suchen', 'Wir schalten Jobangebote von Unternehmungen auf... Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscin sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu, erisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante.' ));
+        texts.push(new Text(1, 'Job Suchen', 'Suche mit uns den besten Job für dich.'));
+        texts.push(new Text(2,'Job aufgeben', 'Geben Sie hier Ihre Jobs auf, um die besten Studenten zu finden, die Ihnen Kaffee bringen.'));
+        texts.push(new Text(4,'CGSH Software Solutions', 'Noch kein Text.' ))
+      }
     });
-  }
-
-  onCreateJob() {
-    if (this.job.name) {
-      JobService.createJob(this.job, UserService.user).subscribe((instance: any) => {
-        this.job.id = instance.id;
-        this.jobs.push(this.job);
-        this.job = new Job(null, '', '', '', '', '', '', 0, false, '', '', 0, false, -1, false);
-      });
-    }
-  }
-
-  onDeleteJob(job: Job) {
-    /*JobService.deleteJob(job).subscribe((instance) =>{
-    });*/
-    this.jobs.splice(this.jobs.indexOf(job), 1);
   }
 }

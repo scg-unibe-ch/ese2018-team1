@@ -40,14 +40,12 @@ export class LoginComponent implements OnInit {
             this.setLoginValues(true);
             this.user = null;
             },
-          err =>{
-            FeedbackService.addMessage('Benutzername oder Password ist falsch', stages.error);
-            //UserService.changeErrorStatus(true);
+          () =>{
+            this.connectionTest('Benutzername oder Password ist falsch', stages.error);
           });
       },
-      err =>{
-        FeedbackService.addMessage('Benutzername oder Password ist falsch', stages.error);
-        //UserService.changeErrorStatus(true);
+      () =>{
+        this.connectionTest('Benutzername oder Password ist falsch', stages.error);
       });
   }
 
@@ -56,21 +54,22 @@ export class LoginComponent implements OnInit {
     const password = this.user.password;
     this.user.password = '';
     UserService.getUserByEmail(this.user.email).subscribe((instance: any) => {
-      UserService.changeRegisterStatus(false);
+      this.connectionTest('\'Dieser Benutzer existiert bereits', stages.error);
+      //UserService.changeRegisterStatus(false);
         UserService.user = null;
         this.user = null;
     },
-    err => { // means the email address does not exist yet
+      () => { // means the email address does not exist yet
       UserService.register(this.user).subscribe((instance: any) => {
           this.user.id = instance.id;
-        UserService.getUserById(this.user.id+'').subscribe((instance: any) => {
+          UserService.getUserById(this.user.id+'').subscribe((instance: any) => {
             UserService.changePassword(this.user.id+'',instance.salt,password).subscribe((instance: any) => {});
-           UserService.user = this.user; // TODO: check if needed perhaps....
+            UserService.user = this.user; // TODO: check if needed perhaps....
             this.setLoginValues(true);
           });
       },
-        err => {
-          UserService.changeErrorStatus(true);
+        () => {
+          this.connectionTest('Die Registrierung konnte nicht abgeschlossen werden', stages.warning);
         });
     });
   }
@@ -92,5 +91,13 @@ export class LoginComponent implements OnInit {
     else {
       this.router.navigate(['/']);
     }
+  }
+
+  private connectionTest(successMessage: string, successStage: stages){
+    UserService.connectionTest().subscribe(()=>{
+      FeedbackService.addMessage(successMessage, stages.error);
+    }, ()=>{
+      FeedbackService.addMessage('Es liegen Verbindungsprobleme vor', stages.warning);
+    });
   }
 }

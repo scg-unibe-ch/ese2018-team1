@@ -141,6 +141,10 @@ export class UserService {
       });
   }
 
+  static connectionTest(): Observable<Object>{
+    return this.httpClient.get(AppComponent.backendUrl + '/login/connTest');
+  }
+
   getUser(): User {
     return UserService.user;
   }

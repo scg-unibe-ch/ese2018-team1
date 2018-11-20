@@ -14,6 +14,14 @@ const sequelize =  new Sequelize({
 const router: Router = Router();
 
 
+/**
+ * connection to db test
+ */
+router.get('/connTest', async  (req:Request, res:Response) =>{
+  res.statusCode = 200;
+  return res.json({'ok': 'connected'});
+})
+
 router.get('/session', async (req: Request, res: Response) => {
   if (req.session != null && req.session.user != null) {
     const instance = await User.findById(req.session.user.id);

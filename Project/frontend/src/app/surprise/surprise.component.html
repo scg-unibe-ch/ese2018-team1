@@ -1,62 +1,91 @@
-<div class="inner" *ngIf="!showLogs">
+<div class="inner">
   <br>
-  <button *ngIf="!showDiagrams" (click)="toggleDiagrams()">Lade Diagramme</button>
-  <h4 *ngIf="showDiagrams">Diagramme</h4>
-  <div class="grid">
-    <canvas *ngIf="showDiagrams" class="diagrams" id="siteLoadings" baseChart [chartType]="'line'" [datasets]="siteLoadingsData" [labels]="siteLoadingsLabels" [options]="siteLoadingOptions" [legend]="true"></canvas>
-    <canvas *ngIf="showDiagrams" class="diagrams diagramRight" id="siteUsers" baseChart [chartType]="'line'" [datasets]="siteLoadingsPerRegionData" [labels]="siteLoadingsPerRegionLabels" [options]="siteLoadingOptions" [legend]="true"></canvas>
-  </div>
-  <br><br>
-  <h4>{{tableName}}</h4>
-  <button style="margin-bottom: 1em" (click)="showMore = !showMore; moreButtonText = showMore ? 'Weniger sehen' : 'Mehr sehen'">{{moreButtonText}}</button>
-  <div class="grid">
-    <select [(ngModel)]="selectedUser">
-      <option (click)="findByUser(null)" selected>Alle Benutzer</option>
-      <option *ngFor="let user of users" (click)="findByUser(user)" >{{user.name}}</option>
-      <option (click)="findByUser(undefined)">Nicht eingeloggt</option>
-    </select>
-    <select [(ngModel)]="selectedRegion">
-      <option (click)="findByRegion(null)" selected>Alle Regionen</option>
-      <option *ngFor="let region of regions" (click)="findByRegion(region)" >{{region}}</option>
-    </select>
-  </div>
-  <table>
-  <tr>
-    <th>Benutzernamen</th>
-    <th>Cookies erlaubt</th>
-    <th>Sprache</th>
-    <th>Platform</th>
-    <th>Gerätetyp</th>
-    <th>Touchscreen</th>
-    <th>Land</th>
-    <th>Region</th>
-    <th *ngIf="showMore">Standort</th>
-    <th *ngIf="showMore">IP</th>
-    <th *ngIf="showMore">Plugins</th>
-    <th *ngIf="showMore">Browser</th>
-    <th>Logs</th>
-  </tr>
-  <tr *ngFor="let surprise of showSurprises">
-    <td>{{getUserNames(surprise.userIds)}}</td>
-    <td>{{surprise.cookiesEnabled ? 'Ja' : 'Nein'}}</td>
-    <td>{{surprise.lang}}</td>
-    <td>{{surprise.platform}}</td>
-    <td>{{surprise.deviceType}}</td>
-    <td>{{surprise.touchScreen ? 'Ja' : 'Nein'}}</td>
-    <td>{{surprise.country}}</td>
-    <td>{{surprise.region}}</td>
-    <td *ngIf="showMore">{{surprise.location}}</td>
-    <td *ngIf="showMore">{{surprise.ip}}</td>
-    <td *ngIf="showMore">{{surprise.plugins}}</td>
-    <td *ngIf="showMore">{{surprise.browser}} {{surprise.version}}</td>
-    <td><a (click)="showInfos(surprise.cookie)">Logs</a> </td>
-  </tr>
-  </table>
+  <!-- menu -->
+  <button *ngIf="!showMap && !showDiagrams" style="background-color: #000000" (click)="showTable()">Tabelle</button>
+  <button *ngIf="showMap || showDiagrams" (click)="showTable()">Tabelle</button>
+  <button *ngIf="showDiagrams" style="background-color: #000000" (click)="toggleDiagrams()">Diagramme</button>
+  <button *ngIf="!showDiagrams" (click)="toggleDiagrams()">Diagramme</button>
+  <button *ngIf="showMap" style="background-color: #000000" (click)="generateMapAndShow()">Karte</button>
+  <button *ngIf="!showMap" (click)="generateMapAndShow()">Karte</button>
 </div>
 
-<div class="inner" *ngIf="showLogs">
+
+<!-- karte -->
+<div class="inner">
+  <h4  *ngIf="showMap">Karte</h4>
+  <div #map id="map" style="width: 100%; height: 500px;"></div>
+</div>
+
+
+<div class="inner" *ngIf="!showLogs">
+  <br>
+
+
+  <!-- diagramme -->
+  <div *ngIf="showDiagrams">
+    <h4>Diagramme</h4>
+    <div class="grid">
+      <canvas *ngIf="showDiagrams" class="diagrams" id="siteLoadings" baseChart [chartType]="'line'" [datasets]="siteLoadingsData" [labels]="siteLoadingsLabels" [options]="siteLoadingOptions" [legend]="true"></canvas>
+      <canvas *ngIf="showDiagrams" class="diagrams diagramRight" id="siteUsers" baseChart [chartType]="'line'" [datasets]="siteLoadingsPerRegionData" [labels]="siteLoadingsPerRegionLabels" [options]="siteLoadingOptions" [legend]="true"></canvas>
+    </div>
+  </div>
+
+  <!--tabelle -->
+  <div *ngIf="!showMap && !showDiagrams">
+    <h4>Alle Besucher</h4>
+    <button style="margin-bottom: 1em" (click)="showMore = !showMore; moreButtonText = showMore ? 'Weniger sehen' : 'Mehr sehen'">{{moreButtonText}}</button>
+    <div class="grid">
+      <select [(ngModel)]="selectedUser">
+        <option (click)="findByUser(null)" selected>Alle Benutzer</option>
+        <option *ngFor="let user of users" (click)="findByUser(user)" >{{user.name}}</option>
+        <option (click)="findByUser(undefined)">Nicht eingeloggt</option>
+      </select>
+      <select [(ngModel)]="selectedRegion">
+        <option (click)="findByRegion(null)" selected>Alle Regionen</option>
+        <option *ngFor="let region of regions" (click)="findByRegion(region)" >{{region}}</option>
+      </select>
+    </div>
+    <table>
+    <tr>
+      <th>Benutzernamen</th>
+      <th>Cookies erlaubt</th>
+      <th>Sprache</th>
+      <th>Platform</th>
+      <th>Gerätetyp</th>
+      <th>Touchscreen</th>
+      <th>Land</th>
+      <th>Region</th>
+      <th *ngIf="showMore">Standort</th>
+      <th *ngIf="showMore">IP</th>
+      <th *ngIf="showMore">Plugins</th>
+      <th *ngIf="showMore">Browser</th>
+      <th>Logs</th>
+    </tr>
+    <tr *ngFor="let surprise of showSurprises">
+      <td>{{getUserNames(surprise.userIds)}}</td>
+      <td>{{surprise.cookiesEnabled ? 'Ja' : 'Nein'}}</td>
+      <td>{{surprise.lang}}</td>
+      <td>{{surprise.platform}}</td>
+      <td>{{surprise.deviceType}}</td>
+      <td>{{surprise.touchScreen ? 'Ja' : 'Nein'}}</td>
+      <td>{{surprise.country}}</td>
+      <td>{{surprise.region}}</td>
+      <td *ngIf="showMore">{{surprise.location}}</td>
+      <td *ngIf="showMore">{{surprise.ip}}</td>
+      <td *ngIf="showMore">{{surprise.plugins}}</td>
+      <td *ngIf="showMore">{{surprise.browser}} {{surprise.version}}</td>
+      <td><a (click)="showInfos(surprise.cookie)">Logs</a> </td>
+    </tr>
+    </table>
+  </div>
+  <br><br>
+</div>
+
+<div class="inner" *ngIf="showLogs && !showDiagrams && !showMap">
+  <br>
   <h4>Logs</h4>
-  <button (click)="showLogs = false">Zurück</button>
+  <button (click)="showTable()">Zurück</button>
+  <div><br></div>
   <table>
     <tr>
       <th>Ort</th>
@@ -70,3 +99,4 @@
     </tr>
   </table>
 </div>
+

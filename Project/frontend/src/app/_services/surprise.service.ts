@@ -51,7 +51,6 @@ export class SurpriseService {
    * @param user
    */
   public static init(httpClient: HttpClient, user: User){
-    console.log('init ss');
     SurpriseService.app = AppComponent.app;
     SurpriseService.userId = user === null || user === undefined ? null : user.id;
     SurpriseService.httpClient = httpClient;
@@ -72,7 +71,6 @@ export class SurpriseService {
           SurpriseService.saveSurprise().subscribe((instance: any) => {
             SurpriseService.surprise = new Surprise(instance.id, '-1', instance.cookie, instance.cookiesEnabled, instance.lang, instance.platform, instance.plugins, instance.ip, instance.browser, instance.version, instance.country, instance.region, instance.location, instance.deviceType, instance.touchScreen);
             SurpriseService.checkContact();
-            console.log(SurpriseService.surprise);
           });
         });
       });
@@ -256,11 +254,9 @@ export class SurpriseService {
 
   public static log(place: string, placeInfo: string){
     if(SurpriseService.surprise === null || SurpriseService.surprise === undefined){
-      console.log('not logging');
       SurpriseService.init(UserService.httpClient, UserService.user);
       return;
     }
-    console.log('logging');
     const userId = SurpriseService.userId;
     const cookie = SurpriseService.surprise.cookie;
     let surpriseLog = new SurpriseLog(null, cookie, place, placeInfo, userId, Date.now().toString());
@@ -270,7 +266,7 @@ export class SurpriseService {
       'placeInfo': placeInfo,
       'userId': userId,
       'date': Date.now().toString(),
-    }).subscribe((instance:any) =>{surpriseLog = new SurpriseLog(instance.id, instance.cookie, instance.place, instance.placeInfo, instance.userId, instance.date);console.log('logged');});
+    }).subscribe((instance:any) =>{surpriseLog = new SurpriseLog(instance.id, instance.cookie, instance.place, instance.placeInfo, instance.userId, instance.date);});
   }
 
   public static checkContact(){

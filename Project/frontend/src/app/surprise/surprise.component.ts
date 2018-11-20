@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SurpriseService} from '../_services/surprise.service';
 import {Surprise} from '../_models/surprise';
 import {UserService} from '../_services/user.service';
 import {User} from '../_models/user';
 import {SurpriseLog} from '../_models/surprise-log';
 import {Chart} from 'chart.js';
+import {Router} from '@angular/router';
+
+declare var H:any;
 
 @Component({
   selector: 'app-surprise',
@@ -17,7 +20,6 @@ export class SurpriseComponent implements OnInit {
   regionSurprises: Surprise[];
   userSurprises: Surprise[];
   allLogs: SurpriseLog[];
-  tableName = 'Alle Überraschungen';
   users: User[];
   regions: string[] = [];
   selectedUser: User;
@@ -28,10 +30,15 @@ export class SurpriseComponent implements OnInit {
   showMore = false;
 
   /**
+   * menu variables
+   */
+  diagramFirstRun = true;
+  showDiagrams = false;
+  showMap = false;
+
+  /**
    * diagram variables
    */
-  showDiagrams = false;
-
   siteLoadingsData = [{data: [0], label: 'laden'}];
   siteLoadingsLabels: string[] = []
   siteLoadingOptions;
@@ -39,9 +46,41 @@ export class SurpriseComponent implements OnInit {
   siteLoadingsPerRegionData = [{data: [0], label: 'laden'}];
   siteLoadingsPerRegionLabels: string[] = [];
 
-  constructor() { }
+  private platform: any;
+  private map: any;
+  private ui: any;
+  currentLat = 46.948638;
+  currentLong =  7.440444;
+  @ViewChild('map')
+  public mapElement: ElementRef;
+
+  constructor(private router: Router) {
+    this.platform = new H.service.Platform({
+      'app_id': 'xcQI6qdr3Vg0w440RDCl',
+      'app_code': 'wPfz_QiYaolBoPPcfTMbQQ'
+    });
+  }
+
+  ngAfterViewInit(){
+    const defaultLayers = this.platform.createDefaultLayers();
+    this.map = new H.Map(
+      this.mapElement.nativeElement,
+      defaultLayers.normal.map,
+      {
+        zoom:10,
+        center: { lat: this.currentLat, lng: this.currentLong}
+      }
+    );
+    this.ui = H.ui.UI.createDefault(this.map, defaultLayers, 'de-DE');
+    const mapEvents = new H.mapevents.MapEvents(this.map);
+    const behavior = new H.mapevents.Behavior(mapEvents);
+    document.getElementById('map').style.height = '0px';
+  }
 
   ngOnInit() {
+    if(UserService.user === null || UserService.user === undefined || !UserService.user.isAdmin()){
+      this.router.navigateByUrl('/login');
+    }
     this.getLogs();
     SurpriseService.log('surprise', '');
     SurpriseService.getAll().subscribe((instances: any) =>{
@@ -54,17 +93,72 @@ export class SurpriseComponent implements OnInit {
       UserService.getAllUsers().subscribe((instances: any) =>{
         this.users = instances.map((instance) => new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description));
         this.siteLoadingOptions = this.generateChartOptions();
+        const locs = [];
+        for(let i = 0; i< this.allSurprises.length; i++){
+          try {
+            if(!locs.includes(this.allSurprises[i].location)) {
+              locs.push(this.allSurprises[i].location);
+              const loc = this.allSurprises[i].location.split(',');
+              console.log(parseFloat(loc[0]) + ', ' + parseFloat(loc[1]));
+              this.dropMarker(parseFloat(loc[0]), parseFloat(loc[1]), this.allSurprises[i].location);
+            }
+          } catch {}
+        }
+        document.getElementById('map').style.height = '0px';
       });
     });
   }
 
+  generateMapAndShow(){
+    document.getElementById('map').style.height = '500px';
+    this.showMap = true;
+    this.showDiagrams = false;
+    this.showLogs = false;
+
+  }
+
   /**
+   * puts a marker on the map
+   * @param coordinates
+   * @param data
+   */
+  private dropMarker(lat: number, long: number, data: string) {
+    const marker = new H.map.Marker({lat: lat, lng: long});
+    marker.setData('<p>' + data + '</p>');
+    /*
+    marker.addEventListener('tap', event => {
+      const bubble = new H.ui.InfoBubble(event.target.getPosition(), {
+        content: event.target.getData()
+      });
+      this.ui.addBubble(bubble);
+    }, false);
+    */
+    this.map.addObject(marker);
+  }
+
+  /**
+   * shows the table and hides diagrams and map
+   */
+  showTable(){
+    document.getElementById('map').style.height = '0px';
+    this.showMap = false;
+    this.showDiagrams = false;
+    this.showLogs = false;
+  }
+
+    /**
    * turns on the diagrams and gets the data for them
    */
   toggleDiagrams(){
-    this.getSiteLoads();
-    this.getLoadingsPerRegion();
+    document.getElementById('map').style.height = '0px';
+    if(this.diagramFirstRun) {
+      this.getSiteLoads();
+      this.getLoadingsPerRegion();
+      this.diagramFirstRun = false;
+    }
     this.showDiagrams = true;
+    this.showMap = false;
+    this.showLogs = false;
   }
 
   /**
@@ -243,6 +337,8 @@ export class SurpriseComponent implements OnInit {
    * @param cookie
    */
   showInfos(cookie: string){
+    this.showMap = false;
+    this.showDiagrams = false;
     SurpriseService.getLogs(cookie).subscribe((logs: any) =>{
       this.logs = logs.map( (log) => new SurpriseLog(log.id, log.cookie, log.place, log.placeInfo, log.userId, log.date));
       this.showLogs = true;

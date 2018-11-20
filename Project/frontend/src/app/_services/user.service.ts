@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import {User} from './user';
+import {User} from '../_models/user';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {root} from 'rxjs/internal-compatibility';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {sha256} from 'js-sha256';
 import {SurpriseService} from './surprise.service';
-import {AppComponent} from './app.component';
+import {AppComponent} from '../app.component';
 
 @Injectable({
   providedIn: 'root'

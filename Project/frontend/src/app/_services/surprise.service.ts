@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {CookieOptions, CookieService} from 'angular2-cookie/core';
-import {Surprise} from './surprise';
+import {Surprise} from '../_models/surprise';
 import {Observable} from 'rxjs';
 import {sha256} from 'js-sha256';
-import {AppComponent} from './app.component';
-import {SurpriseLog} from './surprise-log';
+import {AppComponent} from '../app.component';
+import {SurpriseLog} from '../_models/surprise-log';
 import {UserService} from './user.service';
-import {User} from './user';
+import {User} from '../_models/user';
 
 
 @Injectable({

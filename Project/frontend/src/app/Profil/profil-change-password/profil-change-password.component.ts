@@ -1,8 +1,8 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {UserService} from '../../user.service';
-import {User} from '../../user';
+import {UserService} from '../../_services/user.service';
+import {User} from '../../_models/user';
 import {Router} from '@angular/router';
-import {SurpriseService} from '../../surprise.service';
+import {SurpriseService} from '../../_services/surprise.service';
 
 
 

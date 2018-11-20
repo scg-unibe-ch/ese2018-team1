@@ -1,10 +1,10 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Job} from '../../job';
-import {User} from '../../user';
-import {UserService} from '../../user.service';
-import {JobService} from '../../job.service';
-import {SurpriseService} from '../../surprise.service';
+import {Job} from '../../_models/job';
+import {User} from '../../_models/user';
+import {UserService} from '../../_services/user.service';
+import {JobService} from '../../_services/job.service';
+import {SurpriseService} from '../../_services/surprise.service';
 
 
 @Component({

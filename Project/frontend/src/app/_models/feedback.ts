@@ -1,4 +1,4 @@
-import {stages} from './feedback.service';
+import {stages} from '../_services/feedback.service';
 
 export class Feedback {
   constructor(

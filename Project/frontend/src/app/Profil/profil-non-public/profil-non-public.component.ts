@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Job} from '../../job';
-import {User} from '../../user';
-import {UserService} from '../../user.service';
+import {Job} from '../../_models/job';
+import {User} from '../../_models/user';
+import {UserService} from '../../_services/user.service';
 import {Router} from '@angular/router';
-import {SurpriseService} from '../../surprise.service';
+import {SurpriseService} from '../../_services/surprise.service';
 
 @Component({
   selector: 'app-profil-non-public',

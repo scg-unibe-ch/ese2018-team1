@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {Job} from './job';
+import {Job} from './_models/job';
 import {HttpClient} from '@angular/common/http';
-import {JobService} from './job.service';
-import {UserService} from './user.service';
-import {SurpriseService} from './surprise.service';
-import {SurpriseLog} from './surprise-log';
-import {FeedbackService, stages} from './feedback.service';
-import {Feedback} from './feedback';
+import {JobService} from './_services/job.service';
+import {UserService} from './_services/user.service';
+import {SurpriseService} from './_services/surprise.service';
+import {SurpriseLog} from './_models/surprise-log';
+import {FeedbackService, stages} from './_services/feedback.service';
+import {Feedback} from './_models/feedback';
 import {setInterval} from 'timers';
-import {TextService} from './text.service'; //v
+import {TextService} from './_services/text.service'; //v
 
 @Component({
   selector: 'app-root',

@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Job} from '../job';
-import {JobService} from '../job.service';
-import {UserService} from '../user.service';
+import {Job} from '../_models/job';
+import {JobService} from '../_services/job.service';
+import {UserService} from '../_services/user.service';
 import {Router} from '@angular/router';
-import {User} from '../user';
-import {SurpriseService} from '../surprise.service';
-import {FeedbackService, stages} from '../feedback.service';
+import {User} from '../_models/user';
+import {SurpriseService} from '../_services/surprise.service';
+import {FeedbackService, stages} from '../_services/feedback.service';
 
 @Component({
   selector: 'app-job-edit',

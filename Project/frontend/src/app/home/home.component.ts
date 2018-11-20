@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Job} from '../job';
+import {Job} from '../_models/job';
 import {HttpClient} from '@angular/common/http';
-import {JobService} from '../job.service';
+import {JobService} from '../_services/job.service';
 import {sha256} from 'js-sha256';
-import {SurpriseService} from '../surprise.service';
-import {TextService} from '../text.service';
-import {Text} from '../text';
+import {SurpriseService} from '../_services/surprise.service';
+import {TextService} from '../_services/text.service';
+import {Text} from '../_models/text';
 
 @Component({
   selector: 'app-home',

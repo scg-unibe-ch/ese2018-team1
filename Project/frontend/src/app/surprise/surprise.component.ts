@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {SurpriseService} from '../surprise.service';
-import {Surprise} from '../surprise';
-import {UserService} from '../user.service';
-import {User} from '../user';
-import {SurpriseLog} from '../surprise-log';
+import {SurpriseService} from '../_services/surprise.service';
+import {Surprise} from '../_models/surprise';
+import {UserService} from '../_services/user.service';
+import {User} from '../_models/user';
+import {SurpriseLog} from '../_models/surprise-log';
 import {Chart} from 'chart.js';
 
 @Component({

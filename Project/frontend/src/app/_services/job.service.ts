@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Job} from './job';
+import {Job} from '../_models/job';
 import {Observable} from 'rxjs';
-import {User} from './user';
+import {User} from '../_models/user';
 import {isBoolean} from 'util';
 import {UserService} from './user.service';
-import {AppComponent} from './app.component';
+import {AppComponent} from '../app.component';
 
 /**
  * Usage:

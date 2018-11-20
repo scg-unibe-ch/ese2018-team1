@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {UserService} from '../../user.service';
-import {JobService} from '../../job.service';
-import {Job} from '../../job';
-import {User} from '../../user';
+import {UserService} from '../../_services/user.service';
+import {JobService} from '../../_services/job.service';
+import {Job} from '../../_models/job';
+import {User} from '../../_models/user';
 import {InputMetadataWalker} from 'codelyzer/noInputRenameRule';
-import {SurpriseService} from '../../surprise.service';
+import {SurpriseService} from '../../_services/surprise.service';
 
 @Component({
   selector: 'app-profil-public',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {AppComponent} from './app.component';
-import {Feedback} from './feedback';
+import {AppComponent} from '../app.component';
+import {Feedback} from '../_models/feedback';
 
 @Injectable({
   providedIn: 'root'

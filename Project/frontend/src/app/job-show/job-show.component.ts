@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {JobService} from '../job.service';
-import {Job} from '../job';
-import {UserService} from '../user.service';
-import {User} from '../user';
+import {JobService} from '../_services/job.service';
+import {Job} from '../_models/job';
+import {UserService} from '../_services/user.service';
+import {User} from '../_models/user';
 import {Router} from '@angular/router';
-import {SurpriseService} from '../surprise.service';
+import {SurpriseService} from '../_services/surprise.service';
 
 @Component({
   selector: 'app-job-show',

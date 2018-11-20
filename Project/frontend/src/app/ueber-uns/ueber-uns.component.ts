@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {UserService} from '../user.service';
-import {SurpriseService} from '../surprise.service';
-import {TextService} from '../text.service';
-import {Text} from '../text';
+import {UserService} from '../_services/user.service';
+import {SurpriseService} from '../_services/surprise.service';
+import {TextService} from '../_services/text.service';
+import {Text} from '../_models/text';
 
 @Component({
   selector: 'app-ueber-uns',

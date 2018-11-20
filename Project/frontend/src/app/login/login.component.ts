@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from '../user';
+import {User} from '../_models/user';
 import {HttpClient} from '@angular/common/http';
-import {UserService} from '../user.service';
+import {UserService} from '../_services/user.service';
 import {Router} from '@angular/router';
-import {FeedbackService, stages} from '../feedback.service';
+import {FeedbackService, stages} from '../_services/feedback.service';
 
 @Component({
   selector: 'app-login',

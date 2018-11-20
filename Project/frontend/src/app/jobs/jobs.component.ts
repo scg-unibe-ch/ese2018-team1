@@ -1,9 +1,9 @@
 import { Component, OnInit,  } from '@angular/core';
-import {Job} from '../job';
+import {Job} from '../_models/job';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Router, RouterModule} from '@angular/router';
-import {JobService} from '../job.service';
-import {SurpriseService} from '../surprise.service';
+import {JobService} from '../_services/job.service';
+import {SurpriseService} from '../_services/surprise.service';
 
 
 @Component({

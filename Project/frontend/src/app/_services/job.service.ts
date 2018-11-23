@@ -125,7 +125,7 @@ export class JobService {
       'approved': job.approved,
       'oldJobId': job.oldJobId,
       'editing': job.editing
-    });
+    }, {withCredentials: true});
 
   }
 
@@ -151,7 +151,7 @@ export class JobService {
       'approved': job.approved,
       'oldJobId': job.oldJobId,
       'editing': job.editing
-    });
+    }, {withCredentials: true});
   }
 
   /**
@@ -185,7 +185,7 @@ export class JobService {
       'approved': job.approved,
       'oldJobId': job.oldJobId,
       'editing': job.editing
-    });
+    }, {withCredentials: true});
   }
 
   /**
@@ -195,7 +195,7 @@ export class JobService {
    * @param job
    */
   static deleteJob(job: Job): Observable<Object>{
-    return JobService.httpClient.delete(AppComponent.backendUrl + '/job/' + job.id);
+    return JobService.httpClient.delete(AppComponent.backendUrl + '/job/' + job.id, {withCredentials: true});
   }
 
 }

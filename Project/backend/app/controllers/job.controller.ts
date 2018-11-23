@@ -187,87 +187,97 @@ router.get('/:id', async (req: Request, res: Response) => {
  * creates a new job according to the body
  */
 router.post('/', async (req: Request, res: Response) => {
-  const instance = new Job();
-  instance.fromSimplification(req.body);
-  await instance.save();
-  res.statusCode = 201;
-  res.send(instance.toSimplification());
+  if (req.session && req.session.user) {
+    const instance = new Job();
+    instance.fromSimplification(req.body);
+    await instance.save();
+    res.statusCode = 201;
+    res.send(instance.toSimplification());
+  }
 });
 
 /**
  * edits a job with drafting (creates a new job if the old job is not a draft and is approved)
  */
 router.put('/:id', async(req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  let instance = await Job.findById(id);
-  if (instance == null) {
-    res.statusCode = 404;
-    res.json({
-      'message': 'job not found for updating'
-    });
-    return;
+  if (req.session && req.session.user) {
+    const id = parseInt(req.params.id);
+    let instance = await Job.findById(id);
+    if (instance == null) {
+      res.statusCode = 404;
+      res.json({
+        'message': 'job not found for updating'
+      });
+      return;
+    }
+    if (instance.companyId === req.session.user.id){
+      if ((instance.oldJobId === null || instance.oldJobId === -1) && instance.approved) {
+        const newJob = new Job();
+        newJob.fromSimplification(req.body);
+        newJob.oldJobId = id;
+        newJob.approved = false;
+        instance.editing = true;
+        await newJob.save();
+        await instance.save();
+        instance = newJob;
+      } else {
+        instance.fromSimplification(req.body);
+        await instance.save();
+      }
+      res.status(200);
+      res.send(instance.toSimplification());
+    }
   }
-  if((instance.oldJobId === null || instance.oldJobId === -1) && instance.approved) {
-    const newJob = new Job();
-    newJob.fromSimplification(req.body);
-    newJob.oldJobId = id;
-    newJob.approved = false;
-    instance.editing = true;
-    await newJob.save();
-    await instance.save();
-    instance = newJob;
-  } else {
-    instance.fromSimplification(req.body);
-    await instance.save();
-  }
-  res.status(200);
-  res.send(instance.toSimplification());
 });
 
 /**
  * allows editing of a job without drafting
  */
 router.put('/noNewEdit/:id', async(req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  const instance = await Job.findById(id);
-  if (instance == null) {
-    res.statusCode = 404;
-    res.json({
-      'message': 'job not found for updating'
-    });
-    return;
+  if (req.session && req.session.user && (req.session.user.role === 'moderator' || req.session.user.role === 'admin')) {
+    const id = parseInt(req.params.id);
+    const instance = await Job.findById(id);
+    if (instance == null) {
+      res.statusCode = 404;
+      res.json({
+        'message': 'job not found for updating'
+      });
+      return;
+    }
+    instance.fromSimplification(req.body);
+    await instance.save();
+    res.statusCode = 200;
+    res.send(instance.toSimplification());
   }
-  instance.fromSimplification(req.body);
-  await instance.save();
-  res.statusCode = 200;
-  res.send(instance.toSimplification());
   });
 
 /**
  * approves a job and if the job is drafted, deletes the old one
  */
 router.put('/:id/:approve', async  (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  const approve = req.params.approve;
-  const instance = await Job.findById(id);
-  if(instance == null) {
-    res.statusCode = 404;
-    res.json({'message': 'job not found for updating'});
-    return;
-  }
-  if(instance.oldJobId === null || instance.oldJobId === -1) {
-    instance.approved = approve;
-  } else {
-    const oldJob = await Job.findById(instance.oldJobId);
-    if(oldJob !== null) {
-      await oldJob.destroy();
+  if (req.session && req.session.user && (req.session.user.role === 'moderator' || req.session.user.role === 'admin')) {
+    const id = parseInt(req.params.id);
+    const approve = req.params.approve;
+    const instance = await Job.findById(id);
+    if(instance == null) {
+      res.statusCode = 404;
+      res.json({'message': 'job not found for updating'});
+      return;
     }
-    instance.oldJobId = -1;
-    instance.approved = approve;
+    if(instance.oldJobId === null || instance.oldJobId === -1) {
+      instance.approved = approve;
+    } else {
+      const oldJob = await Job.findById(instance.oldJobId);
+      if(oldJob !== null) {
+        await oldJob.destroy();
+      }
+      instance.oldJobId = (1*-1);
+      instance.approved = approve;
+    }
+    await instance.save();
+    res.statusCode = 200;
+    res.send(instance.toSimplification());
   }
-  await instance.save();
-  res.statusCode = 200;
-  res.send(instance.toSimplification());
 })
 
 /**
@@ -285,27 +295,29 @@ router.delete('/:id', async(req: Request, res: Response) => {
     });
     return;
   }
-  if(instance.oldJobId !== -1) {
-    const oldJob = await Job.findById(instance.oldJobId);
-    if(oldJob !== null){
-      oldJob.editing = false;
-      await oldJob.save();
+  if (req.session && req.session.user && (req.session.user.role === 'moderator' || req.session.user.role === 'admin')) {
+    if(instance.oldJobId !== -1) {
+      const oldJob = await Job.findById(instance.oldJobId);
+      if(oldJob !== null){
+        oldJob.editing = false;
+        await oldJob.save();
+      }
     }
-  }
-  if(instance.editing) {
-    const newJob = await Job.find({
-      where: Sequelize.and(
-        {oldJobId: instance.id}
-      )
-    });
-    if(newJob !== null){
-      await newJob.destroy();
+    if(instance.editing) {
+      const newJob = await Job.find({
+        where: Sequelize.and(
+          {oldJobId: instance.id}
+        )
+      });
+      if(newJob !== null){
+        await newJob.destroy();
+      }
     }
+    instance.fromSimplification(req.body);
+    await instance.destroy();
+    res.status(204);
+    res.send();
   }
-  instance.fromSimplification(req.body);
-  await instance.destroy();
-  res.status(204);
-  res.send();
 });
 
 /**

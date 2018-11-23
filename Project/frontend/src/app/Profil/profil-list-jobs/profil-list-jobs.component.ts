@@ -46,7 +46,7 @@ export class ProfilListJobsComponent implements OnInit {
       JobService.getAllJobs().subscribe((instances: any) => {
         this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
           instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
-        this.draftJobs = this.jobs.filter((job) => job.oldJobId !== -1);
+        this.draftJobs = this.jobs.filter((job) => job.approved !== true);
         this.showJobs = this.jobs;
       });
     }

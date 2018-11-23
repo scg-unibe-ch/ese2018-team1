@@ -27,13 +27,12 @@ export class AppComponent implements OnInit {
   feedbacks: Feedback[] = [];
 
   static showFeedback(){
-    console.log('shown feedback');
     AppComponent.app.feedbacks = FeedbackService.feedbacks;
     AppComponent.app.fbHidden = false;
     setTimeout(() =>{
       AppComponent.app.feedbacks[AppComponent.app.feedbacks.length-1].hidden = true;
       AppComponent.app.clearFbMessage(AppComponent.app.feedbacks[AppComponent.app.feedbacks.length-1]);
-    }, 2000);
+    }, 4000);
   }
 
   clearFbMessage(fb: Feedback){
@@ -84,6 +83,7 @@ export class AppComponent implements OnInit {
   }
 
   logout(){
+    FeedbackService.addMessage('Erfolgreich ausgeloggt', stages.success);
     UserService.logout();
   }
 

@@ -45,7 +45,7 @@
   animation-fill-mode:forwards;
   -webkit-animation-delay: 1s;
   -moz-animation-delay: 1s;
-  animation-delay: 1s;
+  animation-delay: 3s;
 }
 
 @-webkit-keyframes fadeOut {
@@ -68,7 +68,7 @@
 
 .success{
   background-color: #00ff00;
-  color: white;
+  color: black;
 }
 
 .warning {

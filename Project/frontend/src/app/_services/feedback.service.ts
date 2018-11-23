@@ -19,7 +19,6 @@ export class FeedbackService {
    */
   static addMessage(toAdd: string, level: stages) {
     this.feedbacks.push(new Feedback(toAdd, level, false));
-    console.log('message added to fb service: ' + this.feedbacks.length);
     for(let i = 0; i< this.feedbacks.length; i++){
       AppComponent.showFeedback();
     }
@@ -39,7 +38,6 @@ export class FeedbackService {
    */
   static clearMessage(fb: Feedback): Feedback[]{
      if(FeedbackService.feedbacks.length >0 && FeedbackService.feedbacks.includes(fb)){
-       console.log('cleared msg');
        FeedbackService.feedbacks.splice(FeedbackService.feedbacks.indexOf(fb),1);
      }
      return FeedbackService.feedbacks;

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {Job} from '../../_models/job';
 import {JobService} from '../../_services/job.service';
 import {UserService} from '../../_services/user.service';
-import {User} from '../../_models/user';
 import {Router} from '@angular/router';
 import {SurpriseService} from '../../_services/surprise.service';
 

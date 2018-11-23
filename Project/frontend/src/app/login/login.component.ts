@@ -4,6 +4,8 @@ import {HttpClient} from '@angular/common/http';
 import {UserService} from '../_services/user.service';
 import {Router} from '@angular/router';
 import {FeedbackService, stages} from '../_services/feedback.service';
+import {JobService} from "../_services/job.service";
+import {Job} from "../_models/job";
 
 @Component({
   selector: 'app-login',
@@ -34,6 +36,9 @@ export class LoginComponent implements OnInit {
             UserService.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description);
             this.setLoginValues(true);
             this.user = null;
+            if (UserService.user.role === 'moderator'){
+              this.notifyAboutChanges();
+            }
             },
           () =>{
             this.connectionTest('Benutzername oder Password ist falsch', stages.error);
@@ -91,5 +96,25 @@ export class LoginComponent implements OnInit {
     }, ()=>{
       FeedbackService.addMessage('Es liegen Verbindungsprobleme vor', stages.warning);
     });
+  }
+
+  private notifyAboutChanges() {
+    let unapprovedUsers;
+    let jobs;
+    let draftJobs;
+    UserService.getAllUnapproved().subscribe((instances: any) => {
+      unapprovedUsers = instances.map((instance) => new User (instance.id, instance.name, '','',instance.email, instance.role, instance.approved, instance.address, instance.description));
+      JobService.getAllJobs().subscribe((instances: any) => {
+        jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
+          instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
+        draftJobs = jobs.filter((job) => job.approved !== true);
+        const jobChanges = draftJobs.length;
+        const newUsers = unapprovedUsers.length;
+        FeedbackService.addMessage(jobChanges + ' Jobänderungen und ' + newUsers +' neue Nutzer',stages.success);
+        alert(jobChanges + ' Jobänderungen und ' + newUsers +' neue Nutzer');
+      });
+    });
+
+
   }
 }

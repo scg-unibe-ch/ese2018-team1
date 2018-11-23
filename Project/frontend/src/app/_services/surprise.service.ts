@@ -84,8 +84,12 @@ export class SurpriseService {
     return SurpriseService.httpClient.get(AppComponent.backendUrl + '/surprise/log');
   }
 
-  public static getSurpriseLogsByRegion(){
-    return SurpriseService.httpClient.get(AppComponent.backendUrl + '/surprise/log/region/all');
+
+  /**
+   * returns the amount of clicks per device type
+   */
+  public static getSurpriseByType(type:string){
+    return SurpriseService.httpClient.get(AppComponent.backendUrl + '/surprise/log/' + type+ '/all');
   }
 
   /**

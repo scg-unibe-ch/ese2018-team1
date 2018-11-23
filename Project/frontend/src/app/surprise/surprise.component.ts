@@ -6,6 +6,7 @@ import {User} from '../_models/user';
 import {SurpriseLog} from '../_models/surprise-log';
 import {Chart} from 'chart.js';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
 
 declare var H:any;
 
@@ -46,6 +47,9 @@ export class SurpriseComponent implements OnInit {
   siteLoadingsPerRegionData = [{data: [0], label: 'laden'}];
   siteLoadingsPerRegionLabels: string[] = [];
 
+  siteLoadingsPerTypeData = [{data: [0], label: 'laden'}];
+  siteLoadingsPerTypeLabels: string[] = [];
+
   private platform: any;
   private map: any;
   private ui: any;
@@ -67,7 +71,7 @@ export class SurpriseComponent implements OnInit {
       this.mapElement.nativeElement,
       defaultLayers.normal.map,
       {
-        zoom:10,
+        zoom:8,
         center: { lat: this.currentLat, lng: this.currentLong}
       }
     );
@@ -88,7 +92,6 @@ export class SurpriseComponent implements OnInit {
       this.showSurprises = this.allSurprises;
       this.regionSurprises = this.allSurprises;
       this.userSurprises = this.allSurprises;
-      console.log('got all surprises');
       this.getRegions();
       UserService.getAllUsers().subscribe((instances: any) =>{
         this.users = instances.map((instance) => new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description));
@@ -99,7 +102,6 @@ export class SurpriseComponent implements OnInit {
             if(!locs.includes(this.allSurprises[i].location)) {
               locs.push(this.allSurprises[i].location);
               const loc = this.allSurprises[i].location.split(',');
-              console.log(parseFloat(loc[0]) + ', ' + parseFloat(loc[1]));
               this.dropMarker(parseFloat(loc[0]), parseFloat(loc[1]), this.allSurprises[i].location);
             }
           } catch {}
@@ -154,6 +156,7 @@ export class SurpriseComponent implements OnInit {
     if(this.diagramFirstRun) {
       this.getSiteLoads();
       this.getLoadingsPerRegion();
+      this.getSiteLoadsPerType();
       this.diagramFirstRun = false;
     }
     this.showDiagrams = true;
@@ -189,11 +192,29 @@ export class SurpriseComponent implements OnInit {
   }
 
   /**
-   * * gets all site loadings per user in a form, that chart.js can read it for the diagrams
+   * gets all site loadings per region for the charts
+   */
+  getSiteLoadsPerType(){
+    const amounts: number[] = [];
+    SurpriseService.getSurpriseByType('deviceType').subscribe((instances: any[]) =>{
+      if(instances === null || instances === undefined){
+        return;
+      }
+      for(let i = 0; i<instances.length; i++){
+        amounts.push(instances[i].count);
+        this.siteLoadingsPerTypeLabels.push(instances[i].deviceType);
+      }
+      this.siteLoadingsPerTypeData = [];
+      this.siteLoadingsPerTypeData.push( {data: amounts, label: 'Seitenladungen pro Gerätetyp'});
+    });
+  }
+
+  /**
+   * * gets all site loadings per region in a form, that chart.js can read it for the diagrams
    */
   getLoadingsPerRegion(){
     const amounts: number[] = [];
-    SurpriseService.getSurpriseLogsByRegion().subscribe((instances: any[]) =>{
+    SurpriseService.getSurpriseByType('region').subscribe((instances: any[]) =>{
       if(instances === null || instances === undefined){
         return;
       }

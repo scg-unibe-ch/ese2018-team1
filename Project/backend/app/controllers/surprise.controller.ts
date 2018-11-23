@@ -100,16 +100,23 @@ router.get('/log/job/:cookie', async (req:Request, res:Response) =>{
   res.send(notFoundJobIds.map((instance) => instance.toSimplification()));
 });
 
+
 /**
- * returns the amount of surprise logs by region
+ * returns the amount of surprise logs by type
  */
-router.get('/log/region/all', async (req:Request, res:Response) =>{
-  const command = 'SELECT Count(region) as count, region FROM Surprise, SurpriseLog WHERE Surprise.cookie = SurpriseLog.cookie GROUP BY region';
+router.get('/log/:type/all', async (req:Request, res:Response) =>{
+  const type = req.params.type;
+  if(!checkSafety(type)){
+    res.statusCode = 400;
+    res.send('not safe');
+    return;
+  }
+  const command = 'SELECT Count(' + type+ ') as count, ' + type + ' FROM Surprise, SurpriseLog WHERE Surprise.cookie = SurpriseLog.cookie GROUP BY ' + type;
   await sequelize.query(command).then(function(results) {
     res.statusCode = 200;
     res.send(results[0]);
   });
-})
+});
 
 /**
  * SURPRISE

@@ -5,6 +5,7 @@ import {User} from '../../_models/user';
 import {UserService} from '../../_services/user.service';
 import {JobService} from '../../_services/job.service';
 import {SurpriseService} from '../../_services/surprise.service';
+import {FeedbackService, stages} from '../../_services/feedback.service';
 
 
 @Component({
@@ -15,7 +16,6 @@ import {SurpriseService} from '../../_services/surprise.service';
 export class ProfilNewJobComponent implements OnInit {
   job: Job = new Job(null, '', '', '', '','','', 0, false,'', '', 0, false, -1, false);
   showDetails: boolean;
-  errorName: boolean;
 
   @Output('saved')
   saved = new EventEmitter();
@@ -29,23 +29,22 @@ export class ProfilNewJobComponent implements OnInit {
   }
 
   onCreateJob() {
-    console.log('creating');
     if (this.job.name){
       this.job.company_id = UserService.user.id + '';
-      console.log('name exists');
       JobService.createJob(this.job, UserService.user).subscribe((instance: any) => {
+        FeedbackService.addMessage('Neuer Job erstellt', stages.success);
         this.job = instance;
         this.showDetails = true;
-        console.log('showing job edit');
+      }, ()=>{
+        FeedbackService.addMessage('unbekannter Fehler', stages.error);
       });
     }
     else{
-      this.errorName = true;
+      FeedbackService.addMessage('Geben Sie einen Namen ein', stages.warning);
     }
   }
 
   back(){
-    console.log('saved, go back');
     this.saved.emit();
   }
 

@@ -96,19 +96,23 @@ export class JobEditComponent implements OnInit {
     JobService.saveJob(this.job, UserService.user).subscribe((instance: any) => {
       this.job = instance;
     });
-    FeedbackService.addMessage('Der Job wurde erstellt. Sobald ihn ein Moderator bestätigt hat, wird er öffentlich geschaltet', stages.success);
+
     
   }
 
   onSaveAndBack(){
     JobService.saveJob(this.job, UserService.user).subscribe((instance: any) => {
       this.job = instance;
+      FeedbackService.addMessage('Der Job wurde gepeichert', stages.success);
+    }, ()=>{
+      FeedbackService.addMessage('unbekannter Fehler', stages.warning);
     });
     this.saved.emit();
   }
 
   onDestroy() {
     JobService.deleteJob(this.job).subscribe(() => {
+      FeedbackService.addMessage('Der Job wurde gelöscht', stages.success);
       this.destroy.emit(this.job);
     });
   }

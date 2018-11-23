@@ -4,6 +4,7 @@ import {JobService} from '../../_services/job.service';
 import {UserService} from '../../_services/user.service';
 import {Router} from '@angular/router';
 import {SurpriseService} from '../../_services/surprise.service';
+import {FeedbackService, stages} from '../../_services/feedback.service';
 
 @Component({
   selector: 'app-profil-list-jobs',
@@ -58,7 +59,6 @@ export class ProfilListJobsComponent implements OnInit {
   }
 
   clicked(jobToEdit: Job){
-    console.log('clicked');
     this.editJob = jobToEdit;
     this.showEditJob = true;
   }

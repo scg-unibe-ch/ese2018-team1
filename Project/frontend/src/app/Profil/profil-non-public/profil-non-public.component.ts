@@ -4,6 +4,7 @@ import {User} from '../../_models/user';
 import {UserService} from '../../_services/user.service';
 import {Router} from '@angular/router';
 import {SurpriseService} from '../../_services/surprise.service';
+import {FeedbackService, stages} from '../../_services/feedback.service';
 
 @Component({
   selector: 'app-profil-non-public',

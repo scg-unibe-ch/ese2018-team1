@@ -21,16 +21,6 @@ export class UserService {
 
   static router: Router;
 
-
-  // private static user = new BehaviorSubject<User>(new User(null,'','','','','',false,'',''));
-  // static currentUser = UserService.user.asObservable();
-
-  private static error = new BehaviorSubject<boolean>(false);
-  static currentErrorStatus = UserService.error.asObservable();
-
-  private static registered = new BehaviorSubject<boolean>(true);
-  static registerStatus = UserService.registered.asObservable();
-
   static user: User;
   static loggedIn = false;
 
@@ -107,20 +97,10 @@ export class UserService {
     }, {withCredentials: true});
   }
 
-  static changeErrorStatus(newStatus: boolean){
-    this.error.next(newStatus);
-  }
-
-  static changeRegisterStatus(newStatus: boolean){
-    this.registered.next(newStatus);
-  }
-
   static logout () {
     this.httpClient.get(AppComponent.backendUrl + '/login/logout', {withCredentials: true}).subscribe((instance: any) => {
     });
     this.loggedIn = false;
-    this.changeRegisterStatus(true);
-    this.changeErrorStatus(false);
     this.user = null;
     this.router.navigate(['/login']);
     location.href = '/login'; // TODO: make one working

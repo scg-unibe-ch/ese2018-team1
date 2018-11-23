@@ -12,17 +12,12 @@ import {FeedbackService, stages} from '../_services/feedback.service';
 })
 export class LoginComponent implements OnInit {
   register = false; // if false the login form is shown, if true, the register form is shown
-  error: boolean;
-  successfulLogin: boolean;
-  successfulRegister: boolean;
   user: User;
 
   constructor(private httpClient: HttpClient, private userService: UserService, public router: Router) {
   }
 
   ngOnInit() {
-    UserService.currentErrorStatus.subscribe(error => this.error = error);
-    UserService.registerStatus.subscribe(registerStatus => this.successfulRegister = registerStatus);
     this.user = new User(null,'','','','','',false,'','');
   }
 
@@ -54,17 +49,16 @@ export class LoginComponent implements OnInit {
     const password = this.user.password;
     this.user.password = '';
     UserService.getUserByEmail(this.user.email).subscribe((instance: any) => {
-      this.connectionTest('\'Dieser Benutzer existiert bereits', stages.error);
-      //UserService.changeRegisterStatus(false);
+      this.connectionTest('\'Dieser Benutzer existiert bereits, diese Email-Adresse ist schon vergeben', stages.error);
         UserService.user = null;
-        this.user = null;
+        this.user.email = null;
     },
       () => { // means the email address does not exist yet
       UserService.register(this.user).subscribe((instance: any) => {
           this.user.id = instance.id;
           UserService.getUserById(this.user.id+'').subscribe((instance: any) => {
             UserService.changePassword(this.user.id+'',instance.salt,password).subscribe((instance: any) => {});
-            UserService.user = this.user; // TODO: check if needed perhaps....
+            UserService.user = this.user;
             this.setLoginValues(true);
           });
       },
@@ -79,9 +73,7 @@ export class LoginComponent implements OnInit {
   }
 
   private setLoginValues(newStatus: boolean){
-    UserService.changeErrorStatus(false); // do not display error while loading home page
     UserService.loggedIn = newStatus;
-    UserService.changeRegisterStatus(false);
     if (!newStatus){
       location.href = '/login';
     }

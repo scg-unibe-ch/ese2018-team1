@@ -218,7 +218,6 @@ router.post('/', async (req: Request, res: Response) => {
  *
  *  @params user id and the new password
  *
- *  TODO: no credentails check -> user has to be admin or the same userId like the id where the password is to change
  * */
 router.put('/:id/:newPassword', async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);

@@ -119,6 +119,23 @@ router.get('/log/:type/all', async (req:Request, res:Response) =>{
 });
 
 /**
+ * returns the amount of job shows
+ */
+router.get('/log/:job/job/', async (req:Request, res:Response) =>{
+  const id = req.params.job;
+  if(!checkSafety(id)){
+    res.statusCode = 400;
+    res.send('not safe');
+    return;
+  }
+  const command = 'SELECT count(*) as count, placeInfo FROM SurpriseLog WHERE SurpriseLog.place = \'looked at job\' AND placeInfo =' + id+ ' GROUP BY placeInfo';
+  await sequelize.query(command).then(function(results) {
+    res.statusCode = 200;
+    res.send(results[0]);
+  });
+});
+
+/**
  * SURPRISE
  */
 

@@ -29,7 +29,7 @@ export class JobShowComponent implements OnInit {
         if(this.job.oldJobId !== null && this.job.oldJobId >-1){
           this.router.navigateByUrl('/');
         }
-        SurpriseService.log('looked at job', this.job.name);
+        SurpriseService.log('looked at job', this.job.id + '');
         this.wageStyle = this.job.wagePerHour ? 'pro Stunde' : 'pro Monat';
         UserService.getUserById(this.job.company_id).subscribe((instance: any)=>{
           this.user = new User(instance.id, instance.name,'','',instance.email, instance.role, instance.approved, instance.address, instance.description);

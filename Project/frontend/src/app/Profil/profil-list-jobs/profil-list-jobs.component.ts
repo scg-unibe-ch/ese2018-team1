@@ -18,6 +18,7 @@ export class ProfilListJobsComponent implements OnInit {
   draftJobs: Job[] = [];
   showJobs: Job[] = [];
   toggleDraftText = 'show only draft jobs';
+  jobViews: string[] = [];
 
   constructor(public userService: UserService, public router: Router) { }
 
@@ -39,18 +40,35 @@ export class ProfilListJobsComponent implements OnInit {
         this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
           instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
         this.showJobs = this.jobs;
+        this.getViewsPerJob();
       });
     }
-
-    if (UserService.user.isModerator() || UserService.user.isAdmin()) {
+    else if (UserService.user.isModerator() || UserService.user.isAdmin()) {
       JobService.getAllJobs().subscribe((instances: any) => {
         this.jobs = instances.map((instance) => new Job(instance.id, instance.name, instance.description_short, instance.description, instance.company_id, instance.company_email, instance.job_website,
           instance.wage, instance.wagePerHour, instance.job_start, instance.job_end, instance.percentage, instance.approved, instance.oldJobId, instance.editing));
         this.draftJobs = this.jobs.filter((job) => job.approved !== true);
         this.showJobs = this.jobs;
+        this.getViewsPerJob();
       });
     }
+  }
 
+  getViewsPerJob(){
+    for(let i = 0; i< this.jobs.length; i++) {
+      if (this.jobs[i].oldJobId === -1) {
+        SurpriseService.getAmountOfViewsByJob(this.jobs[i].id + '').subscribe((instance: any) => {
+          if (instance !== null && instance.length > 0) {
+            this.jobViews[this.jobs[i].id] = instance[0].count === '1' || instance[0].count === 1 ? instance[0].count + ' Ansicht' : instance[0].count + ' Ansichten';
+          }
+          else {
+            this.jobViews[this.jobs[i].id] = 'keine Ansicht';
+          }
+        }, () => {
+          this.jobViews[this.jobs[i].id] = '0';
+        });
+      }
+    }
   }
 
   toggleDraft(){

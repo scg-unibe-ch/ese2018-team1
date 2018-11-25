@@ -10,6 +10,7 @@ import {UserService} from './user.service';
 import {User} from '../_models/user';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -93,6 +94,14 @@ export class SurpriseService {
   }
 
   /**
+   * returns the amount of views per job
+   * @param id
+   */
+  public static getAmountOfViewsByJob( id: string){
+    return SurpriseService.httpClient.get(AppComponent.backendUrl + '/surprise/log/' + id+ '/job');
+  }
+
+  /**
    * handles the cookie
    */
   private static getCookie(): Observable<Object>{
@@ -153,67 +162,67 @@ export class SurpriseService {
       fullVersion = agent.substring(agent.indexOf('Mobile') + 7);
       type = 'Handy';
     }
-    if(agent.indexOf('iPhone') !== -1){
+    else if(agent.indexOf('iPhone') !== -1){
       browserName = 'iPhone';
       fullVersion = agent.substring(agent.indexOf('iPhone') + 7);
       type = 'Handy';
     }
-    if(agent.indexOf('iPod') !== -1){
+    else if(agent.indexOf('iPod') !== -1){
       browserName = 'iPod';
       fullVersion = agent.substring(agent.indexOf('iPod') + 5);
       type = 'Handy';
     }
-    if(agent.indexOf('IEMobile') !== -1){
+    else if(agent.indexOf('IEMobile') !== -1){
       browserName = 'IEMobile';
       fullVersion = agent.substring(agent.indexOf('IEMobile') + 9);
       type = 'Handy';
     }
-    if(agent.indexOf('Windows Phone') !== -1){
+    else if(agent.indexOf('Windows Phone') !== -1){
       browserName = 'Windows Phone';
       fullVersion = agent.substring(agent.indexOf('Windows Phone') + 14);
       type = 'Handy';
     }
-    if(agent.indexOf('Android') !== -1){
+    else if(agent.indexOf('Android') !== -1){
       browserName = 'Android';
       fullVersion = agent.substring(agent.indexOf('Android') + 8);
       type = 'Handy';
     }
-    if(agent.indexOf('BlackBerry') !== -1){
+    else if(agent.indexOf('BlackBerry') !== -1){
       browserName = 'BlackBerry';
       fullVersion = agent.substring(agent.indexOf('BlackBerry') + 10);
       type = 'Handy';
     }
-    if(agent.indexOf('webOs') !== -1){
+    else if(agent.indexOf('webOs') !== -1){
       browserName = 'webOs';
       fullVersion = agent.substring(agent.indexOf('webOs') + 6);
       type = 'Handy';
     }
-    if(agent.indexOf('Tablet') !== -1){
+    else if(agent.indexOf('Tablet') !== -1){
       browserName = 'Tablet';
       fullVersion = agent.substring(agent.indexOf('Tablet') + 7);
       type = 'Tablet';
     }
-    if(agent.indexOf('iPad') !== -1){
+    else if(agent.indexOf('iPad') !== -1){
       browserName = 'iPad';
       fullVersion = agent.substring(agent.indexOf('iPad') + 5);
       type = 'Tablet';
     }
-    if(agent.indexOf('Nexus 7') !== -1){
+    else if(agent.indexOf('Nexus 7') !== -1){
       browserName = 'Nexus 7';
       fullVersion = agent.substring(agent.indexOf('Nexus 7') + 8);
       type = 'Tablet';
     }
-    if(agent.indexOf('Nexus 10') !== -1){
+    else if(agent.indexOf('Nexus 10') !== -1){
       browserName = 'Nexus 10';
       fullVersion = agent.substring(agent.indexOf('Nexus 10') + 9);
       type = 'Tablet';
     }
-    if(agent.indexOf('KFAPWI') !== -1){
+    else if(agent.indexOf('KFAPWI') !== -1){
       browserName = 'Amazon Kindle';
       fullVersion = agent.substring(agent.indexOf('KFAPWI') + 7);
       type = 'Tablet';
     }
-    if(agent.indexOf('OPR') !== -1){
+    else if(agent.indexOf('OPR') !== -1){
       browserName = 'Opera';
       fullVersion = agent.substring(agent.indexOf('OPR') + 4);
       type = 'Desktop';

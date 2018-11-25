@@ -39,7 +39,7 @@
   </div>
 
   <!-- company email -->
-  <div *ngIf="!editAsModerator || job.oldJobId == -1" class="field half">
+  <div *ngIf="!editAsModerator || job.oldJobId == -1" class="field">
     <label for="company_email">E-Mail</label>
     <label *ngIf="standardEMail" for="company_email">{{company.email}}</label>
     <input *ngIf="!standardEMail" type="text" name="company_email" [(ngModel)]="job.company_email" id="company_email" (ngModelChange)="onSave()">
@@ -51,7 +51,7 @@
       <label for="company_email_old">E-Mail</label>
       <!-- ToDo: show email of old job -->
       <label *ngIf="standardEMail" for="company_email_old">{{company.email}}</label>
-      <input *ngIf="!standardEMail" disabled type="text" name="company_email_old" [(ngModel)]="job.company_email" id="company_email_old" (ngModelChange)="onSave()">
+      <input *ngIf="!standardEMail" disabled type="text" name="company_email_old" [(ngModel)]="oldJob.company_email" id="company_email_old" (ngModelChange)="onSave()">
       <label *ngIf="standardEMail" for="company_email_old">standard Email</label>
       <label *ngIf="!standardEMail" for="company_email_old">jobspezifisches Email</label>
     </div>
@@ -167,15 +167,15 @@
   <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
     <div class="field half left">
       <label for="job_end_old">Ende des Jobs</label>
-      <label *ngIf="oldJob.job_end == ''" for="job_end">Unbefristeter Job</label>
+      <label *ngIf="oldJob.job_end == ''" for="job_end_old">Unbefristeter Job</label>
       <input *ngIf="oldJob.job_end != ''" disabled matInput placeholder="end of the job" type="date" [(ngModel)]="oldJob.job_end" name="job_end_old" id="job_end_old" (ngModelChange)="onSave()">
     </div>
     <div class="field half right">
-      <label for="job_end">Ende des Jobs</label>
-      <label *ngIf="!this.temporary" for="job_end">Unbefristeter Job</label>
+      <label for="job_end_new">Ende des Jobs</label>
+      <label *ngIf="!this.temporary" for="job_end_new">Unbefristeter Job</label>
       <button *ngIf="!this.temporary" (click)="onFlipTemporary()">Angebot befristen</button>
       <button *ngIf="this.temporary" (click)="onFlipTemporary()">keine Befristung</button>
-      <input *ngIf="this.temporary" matInput placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end" (ngModelChange)="onSave()">
+      <input *ngIf="this.temporary" matInput placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end_new" (ngModelChange)="onSave()">
     </div>
   </div>
 

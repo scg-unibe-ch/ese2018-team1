@@ -29,6 +29,7 @@
       <canvas *ngIf="showDiagrams" class="diagrams" id="siteLoadings" baseChart [chartType]="'line'" [datasets]="siteLoadingsData" [labels]="siteLoadingsLabels" [options]="siteLoadingOptions" [legend]="true"></canvas>
       <canvas *ngIf="showDiagrams" class="diagrams diagramRight" id="siteUsers" baseChart [chartType]="'line'" [datasets]="siteLoadingsPerRegionData" [labels]="siteLoadingsPerRegionLabels" [options]="siteLoadingOptions" [legend]="true"></canvas>
       <canvas *ngIf="showDiagrams" class="diagrams" id="siteMobile" baseChart [chartType]="'doughnut'" [datasets]="siteLoadingsPerTypeData" [labels]="siteLoadingsPerTypeLabels" [options]="siteLoadingOptions" [legend]="true"></canvas>
+      <canvas *ngIf="showDiagrams" class="diagrams" id="siteUser" baseChart [chartType]="'doughnut'" [datasets]="siteLoadingsPerUserData" [labels]="siteLoadingsPerUserLabels" [options]="siteLoadingOptions" [legend]="true"></canvas>
     </div>
   </div>
 

@@ -50,6 +50,9 @@ export class SurpriseComponent implements OnInit {
   siteLoadingsPerTypeData = [{data: [0], label: 'laden'}];
   siteLoadingsPerTypeLabels: string[] = [];
 
+  siteLoadingsPerUserData = [{data: [0], label: 'laden'}];
+  siteLoadingsPerUserLabels: string[] = [];
+
   private platform: any;
   private map: any;
   private ui: any;
@@ -157,6 +160,7 @@ export class SurpriseComponent implements OnInit {
       this.getSiteLoads();
       this.getLoadingsPerRegion();
       this.getSiteLoadsPerType();
+      this.getSiteLoadsPerUser();
       this.diagramFirstRun = false;
     }
     this.showDiagrams = true;
@@ -206,6 +210,43 @@ export class SurpriseComponent implements OnInit {
       }
       this.siteLoadingsPerTypeData = [];
       this.siteLoadingsPerTypeData.push( {data: amounts, label: 'Seitenladungen pro Gerätetyp'});
+    });
+  }
+
+  /**
+   * gets all site loadings per user for the charts
+   */
+  getSiteLoadsPerUser(){
+    UserService.getAllUsers().subscribe((users: User[]) => {
+      const amounts: number[] = [];
+      SurpriseService.getSurpriseByType('userId').subscribe((instances: any[]) => {
+        if (instances === null || instances === undefined) {
+          return;
+        }
+        for (let i = 0; i < instances.length; i++) {
+          if (instances[i].userId !== null) {
+            let found = false;
+            for(let j = 0; j<users.length; j++){
+              if(users[j].id === instances[i].userId){
+                amounts.push(instances[i].count);
+                this.siteLoadingsPerUserLabels.push(users[j].name);
+                found = true;
+                break;
+              }
+            }
+            if(!found){
+              amounts.push(instances[i].count);
+              this.siteLoadingsPerUserLabels.push('gelöschter Account');
+            }
+          }
+          else {
+            amounts.push(instances[i].count);
+            this.siteLoadingsPerUserLabels.push('nicht eingeloggt');
+          }
+        }
+        this.siteLoadingsPerUserData = [];
+        this.siteLoadingsPerUserData.push({data: amounts, label: 'Seitenladungen pro Benutzer'});
+      });
     });
   }
 

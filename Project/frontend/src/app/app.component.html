@@ -8,9 +8,10 @@
         <a routerLink="/jobs">Jobs</a>
         <a routerLink="/über_uns">Über uns</a>
         <a routerLink="/login" *ngIf="!userService.getLoginStatus()">Login</a>
-        <a routerLink="/profil" *ngIf="userService.getLoginStatus()">Profil</a>
+        <a routerLink="/profil" *ngIf="userService.getLoginStatus()">Mein Account</a>
         <a routerLink="/text" *ngIf="userService.getUser() !== null && userService.getUser() !== undefined && (userService.getUser().isAdmin() || userService.getUser().isModerator())">Texte</a>
-        <a (click)="logout()" *ngIf="userService.getLoginStatus()">Logout</a>
+        <a routerLink="/surprise" *ngIf="userService.getUser() !== null && userService.getUser() !== undefined && (userService.getUser().isAdmin())">Statistik</a>
+        <a (click)="logout()" *ngIf="userService.getLoginStatus()" style="position: relative; top: 5px; left: 20px"><img src="/assets/images/logout.png" width="20px"/></a>
     </nav>
   </div>
 </header>
@@ -23,9 +24,10 @@
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/jobs">Jobs</a>
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/über_uns">Über uns</a>
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/login" *ngIf="!userService.getLoginStatus()">Login</a>
-  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/profil" *ngIf="userService.getLoginStatus()">Profil</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/profil" *ngIf="userService.getLoginStatus()">Mein Account</a>
   <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/text" *ngIf="userService.getUser() !== null && userService.getUser() !== undefined && (userService.getUser().isAdmin() || userService.getUser().isModerator())">Texte</a>
-  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu();logout();" routerLink="/login" *ngIf="userService.getLoginStatus()">Logout</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu()" routerLink="/surprise" *ngIf="userService.getUser() !== null && userService.getUser() !== undefined && (userService.getUser().isAdmin())">Statistik</a>
+  <a style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" (click)="toggleMenu();logout();" routerLink="/login" *ngIf="userService.getLoginStatus()"><img src="/assets/images/logout.png" width="20px"/>&nbsp; Logout </a>
   <a class="close" (click)="toggleMenu()" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" href="#navPanel"></a>
 </div>
 

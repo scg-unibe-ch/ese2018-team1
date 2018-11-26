@@ -43,6 +43,7 @@ export class SurpriseComponent implements OnInit {
   siteLoadingsData = [{data: [0], label: 'laden'}];
   siteLoadingsLabels: string[] = []
   siteLoadingOptions;
+  diagramColors: Array<any>;
 
   siteLoadingsPerRegionData = [{data: [0], label: 'laden'}];
   siteLoadingsPerRegionLabels: string[] = [];
@@ -88,6 +89,8 @@ export class SurpriseComponent implements OnInit {
     if(UserService.user === null || UserService.user === undefined || !UserService.user.isAdmin()){
       this.router.navigateByUrl('/login');
     }
+    this.siteLoadingOptions = this.generateChartOptions();
+    this.generateChartColors();
     this.getLogs();
     SurpriseService.log('surprise', '');
     SurpriseService.getAll().subscribe((instances: any) =>{
@@ -98,7 +101,6 @@ export class SurpriseComponent implements OnInit {
       this.getRegions();
       UserService.getAllUsers().subscribe((instances: any) =>{
         this.users = instances.map((instance) => new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description));
-        this.siteLoadingOptions = this.generateChartOptions();
         const locs = [];
         for(let i = 0; i< this.allSurprises.length; i++){
           try {
@@ -130,14 +132,6 @@ export class SurpriseComponent implements OnInit {
   private dropMarker(lat: number, long: number, data: string) {
     const marker = new H.map.Marker({lat: lat, lng: long});
     marker.setData('<p>' + data + '</p>');
-    /*
-    marker.addEventListener('tap', event => {
-      const bubble = new H.ui.InfoBubble(event.target.getPosition(), {
-        content: event.target.getData()
-      });
-      this.ui.addBubble(bubble);
-    }, false);
-    */
     this.map.addObject(marker);
   }
 
@@ -224,6 +218,9 @@ export class SurpriseComponent implements OnInit {
           return;
         }
         for (let i = 0; i < instances.length; i++) {
+          if(instances[i].count === 0){
+            continue;
+          }
           if (instances[i].userId !== null) {
             let found = false;
             for(let j = 0; j<users.length; j++){
@@ -273,14 +270,24 @@ export class SurpriseComponent implements OnInit {
    */
   generateChartOptions(){
     return {
-      fillColor: 'rgba(229,89,52,0.2)',
-      strokeColor: '#9BC53D',
-      pointColor: '#E55934',
-      pointStrokeColor: '#FFFFFF',
-      pointHighlightColor: '#FFFFFF',
-      pointHighlightStroke: 'rgba(220,220,220,1)',
-      responsive:false
+      responsive:false,
     };
+  }
+
+  /**
+   * returns the options for chart.js for the diagrams
+   */
+  generateChartColors(){
+     this.diagramColors  = [
+      {
+        backgroundColor: ['rgba(229, 71, 75, 0.5)','rgba(19, 191, 3, 0.5)','rgba(229,89,52,0.5)','rgba(23, 87, 171, 0.5)','rgba(255, 255, 0, 0.5)','rgba(19, 191, 3, 0.5)','rgba(229,89,52,0.5)','rgba(23, 87, 171, 0.5)','rgba(255, 255, 0, 0.5)',],
+        borderColor: ['rgba(229, 71, 75, 1)','rgba(19, 191, 3, 1)','rgba(229,89,52,1)','rgba(23, 87, 171, 1)','rgba(255, 255, 0, 1)','rgba(19, 191, 3, 1)','rgba(229,89,52,1)','rgba(23, 87, 171, 1)','rgba(255, 255, 0, 1)'],
+        pointBackgroundColor: ['#e5474b','rgba(23, 87, 171, 1)','rgba(19, 191, 3, 1)'],
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+      }
+    ];
   }
 
   /**
@@ -289,7 +296,8 @@ export class SurpriseComponent implements OnInit {
    */
   findByUser(user: User){
     if(user === null){
-      this.showSurprises = this.allSurprises;
+      this.showSurprises = this.regionSurprises;
+      this.userSurprises = this.allSurprises;
       return;
     }
     const userSurprises: Surprise[] = [];
@@ -318,7 +326,8 @@ export class SurpriseComponent implements OnInit {
    */
   findByRegion(region:string){
     if(region === null || region === undefined){
-      this.showSurprises = this.allSurprises;
+      this.showSurprises = this.userSurprises;
+      this.userSurprises = this.allSurprises;
       return;
     }
     console.log('region: '+ region);

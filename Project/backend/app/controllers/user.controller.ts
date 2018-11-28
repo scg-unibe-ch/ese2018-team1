@@ -267,11 +267,11 @@ router.put('/:id', async(req: Request, res: Response) => {
     await instance.save();
     instance.password = '';
     instance.salt = '';
-    if (req.session) {
+    if (req.session && req.session.user.id === instance.id) {
       req.session.user = instance;
-      res.status(200);
-      res.send(instance.toSimplification());
     }
+    res.status(200);
+    res.send(instance.toSimplification());
     return;
   }
 });

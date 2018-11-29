@@ -28,9 +28,15 @@ router.get('/', async (req: Request, res: Response) => {
  */
 router.get('/approved', async (req: Request, res: Response) => {
   const instances = await Job.findAll({
-    where: Sequelize.and(
-      {approved: true}
-    )
+    include: [{
+      model: User,
+      where: {
+        approved: true
+      }
+    }],
+    where: {
+      approved: true
+    }
   });
   res.statusCode = 200;
   res.send(instances.map( e=> e.toSimplification()));
@@ -43,7 +49,7 @@ router.get('/search/:text', async (req: Request, res: Response) => {
   const search = req.params.text;
   if(checkSafety(search)) {
     let command = 'SELECT `Job`.`id`, `Job`.`name`, `Job`.`description_short`, `Job`.`description`, `Job`.`companyId`, `Job`.`companyEmail`, `Job`.`jobWebsite`, `Job`.`wage`, `Job`.`wagePerHour`, `Job`.`job_start`, `Job`.`job_end`, `Job`.`percentage`, `Job`.`approved`, Job.oldJobId, Job.editing, `user`.`name` AS `user.name`, `user`.`email` AS `user.email` FROM `Job` AS `Job` INNER JOIN `User` AS `user` ON `Job`.`companyId` = `user`.`id`';
-    command += ' WHERE Job.approved=1 AND (Job.name LIKE \'%' + search + '%\' OR Job.description LIKE \'%' + search + '%\' OR User.name LIKE \'%' + search + '%\')';
+    command += ' WHERE Job.approved=1 AND User.approved=1 AND (Job.name LIKE \'%' + search + '%\' OR Job.description LIKE \'%' + search + '%\' OR User.name LIKE \'%' + search + '%\')';
     await sequelize.query(command).then(function (results) {
       res.statusCode = 200;
       res.send(results[0]);
@@ -85,7 +91,7 @@ router.get('/search/:name/:company_name/:description/:wage/:wagePerHour/:start_b
   const send_after = req.params.end_after ;
   const spercentage_less = req.params.percentage_less === '*' ? -1 : parseInt(req.params.percentage_less);
   const spercentage_more = req.params.percentage_more === '*' ? -1 : parseInt(req.params.percentage_more);
-  let  command = 'SELECT Job.id, Job.name, Job.description_short, Job.description, Job.companyId, Job.companyEmail, Job.jobWebsite, Job.wage, Job.wagePerHour, Job.job_start, Job.job_end, Job.approved, Job.oldJobId, Job.editing FROM Job, User WHERE Job.companyId=User.id AND Job.approved=1';
+  let  command = 'SELECT Job.id, Job.name, Job.description_short, Job.description, Job.companyId, Job.companyEmail, Job.jobWebsite, Job.wage, Job.wagePerHour, Job.job_start, Job.job_end, Job.approved, Job.oldJobId, Job.editing FROM Job, User WHERE Job.companyId=User.id AND Job.approved=1 AND User.approved=1';
   const originalCommand = command;
   command += ' AND';
   if(sname !== '*' && checkSafety(sname)) {
@@ -137,31 +143,18 @@ router.get('/search/company/:company_id/:approved', async (req: Request, res: Re
   const userId = req.params.company_id;
   const approved = req.params.approved;
   let instances: Job[];
-  if(approved === '1') {
-    instances = await Job.findAll({
-      include: [{
-        model: User,
-        where: {
-          id: userId
-        }
-      }],
+  instances = await Job.findAll({
+    include: [{
+      model: User,
       where: {
-        approved: 1
+        id: userId,
+        approved: true
       }
-    });
-  } else {
-    instances = await Job.findAll({
-      include: [{
-        model: User,
-        where: {
-          id: userId
-        }
-      }],
-      where: {
-        editing: 0
-      }
-    });
-  }
+    }],
+    where: {
+      approved: (approved === '1' ? 1 : 0)
+    }
+  });
   res.statusCode = 200;
   res.send(instances.map(e => e.toSimplification()));
 });
@@ -327,15 +320,10 @@ router.delete('/:id', async(req: Request, res: Response) => {
  * @param text the currentText to be checked
  */
 function checkSafety(text: string): boolean {
-	try{
-	  text = text.toLowerCase();
-	  if(text.includes('"') || text.includes('\'') || text.includes('--') || text.includes('union')) {
-		return false;
-	  }
-		return true;
-	}
-	catch {return false;}
-	
+    try{
+      text = text.toLowerCase();
+      return !(text.includes('"') || text.includes('\'') || text.includes('--') || text.includes('union') || text.includes('<sc' ));
+    } catch {return false;}
 }
 
 

@@ -153,7 +153,8 @@
       <label *ngIf="!this.startNow" for="job_start_neu">Job verfügbar ab:</label>
       <button *ngIf="this.startNow" (click)="onFlipStart()">anderes Startdatum wählen</button>
       <button *ngIf="!this.startNow" (click)="onFlipStart()">Job per sofort verfügbar</button>
-      <input *ngIf="!this.startNow" matInput placeholder="start of the job" type="date" maxlength="10" [(ngModel)]="job.job_start" name="job_start_neu" id="job_start_neu" (ngModelChange)="onSave()">   </div>
+      <input *ngIf="!this.startNow" matInput placeholder="start of the job" type="date" maxlength="10" [(ngModel)]="job.job_start" name="job_start_neu" id="job_start_neu" (ngModelChange)="onSave()">
+    </div>
   </div>
 
   <!-- end date -->
@@ -162,20 +163,20 @@
     <label *ngIf="!this.temporary" for="job_end">Unbefristeter Job</label>
     <button *ngIf="!this.temporary" (click)="onFlipTemporary()">Angebot befristen</button>
     <button *ngIf="this.temporary" (click)="onFlipTemporary()">keine Befristung</button>
-    <input *ngIf="this.temporary" matInput placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end" (ngModelChange)="onSave()">
+    <input *ngIf="this.temporary" placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end" (ngModelChange)="onSave()">
   </div>
   <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
     <div class="field half left">
       <label for="job_end_old">Ende des Jobs</label>
       <label *ngIf="oldJob.job_end == ''" for="job_end_old">Unbefristeter Job</label>
-      <input *ngIf="oldJob.job_end != ''" disabled matInput placeholder="end of the job" type="date" [(ngModel)]="oldJob.job_end" name="job_end_old" id="job_end_old" (ngModelChange)="onSave()">
+      <input *ngIf="oldJob.job_end != ''" disabled placeholder="end of the job" type="date" maxlength="10" [(ngModel)]="oldJob.job_end" name="job_end_old" id="job_end_old" (ngModelChange)="onSave()">
     </div>
     <div class="field half right">
       <label for="job_end_new">Ende des Jobs</label>
       <label *ngIf="!this.temporary" for="job_end_new">Unbefristeter Job</label>
       <button *ngIf="!this.temporary" (click)="onFlipTemporary()">Angebot befristen</button>
       <button *ngIf="this.temporary" (click)="onFlipTemporary()">keine Befristung</button>
-      <input *ngIf="this.temporary" matInput placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end_new" (ngModelChange)="onSave()">
+      <input *ngIf="this.temporary" placeholder="end of the job" type="date" maxlength="10" [(ngModel)]="job.job_end" name="job_end" id="job_end_new" (ngModelChange)="onSave()">
     </div>
   </div>
 
@@ -183,15 +184,16 @@
   <div *ngIf="editAsModerator" class="field">
     <div *ngIf="job.oldJobId == -1" class="field half">
       <button style="background-color: green" *ngIf="!job.approved" (click)="toggleApproval()">Öffentlich schalten</button>
-      <button *ngIf="job.approved" (click)="toggleApproval()" style="background-color: green">ist öffentlich</button>
+      <button *ngIf="job.approved" (click)="toggleApproval()" style="background-color: red">ist öffentlich</button>
     </div>
     <div *ngIf="job.oldJobId != -1" class="field">
       <div class="field half left">
-        <button style="background-color: green" *ngIf="!oldJob.approved" (click)="">Öffentlich schalten</button>
-        <button *ngIf="oldJob.approved" (click)="" style="background-color: green">ist öffentlich</button>
+        <button style="background-color: green" *ngIf="!oldJob.approved">Öffentlich schalten</button>
+        <button *ngIf="oldJob.approved" style="background-color: red">ist öffentlich</button>
       </div>
-      <button style="background-color: green" *ngIf="!oldJob.approved" (click)="toggleApproval()">Öffentlich schalten</button>
-      <button *ngIf="oldJob.approved" (click)="toggleApproval()" style="background-color: green">ist öffentlich</button>
+      <div class="field half right">
+        <button style="background-color: green" *ngIf="!job.approved" (click)="toggleApproval()">Öffentlich schalten</button>
+        <button *ngIf="job.approved" (click)="toggleApproval()" style="background-color: red">ist öffentlich</button>
       </div>
     </div>
   </div>

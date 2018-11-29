@@ -87,9 +87,6 @@ export class JobEditComponent implements OnInit {
     if (this.startNow){
       this.job.job_start = '';
     }
-    if (this.temporary){
-      this.job.job_end = '';
-    }
     if (this.standardEMail){
       this.job.company_email = this.company.email;
     }
@@ -129,6 +126,7 @@ export class JobEditComponent implements OnInit {
   }
 
   onFlipTemporary() {
+    this.job.job_end = this.temporary ? '' : this.job.job_end;
     this.temporary = !this.temporary;
     this.onSave();
   }

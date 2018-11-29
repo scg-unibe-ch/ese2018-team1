@@ -201,7 +201,7 @@
   <!-- submit -->
   <ul class="actions">
     <li><input type="submit" mat-button (click)="onSaveAndBack()" value="Speichern"/></li>
-    <li *ngIf="editAsModerator || job.oldJobId !== -1"><input type="submit" mat-button (click)="onDestroy()" value="Änderungen löschen"/></li>
+    <li *ngIf="editAsModerator || job.oldJobId !== -1"><input type="button" mat-button (click)="onDestroy()" value="{{job.oldJobId === -1 ? 'Job löschen' : 'Änderungen löschen'}}"/></li>
   </ul>
   <ul class="actions">
 

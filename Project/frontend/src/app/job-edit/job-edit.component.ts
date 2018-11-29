@@ -108,10 +108,12 @@ export class JobEditComponent implements OnInit {
   }
 
   onDestroy() {
-    JobService.deleteJob(this.job).subscribe(() => {
-      FeedbackService.addMessage('Der Job wurde gelöscht', stages.success);
-      this.destroy.emit(this.job);
-    });
+    if(alert( this.job.oldJobId === -1 ?'Wollen Sie den Job wirklich löschen?' : 'Wollen Sie die Änderungen wirklich verwerfen?')) {
+      JobService.deleteJob(this.job).subscribe(() => {
+        FeedbackService.addMessage('Der Job wurde gelöscht', stages.success);
+        this.destroy.emit(this.job);
+      });
+    }
   }
 
   toggleApproval(){

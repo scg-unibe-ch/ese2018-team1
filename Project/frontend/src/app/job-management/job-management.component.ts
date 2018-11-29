@@ -7,6 +7,11 @@ import {Router} from '@angular/router';
   templateUrl: './job-management.component.html',
   styleUrls: ['./job-management.component.css']
 })
+/**
+ * job-management component shows the profile of a user
+ * - the public profile if the url contains an id
+ * - the private profile otherwise
+ */
 export class JobManagementComponent implements OnInit {
   companyId: string;
   public: boolean;

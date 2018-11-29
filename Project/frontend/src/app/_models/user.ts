@@ -13,15 +13,23 @@ export class User {
     ) {
   }
 
-
+  /**
+   * @return true, if this user is admin
+   */
   isAdmin(){
     return this !== null && this.role === 'admin';
   }
 
+  /**
+   * @return true, if the user is moderator
+   */
   isModerator(){
     return this !== null && this.role === 'moderator';
   }
 
+  /**
+   * @return true, if the user is a company
+   */
   isCompany(){
     return this !== null && this.role === 'company';
   }

@@ -22,6 +22,13 @@ router.get('/connTest', async  (req:Request, res:Response) =>{
   return res.json({'ok': 'connected'});
 })
 
+/**
+ * checks whether the session is valid
+ * for security reasons, the email-address and the userId are checked and need to be correct before returning the user instance
+ *
+ * @params: Credentials (otherwise the session will fail
+ * @return: instance of the user or nothing
+ */
 router.get('/session', async (req: Request, res: Response) => {
   if (req.session != null && req.session.user != null) {
     const instance = await User.findById(req.session.user.id);
@@ -29,6 +36,7 @@ router.get('/session', async (req: Request, res: Response) => {
       if (req.session.user.email === instance.email) {
         instance.password = '';
         instance.salt = '';
+        req.session.user = instance;
         return res.status(200).send(  instance);
       }
     }
@@ -38,6 +46,16 @@ router.get('/session', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * generates for the user with @param id a new salt
+ *
+ * use case: register a new user or change the password of a user
+ *
+ * security: user who makes the request needs to be admin or the user itself (credentials check)
+ *
+ * @param: id: user ID of the user, who needs a new salt (whose password is changed or who is registering)
+ * @return: instance of the user with new salt and an empty password
+ */
 router.get('/salt/:id', async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   if (req.session && req.session.user && (req.session.user.id === id || req.session.user.role === 'admin')) {
@@ -59,9 +77,12 @@ router.get('/salt/:id', async (req: Request, res: Response) => {
 })
 
 /**
- * get all unapproved users
- * use case:
- * moderator can approve new (unapproved) users
+ * returns all unapproved users
+ * use case: moderator has to approve all users
+ *
+ * security: user who makes the request needs to be admin or moderator
+ *
+ * @return: all unapproved users
  */
 router.get('/unapproved', async (req: Request, res: Response) => {
   if (req.session && req.session.user && (req.session.user.role === 'moderator' || req.session.user.role === 'admin')) {
@@ -77,7 +98,7 @@ router.get('/unapproved', async (req: Request, res: Response) => {
 
 /**
 * logout for the user
-* destroys therefor the active session
+* destroys the active session
 */
 router.get('/logout', async (req: Request, res: Response) => {
   if (req.session) {
@@ -92,7 +113,11 @@ router.get('/logout', async (req: Request, res: Response) => {
 /**
  * returns all Users
  * use case:
- * get all users as a admin or moderator
+ * get all users as a admin or moderator for administration
+ *
+ * security: user who makes the request needs to be admin or moderator
+ *
+ * @return: all users
  */
 router.get('/', async (req: Request, res: Response) => {
   if (req.session && req.session.user && (req.session.user.role === 'moderator' || req.session.user.role === 'admin')) {
@@ -113,11 +138,11 @@ router.get('/', async (req: Request, res: Response) => {
     res.send(instances.map(e => e.toSimplification()));
   }
 });
-
+// TODO comment is wrong as I guess
 /**
  * returns infos about this user, except the password
  * use case:
- * get the salt for this user to be able to provide the correct passwordhash //TODO sure?
+ * get the salt for this user to be able to provide the correct passwordhash
  */
 router.get('/company/:id/', async (req: Request, res: Response) => {
   const id = req.params.id;
@@ -138,9 +163,12 @@ router.get('/company/:id/', async (req: Request, res: Response) => {
 });
 
 /**
- * returns infos about this user, except the password
- * use case:
- * get the salt for this user to be able to provide the correct passwordhash //TODO sure?
+ * returns instance about this user without password
+ *
+ * use case: login, get the salt for this user to be able to provide the correct passwordhash
+ *
+ * @param: email of the user (actually the one who logs in)
+ * @return: instance of the user without password
  */
 router.get('/:email_v/', async (req: Request, res: Response) => {
   const email_v = req.params.email_v;
@@ -162,9 +190,13 @@ router.get('/:email_v/', async (req: Request, res: Response) => {
 });
 
 /**
- * returns infos about this user, except the password
- * use case:
- * get the salt for this user to be able to provide the correct passwordhash
+ * returns an instance of the user if the password is correct and initializes credentials
+ *
+ * use case: login of the user, password needs to be checked
+ *
+ * @params: id: User ID of the user, who logs in
+ *          password: the hashed password of the user
+ * @return: instance of the user and valid credentials
  */
 router.get('/:id/:password', async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
@@ -193,9 +225,12 @@ router.get('/:id/:password', async (req: Request, res: Response) => {
 /**
  * creates a new user and returns it
  *
- * @param user email
+ * use case: registering of a new user
  *
- * @return user id, salt, email
+ * @param body has a instance which contains name and email of the user
+ *
+ * @return instance of the user without a password
+ *
  * @return creates a session without the salt in it
  * */
 router.post('/', async (req: Request, res: Response) => {
@@ -213,11 +248,12 @@ router.post('/', async (req: Request, res: Response) => {
   return res.send('Error creating a session');
 });
 
-/** updates a user according to the message body
- *  function: to change the password of the user
+/** updates the password of a user
+ *  use case: to change the password of the user
+ *
+ *  security: user who makes the request has to be admin or the user itself
  *
  *  @params user id and the new password
- *
  * */
 router.put('/:id/:newPassword', async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);
@@ -243,9 +279,13 @@ router.put('/:id/:newPassword', async(req: Request, res: Response) => {
  *
  * Note: password and salt can not be changed!
  *
- * @params user id, user body
+ * use case: user administration, change of profile (such as address, email, name and description) and approval status of the user
  *
- * @return user body without password & salt, session will be updated
+ * security: user who makes the request needs to be himself or admin or moderator
+ *
+ * @params user id, instance of the user in the body
+ *
+ * @return user body without password & salt, session will be updated if user makes the changes not on his account (such as moderator and admin)
  * */
 router.put('/:id', async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);
@@ -258,7 +298,6 @@ router.put('/:id', async(req: Request, res: Response) => {
     return;
   }
   if (req.session && req.session.user && (req.session.user.id === id || req.session.user.role === 'admin' || req.session.user.role === 'moderator')) {
-    // prevent password change without old password
     const oldPw = instance.password;
     const salt = instance.salt;
     instance.fromSimplification(req.body);
@@ -276,7 +315,13 @@ router.put('/:id', async(req: Request, res: Response) => {
   }
 });
 
-/*deletes a user */
+/**
+ * deletes a user by user ID
+ *
+ * security: user who makes the request needs to be the user himself or admin or moderator
+ *
+ * @param: id: userID of the user, who needs to be deleted
+ */
 router.delete('/:id', async(req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   if (req.session && req.session.user && (req.session.user.id === id || req.session.user.role === 'admin' || req.session.user.role === 'moderator')) {

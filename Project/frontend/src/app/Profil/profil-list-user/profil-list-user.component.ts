@@ -8,11 +8,14 @@ import {SurpriseService} from '../../_services/surprise.service';
   templateUrl: './profil-list-user.component.html',
   styleUrls: ['./profil-list-user.component.css']
 })
+
+/**
+ * list-user component lists all users in a table, so the moderator or admin can make changes
+ * (such as approve users, change the password (admin only) or edit the profile)
+ */
 export class ProfilListUserComponent implements OnInit {
-  users: User[];
   unapprovedUsers: User[];
   editUser: User;
-  successfulChange = true;
 
   companyId: number;
   showCompany = false;
@@ -56,8 +59,6 @@ export class ProfilListUserComponent implements OnInit {
     this.showCompany = !this.showCompany;
     this.companyId = id;
   }
-
-
 
   switchView(){
     this.showAll = !this.showAll;

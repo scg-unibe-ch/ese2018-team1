@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {User} from '../_models/user';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {root} from 'rxjs/internal-compatibility';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {sha256} from 'js-sha256';
@@ -18,12 +17,14 @@ export class UserService {
     UserService.httpClient = httpClient;
   }
   static httpClient: HttpClient;
-
   static router: Router;
 
   static user: User;
   static loggedIn = false;
 
+  /**
+   * returns all unapproved users
+   */
   static getAllUnapproved(){
     return this.httpClient.get(AppComponent.backendUrl+'/login/unapproved', {withCredentials: true});
   }
@@ -39,10 +40,20 @@ export class UserService {
     return UserService.httpClient.put(AppComponent.backendUrl + '/login/' + id + '/' + newPassword, '[]', {withCredentials: true});
   }
 
+  /**
+   * returns a new salt for a user
+   * use case: register a new user or change the password
+   * @param id: User ID who needs a new salt
+   */
   static getNewSalt(id: string){
     return UserService.httpClient.get( AppComponent.backendUrl + '/login/salt/' + id, {withCredentials: true});
   }
 
+  /**
+   *
+   * @param id: id of the user who needs to be updated
+   * @param user: updated User instance
+   */
   static updateUser(id: number, user: User) {
     return UserService.httpClient.put(AppComponent.backendUrl + '/login/'+id, {
       'id': user.id,
@@ -58,8 +69,8 @@ export class UserService {
   }
 
   /**
-   * returns the user with the id
-   * @param id
+   * returns the instance of the user with the id
+   * @param id: user ID of the user who needs to be returned
    */
   static getUserById(id: string): Observable<Object>{
     return this.httpClient.get(AppComponent.backendUrl + '/login/company/' + id, {withCredentials: true});
@@ -72,18 +83,45 @@ export class UserService {
     return this.httpClient.get(AppComponent.backendUrl + '/login', {withCredentials: true});
   }
 
+  /**
+   * hashes the password with the given salt
+   *
+   * @param password: password which needs to be hashed
+   * @param salt: user-individual salt, with which the password should be hashed
+   */
   static hashPassword(password: string, salt: string){
     return sha256.create().update(password + salt).hex();
   }
 
+  /**
+   * return the instance of the user where the email matches
+   *
+   * use case: login
+   *
+   * @param email: email of the user whose instance is needed
+   */
   static getUserByEmail(email: string) {
     return this.httpClient.get(AppComponent.backendUrl + '/login/' + email, {withCredentials: true});
   }
 
+  /**
+   * checks the password
+   *
+   * use case: login
+   *
+   * @param id: id of the user, whose password should be compared
+   * @param password: the entered password, which has to be validated
+   */
   static checkPassword(id: number, password: string){
    return this.httpClient.get(AppComponent.backendUrl + '/login/' + id + '/' + password, {withCredentials: true});
   }
 
+  /**
+   * registers a new user
+   *
+   * @param user: instance of the user who needs to be registered
+   *
+   */
   static register(user: User){
     return this.httpClient.post(AppComponent.backendUrl + '/login/',  {
       withCredentials: true,
@@ -97,6 +135,11 @@ export class UserService {
     }, {withCredentials: true});
   }
 
+  /**
+   * logs the user out
+   *
+   * destroys the session and sets the currentuser to null
+   */
   static logout () {
     this.httpClient.get(AppComponent.backendUrl + '/login/logout', {withCredentials: true}).subscribe((instance: any) => {
     });
@@ -106,6 +149,11 @@ export class UserService {
     location.href = '/login'; // TODO: make one working
   }
 
+  /**
+   * checks the session, checks if a user is logged in
+   *
+   * use case: after page reload, check if a user was logged in
+   */
   static checkSession(){
     this.httpClient.get(AppComponent.backendUrl + '/login/session', {withCredentials: true}).subscribe(
       (instance: any) => {
@@ -121,14 +169,23 @@ export class UserService {
       });
   }
 
+  /**
+   * checks, if there is a connection to the backend server
+   */
   static connectionTest(): Observable<Object>{
     return this.httpClient.get(AppComponent.backendUrl + '/login/connTest');
   }
 
+  /**
+   * return the actual logged in user
+   */
   getUser(): User {
     return UserService.user;
   }
 
+  /**
+   * returns true, if a user is logged in, false otherwise
+   */
   getLoginStatus(): boolean {
     return UserService.loggedIn;
   }

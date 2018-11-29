@@ -11,6 +11,9 @@ import {SurpriseService} from '../../_services/surprise.service';
   templateUrl: './profil-public.component.html',
   styleUrls: ['./profil-public.component.css']
 })
+/**
+ * displays the public profile of a company and all the (approved) jobs of this company
+ */
 export class ProfilPublicComponent implements OnInit {
 
   user:User;

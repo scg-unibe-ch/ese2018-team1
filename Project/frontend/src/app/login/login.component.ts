@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../_models/user';
-import {HttpClient} from '@angular/common/http';
 import {UserService} from '../_services/user.service';
 import {Router} from '@angular/router';
 import {FeedbackService, stages} from '../_services/feedback.service';
@@ -12,17 +11,28 @@ import {Job} from "../_models/job";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
+/**
+ * the login component is used to login or register a new user
+ */
 export class LoginComponent implements OnInit {
   register = false; // if false the login form is shown, if true, the register form is shown
-  user: User;
+  user: User; // needed, because binding to form does not work with static user from userService
 
-  constructor(private httpClient: HttpClient, private userService: UserService, public router: Router) {
+  constructor(public router: Router) {
   }
 
   ngOnInit() {
     this.user = new User(null,'','','','','',false,'','');
   }
 
+  /**
+   * trys to log in the user, with the entered input
+   *
+   * if login successfull (email and password is correct), then the user will be logged in
+   *
+   * otherwise error messages are shown
+   */
   onLogin(){
     //SurpriseService.log('login', '');
     this.user.email = this.user.email.toLowerCase();
@@ -49,6 +59,11 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  /**
+   * registers a new user if the email isn't used yet
+   *
+   * if registering is successfull, the user becomes logged in
+   */
   onRegister(){
     this.user.email = this.user.email.toLowerCase();
     const password = this.user.password;
@@ -73,10 +88,20 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  /**
+   * switch between login and register view
+   */
   onSwitch(){
     this.register = !this.register;
   }
 
+  /**
+   * if user logs out, redirect to login
+   *
+   * if logged in user isn't approved, redirect to profil, otherwise to home
+   *
+   * @param newStatus: status for login - true if user now is logged in, false if user logs out
+   */
   private setLoginValues(newStatus: boolean){
     UserService.loggedIn = newStatus;
     if (!newStatus){
@@ -98,6 +123,10 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  /**
+   * notifies the moderator about administration tasks
+   * shows how many unapproved users and jobs exist
+   */
   private notifyAboutChanges() {
     let unapprovedUsers;
     let jobs;
@@ -110,7 +139,7 @@ export class LoginComponent implements OnInit {
         draftJobs = jobs.filter((job) => job.approved !== true);
         const jobChanges = draftJobs.length;
         const newUsers = unapprovedUsers.length;
-        FeedbackService.addMessage(jobChanges + ' Jobänderungen und ' + newUsers +' neue Nutzer',stages.success);
+        FeedbackService.addMessage(jobChanges + ' Jobänderungen und ' + newUsers +' neue Nutzer',stages.warning);
         alert(jobChanges + ' Jobänderungen und ' + newUsers +' neue Nutzer');
       });
     });

@@ -1,8 +1,8 @@
 <form>
   <!-- title -->
   <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
-    <h3 class="field half left">original job</h3>
-    <h3 class="field half right">neuer job</h3>
+    <h2 class="field half left">original job</h2>
+    <h2 class="field half right">neuer job</h2>
   </div>
   <!-- job name -->
   <div *ngIf="!editAsModerator || job.oldJobId == -1" class="field half left">

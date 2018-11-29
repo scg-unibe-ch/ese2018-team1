@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a60edf24-d335-484d-98f7-8bb0bf178180" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Meetings/11790" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/backend/db.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/Project/backend/db.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-edit/profil-edit.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-edit/profil-edit.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-edit/profil-edit.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-edit/profil-edit.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-non-public/profil-non-public.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-non-public/profil-non-public.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/frontend/src/app/_services/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Project/frontend/src/app/_services/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/frontend/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Project/frontend/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/frontend/src/app/job-edit/job-edit.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Project/frontend/src/app/job-edit/job-edit.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/frontend/src/app/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Project/frontend/src/app/login/login.component.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -71,49 +78,50 @@
     <session id="1636042827">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
+          <entry key="project.closed" value="7" />
           <entry key="project.open.time.11" value="2" />
+          <entry key="project.open.time.14" value="1" />
           <entry key="project.open.time.18" value="1" />
           <entry key="project.open.time.22" value="1" />
           <entry key="project.open.time.23" value="1" />
           <entry key="project.open.time.24" value="1" />
           <entry key="project.open.time.25" value="1" />
-          <entry key="project.opened" value="7" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="Angular2LanguageService" value="7" />
+          <entry key="Angular2LanguageService" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="css" value="2" />
-          <entry key="html" value="7" />
+          <entry key="css" value="3" />
+          <entry key="html" value="18" />
           <entry key="json" value="2" />
-          <entry key="ts" value="15" />
+          <entry key="ts" value="21" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CSS" value="2" />
-          <entry key="HTML" value="7" />
+          <entry key="CSS" value="3" />
+          <entry key="HTML" value="18" />
           <entry key="JSON" value="2" />
-          <entry key="TypeScript" value="15" />
+          <entry key="TypeScript" value="21" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="css" value="38" />
-          <entry key="html" value="338" />
-          <entry key="ts" value="1224" />
+          <entry key="css" value="89" />
+          <entry key="html" value="473" />
+          <entry key="ts" value="2170" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CSS" value="38" />
-          <entry key="HTML" value="338" />
-          <entry key="TypeScript" value="1224" />
+          <entry key="CSS" value="89" />
+          <entry key="HTML" value="473" />
+          <entry key="TypeScript" value="2170" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -164,32 +172,7 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/login/login.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="113" column="77" selection-start-line="113" selection-start-column="77" selection-end-line="113" selection-end-column="77" />
-              <folding>
-                <element signature="e#0#48#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/_services/feedback.service.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="32" selection-start-line="32" selection-end-line="32" />
-              <folding>
-                <element signature="e#0#43#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -210,6 +193,7 @@
       <find>ShowList</find>
       <find>user</find>
       <find>/salt/:id</find>
+      <find>Neuer</find>
     </findStrings>
     <replaceStrings>
       <replace>'company_email'</replace>
@@ -221,9 +205,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/register/register.component.html" />
-        <option value="$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/register/register.component.ts" />
-        <option value="$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/app-routing.module.ts" />
         <option value="$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/backend/app/models/user.model.ts" />
         <option value="$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/login/login.component.html" />
         <option value="$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/header/header.component.ts" />
@@ -262,14 +243,19 @@
         <option value="$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/user.service.ts" />
         <option value="$PROJECT_DIR$/Project/frontend/src/app/_services/job.service.ts" />
         <option value="$PROJECT_DIR$/Project/backend/app/controllers/job.controller.ts" />
-        <option value="$PROJECT_DIR$/Project/frontend/src/app/job/job.component.html" />
         <option value="$PROJECT_DIR$/Project/backend/app/controllers/user.controller.ts" />
         <option value="$PROJECT_DIR$/Project/frontend/src/app/app.component.css" />
         <option value="$PROJECT_DIR$/Project/frontend/src/app/login/login.component.html" />
-        <option value="$PROJECT_DIR$/Project/frontend/src/app/_services/user.service.ts" />
-        <option value="$PROJECT_DIR$/Project/frontend/src/app/job-edit/job-edit.component.html" />
         <option value="$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-list-jobs/profil-list-jobs.component.ts" />
+        <option value="$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-non-public/profil-non-public.component.html" />
+        <option value="$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-edit/profil-edit.component.ts" />
+        <option value="$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-edit/profil-edit.component.html" />
+        <option value="$PROJECT_DIR$/Project/frontend/src/app/app.component.ts" />
+        <option value="$PROJECT_DIR$/Project/frontend/src/app/_services/user.service.ts" />
+        <option value="$PROJECT_DIR$/Project/frontend/src/app/job/job.component.html" />
+        <option value="$PROJECT_DIR$/Project/frontend/src/app/job/job.component.css" />
         <option value="$PROJECT_DIR$/Project/frontend/src/app/login/login.component.ts" />
+        <option value="$PROJECT_DIR$/Project/frontend/src/app/job-edit/job-edit.component.html" />
       </list>
     </option>
   </component>
@@ -290,9 +276,9 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="668" />
-    <option name="y" value="-27" />
-    <option name="width" value="986" />
+    <option name="x" value="666" />
+    <option name="y" value="-28" />
+    <option name="width" value="987" />
     <option name="height" value="1050" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -363,7 +349,7 @@
               <item name="frontend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Profil" type="462c0819:PsiDirectoryNode" />
+              <item name="_services" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ese2018-team1" type="b2602c69:ProjectViewProjectNode" />
@@ -372,8 +358,25 @@
               <item name="frontend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Profil" type="462c0819:PsiDirectoryNode" />
-              <item name="profil-list-user" type="462c0819:PsiDirectoryNode" />
+              <item name="job" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ese2018-team1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ese2018-team1" type="462c0819:PsiDirectoryNode" />
+              <item name="Project" type="462c0819:PsiDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="job-edit" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ese2018-team1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ese2018-team1" type="462c0819:PsiDirectoryNode" />
+              <item name="Project" type="462c0819:PsiDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="login" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -439,6 +442,7 @@
       <workItem from="1542290645221" duration="5079000" />
       <workItem from="1542968618515" duration="11040000" />
       <workItem from="1543321381090" duration="600000" />
+      <workItem from="1543498177826" duration="2303000" />
     </task>
     <task id="LOCAL-00001" summary="move newJob to jobManagement">
       <created>1540317847579</created>
@@ -451,7 +455,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="118317000" />
+    <option name="totallyTimeSpent" value="120620000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -542,12 +546,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/job-management/job-management.component.html" />
-    <entry file="file://$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/job-management/job-management.component.ts" />
-    <entry file="file://$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/backend/app/controllers/user.controller.ts" />
-    <entry file="file://$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/Profil/profil-public/profil-public.component.html" />
-    <entry file="file://$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/Profil/profil-change-password/profil-change-password.component.html" />
-    <entry file="file://$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/Profil/profil-list-user/profil-list-user.component.html" />
     <entry file="file://$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/backend/app/models/user.model.ts" />
     <entry file="file://$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/app.module.ts" />
     <entry file="file://$PROJECT_DIR$/Project/ESE-2018-Scaffolding-master/frontend/src/app/surprise/surprise.component.ts" />
@@ -596,27 +594,6 @@
         <state relative-caret-position="-459" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/job-edit/job-edit.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1148">
-          <caret line="46" column="30" lean-forward="true" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-non-public/profil-non-public.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="67" column="27" lean-forward="true" selection-start-line="67" selection-start-column="27" selection-end-line="67" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/job/job.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="17" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Project/backend/app/controllers/job.controller.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -645,16 +622,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/_services/user.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="102" column="26" selection-start-line="102" selection-start-column="26" selection-end-line="102" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/login/login.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -662,22 +629,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/job-edit/job-edit.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="207" lean-forward="true" selection-start-line="207" selection-end-line="207" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-list-user/profil-list-user.component.html">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-list-jobs/profil-list-jobs.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-list-jobs/profil-list-jobs.component.ts">
       <provider selected="true" editor-type-id="text-editor">
@@ -693,22 +646,111 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/login/login.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="113" column="77" selection-start-line="113" selection-start-column="77" selection-end-line="113" selection-end-column="77" />
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/_services/feedback.service.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
           <caret line="32" selection-start-line="32" selection-end-line="32" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-non-public/profil-non-public.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="571">
+          <caret line="74" column="34" lean-forward="true" selection-start-line="74" selection-start-column="34" selection-end-line="74" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-edit/profil-edit.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="104" lean-forward="true" selection-start-line="104" selection-end-line="104" />
+          <folding>
+            <element signature="e#0#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/job-show/job-show.component.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/jobs/jobs.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-310">
+          <caret line="17" column="28" lean-forward="true" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-edit/profil-edit.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="12" lean-forward="true" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/Profil/profil-list-jobs/profil-list-jobs.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="27" lean-forward="true" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/job-edit/job-edit.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="124" column="17" lean-forward="true" selection-start-line="124" selection-start-column="17" selection-end-line="124" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/_services/user.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="146" column="21" selection-start-line="146" selection-start-column="21" selection-end-line="146" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/app.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="85" column="29" selection-start-line="85" selection-start-column="29" selection-end-line="85" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/job/job.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="56" selection-start-line="3" selection-start-column="56" selection-end-line="3" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/job/job.component.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/job-edit/job-edit.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="201" column="22" selection-start-line="201" selection-start-column="22" selection-end-line="201" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Project/frontend/src/app/login/login.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="141" column="11" selection-start-line="141" selection-start-column="11" selection-end-line="141" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
           </folding>
         </state>
       </provider>

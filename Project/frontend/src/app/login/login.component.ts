@@ -139,7 +139,7 @@ export class LoginComponent implements OnInit {
         draftJobs = jobs.filter((job) => job.approved !== true);
         const jobChanges = draftJobs.length;
         const newUsers = unapprovedUsers.length;
-        FeedbackService.addMessage(jobChanges + ' Jobänderungen und ' + newUsers +' neue Nutzer',stages.warning);
+        // FeedbackService.addMessage(jobChanges + ' Jobänderungen und ' + newUsers +' neue Nutzer',stages.warning);
         alert(jobChanges + ' Jobänderungen und ' + newUsers +' neue Nutzer');
       });
     });

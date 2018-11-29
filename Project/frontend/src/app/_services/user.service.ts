@@ -145,8 +145,6 @@ export class UserService {
     });
     this.loggedIn = false;
     this.user = null;
-    this.router.navigate(['/login']);
-    location.href = '/login'; // TODO: make one working
   }
 
   /**

@@ -1,0 +1,10 @@
+.actionsLeft{
+  width:50%;
+  position: relative;
+  left: 50%;
+  padding: 0 0 0 1em;
+}
+
+.actionsLeft ul li input[type='submit'], input[type='reset'], input[type='button'], button, .button{
+  margin-bottom: 1em;
+}

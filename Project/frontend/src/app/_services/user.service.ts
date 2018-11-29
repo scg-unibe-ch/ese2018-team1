@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {User} from '../_models/user';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {sha256} from 'js-sha256';
 import {SurpriseService} from './surprise.service';
 import {AppComponent} from '../app.component';
+import {FeedbackService, stages} from "./feedback.service";
 
 @Injectable({
   providedIn: 'root'
@@ -172,6 +173,29 @@ export class UserService {
    */
   static connectionTest(): Observable<Object>{
     return this.httpClient.get(AppComponent.backendUrl + '/login/connTest');
+  }
+
+  static passwordValidation(password: string): boolean {
+    if (password === null || password === '') {
+      FeedbackService.addMessage("Passwort darf nicht leer sein", stages.error);
+      return false;
+    }
+    if (password.length < 6){
+      FeedbackService.addMessage("Es werden mindestens 6 Zeichen als Password empfohlen", stages.warning);
+    }
+    return true;
+  }
+
+  static emailValidation(email: string): boolean {
+    if (!email.includes('@')){
+      FeedbackService.addMessage("Bitte eine gültige Email-Adresse angeben", stages.error);
+      return false;
+    }
+    if (email === null || email === ''){
+      FeedbackService.addMessage("Email kann nicht leer sein", stages.error);
+      return false;
+    }
+    return true;
   }
 
   /**

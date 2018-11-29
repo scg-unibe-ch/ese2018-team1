@@ -66,26 +66,30 @@ export class LoginComponent implements OnInit {
    */
   onRegister(){
     this.user.email = this.user.email.toLowerCase();
-    const password = this.user.password;
-    this.user.password = '';
-    UserService.getUserByEmail(this.user.email).subscribe((instance: any) => {
-      this.connectionTest('\'Dieser Benutzer existiert bereits, diese Email-Adresse ist schon vergeben', stages.error);
-        UserService.user = null;
-        this.user.email = null;
-    },
-      () => { // means the email address does not exist yet
-      UserService.register(this.user).subscribe((instance: any) => {
-          this.user.id = instance.id;
-          UserService.getUserById(this.user.id+'').subscribe((instance: any) => {
-            UserService.changePassword(this.user.id+'',instance.salt,password).subscribe((instance: any) => {});
-            UserService.user = this.user;
-            this.setLoginValues(true);
-          });
+    if (UserService.passwordValidation(this.user.password) && UserService.emailValidation(this.user.email) && this.user.name !== ''){
+      const password = this.user.password;
+      this.user.password = '';
+      UserService.getUserByEmail(this.user.email).subscribe((instance: any) => {
+        FeedbackService.addMessage('Dieser Benutzer existiert bereits, diese Email-Adresse ist schon vergeben', stages.error);
+          UserService.user = null;
+          this.user.email = null;
       },
-        () => {
-          this.connectionTest('Die Registrierung konnte nicht abgeschlossen werden', stages.warning);
-        });
-    });
+        () => { // means the email address does not exist yet
+        UserService.register(this.user).subscribe((instance: any) => {
+            this.user.id = instance.id;
+            UserService.getUserById(this.user.id+'').subscribe((instance: any) => {
+              UserService.changePassword(this.user.id+'',instance.salt,password).subscribe((instance: any) => {});
+              UserService.user = this.user;
+              this.setLoginValues(true);
+            });
+        },
+          () => {
+            this.connectionTest('Die Registrierung konnte nicht abgeschlossen werden', stages.warning);
+          });
+      });
+    } else {
+      this.user.password = '';
+    }
   }
 
   /**

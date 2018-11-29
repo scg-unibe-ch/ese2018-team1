@@ -45,35 +45,39 @@ export class ProfilChangePasswordComponent implements OnInit {
   }
 
   savePassword(id: number){
-    if(this.newPassword === this.oldPassword){
-      FeedbackService.addMessage('Das neue Passwort darf nicht das gleiche wie das Neue sein', stages.error);
-      return;
-    }
-    if(this.newPassword === this.newPasswordRepeat){
-      UserService.getUserById(id + '').subscribe((user: any) =>{
-        if(this.changePasswordAdmin || UserService.hashPassword(this.oldPassword, user.salt) === user.password) {
-          UserService.getNewSalt(id + '').subscribe((instance: any) =>{
-            UserService.changePassword(id + '', instance.salt, this.newPassword).subscribe((instance: any) => {
-              FeedbackService.addMessage('Passwort geändert', stages.success);
-              if (!this.changePasswordAdmin) {
-                UserService.user = new User(instance.id, instance.name, instance.password, instance.salt, instance.email, instance.role, instance.approved, instance.address, instance.description);
-              }
-              this.changedPw.emit(null);
+    if (UserService.passwordValidation(this.newPassword)) {
+      if (this.newPassword === this.oldPassword) {
+        FeedbackService.addMessage('Das neue Passwort darf nicht das gleiche wie das Neue sein', stages.error);
+        return;
+      }
+      if (this.newPassword === this.newPasswordRepeat) {
+        UserService.getUserById(id + '').subscribe((user: any) => {
+          if (this.changePasswordAdmin || UserService.hashPassword(this.oldPassword, user.salt) === user.password) {
+            UserService.getNewSalt(id + '').subscribe((instance: any) => {
+              UserService.changePassword(id + '', instance.salt, this.newPassword).subscribe((instance: any) => {
+                FeedbackService.addMessage('Passwort geändert', stages.success);
+                if (!this.changePasswordAdmin) {
+                  UserService.user = new User(instance.id, instance.name, instance.password, instance.salt, instance.email, instance.role, instance.approved, instance.address, instance.description);
+                }
+                this.changedPw.emit(null);
+              }, () => {
+                FeedbackService.addMessage('unbekannter Fehler', stages.warning);
+              });
             }, () => {
               FeedbackService.addMessage('unbekannter Fehler', stages.warning);
             });
-          }, () =>{
-            FeedbackService.addMessage('unbekannter Fehler', stages.warning);
-          });
-        } else{
-          FeedbackService.addMessage('Das alte Passwort stimmt nicht', stages.error);
-        }
-      });
+          } else {
+            FeedbackService.addMessage('Das alte Passwort stimmt nicht', stages.error);
+          }
+        });
+      }
+      else {
+        FeedbackService.addMessage('Die neuen Passwörter stimmen nicht überein', stages.error);
+      }
+    } else {
+      this.newPassword = '';
+      this.newPasswordRepeat = '';
     }
-    else{
-      FeedbackService.addMessage('Die neuen Passwörter stimmen nicht überein', stages.error);
-    }
-
   }
 
 

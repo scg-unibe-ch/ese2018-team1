@@ -69,9 +69,9 @@ export class ProfilEditComponent implements OnInit {
    * @param user: the updated user
    */
   changeEmail (user: User){
-    if (user.email === '' || user.email === null){
+    if (!UserService.emailValidation(user.email)){
       this.successfulChange = false;
-      FeedbackService.addMessage("Email-Adresse darf nicht leer sein", stages.error);
+      return;
     } else {
       UserService.getUserByEmail(user.email).subscribe((instance: any) => {
           if (instance.id === user.id || instance === null) {

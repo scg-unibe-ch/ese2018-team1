@@ -90,9 +90,11 @@ export class JobEditComponent implements OnInit {
     if (this.standardEMail){
       this.job.company_email = this.company.email;
     }
-    JobService.saveJob(this.job, UserService.user).subscribe((instance: any) => {
-      this.job = instance;
-    });
+    if (UserService.emailValidation(this.job.company_email)) {
+      JobService.saveJob(this.job, UserService.user).subscribe((instance: any) => {
+        this.job = instance;
+      });
+    }
 
     
   }

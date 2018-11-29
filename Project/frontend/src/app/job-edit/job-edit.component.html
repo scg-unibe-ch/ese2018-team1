@@ -182,17 +182,16 @@
   <!-- approved -->
   <div *ngIf="editAsModerator" class="field">
     <div *ngIf="job.oldJobId == -1" class="field half">
-      <label *ngIf="!job.approved" (click)="toggleApproval()">Öffentlich schalten</label>
-      <label *ngIf="job.approved" (click)="toggleApproval()" style="color: green">ist öffentlich</label>
+      <button style="background-color: green" *ngIf="!job.approved" (click)="toggleApproval()">Öffentlich schalten</button>
+      <button *ngIf="job.approved" (click)="toggleApproval()" style="background-color: green">ist öffentlich</button>
     </div>
     <div *ngIf="job.oldJobId != -1" class="field">
       <div class="field half left">
-        <label *ngIf="!oldJob.approved" (click)="toggleApproval()">Öffentlich schalten</label>
-        <label *ngIf="oldJob.approved" (click)="toggleApproval()" style="color: green">ist öffentlich</label>
+        <button style="background-color: green" *ngIf="!oldJob.approved" (click)="">Öffentlich schalten</button>
+        <button *ngIf="oldJob.approved" (click)="" style="background-color: green">ist öffentlich</button>
       </div>
-      <div class="field half right">
-        <label *ngIf="!job.approved" (click)="toggleApproval()">Öffentlich schalten</label>
-        <label *ngIf="job.approved" (click)="toggleApproval()" style="color: green">ist öffentlich</label>
+      <button style="background-color: green" *ngIf="!oldJob.approved" (click)="toggleApproval()">Öffentlich schalten</button>
+      <button *ngIf="oldJob.approved" (click)="toggleApproval()" style="background-color: green">ist öffentlich</button>
       </div>
     </div>
   </div>

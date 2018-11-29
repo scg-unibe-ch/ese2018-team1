@@ -119,7 +119,7 @@ export class JobEditComponent implements OnInit {
 
   toggleApproval(){
     this.job.approved = !this.job.approved;
-    console.log('approving');
+    FeedbackService.addMessage(this.job.approved ? 'Der Job wurde veröffentlicht' : 'Der Job ist nicht mehr sichtbar', this.job.approved ? stages.success: stages.warning);
     JobService.approveJob(this.job).subscribe(()=>{});
   }
 

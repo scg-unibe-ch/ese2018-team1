@@ -26,7 +26,7 @@ export class Job extends Model<Job> {
   jobWebsite!: string
 
   @Column
-  wage!: string;
+  wage!: number;
 
   @Column
   wagePerHour!: boolean;

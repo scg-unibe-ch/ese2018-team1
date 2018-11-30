@@ -1,217 +1,131 @@
 <form>
-  <!-- title -->
-  <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
-    <h2 class="field half left">original job</h2>
-    <h2 class="field half right">neuer job</h2>
-  </div>
+<br>
   <!-- job name -->
-  <div *ngIf="!editAsModerator || job.oldJobId == -1" class="field half left">
+  <div class="field entry" >
     <label for="name">Name</label>
-    <input type="text" name="name"[(ngModel)]="job.name" id="name" (ngModelChange)="onSave()" />
-  </div>
-  <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
-    <div class="field half left">
-      <label for="Name_old">Name</label>
-      <input style="background-color: #dddddd" disabled type="text" name="Name_old" [(ngModel)]="oldJob.name" id="Name_old" (ngModelChange)="onSave()" />
-    </div>
-    <div class="field half right">
-      <label for="Name_new">Name</label>
-      <input type="text" name="Name_new"[(ngModel)]="job.name" id="Name_new" (ngModelChange)="onSave()" />
-    </div>
+    <input *ngIf="editable" type="text" name="name"[(ngModel)]="job.name" id="name" (ngModelChange)="onSave()" />
+    <input *ngIf="!editable" disabled type="text" name="name"[(ngModel)]="job.name" id="name" (ngModelChange)="onSave()" />
   </div>
 
-  <br *ngIf="!editAsModerator"/>
 
   <!-- company name -->
-  <div *ngIf="!editAsModerator || job.oldJobId == -1" class="field half right">
+  <div class="field half right">
     <label for="company_name">Unternehmen</label>
-    <input disabled type="text" [(ngModel)]="company.name" name="company_name" id="company_name" (ngModelChange)="onSave()">
-  </div>
-  <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
-    <div class="field half left">
-      <label for="company_name_old">Unternehmen</label>
-      <input style="background-color: #dddddd" disabled type="text" [(ngModel)]="company.name" name="company_name_old" id="company_name_old" (ngModelChange)="onSave()">
-    </div>
-    <div class="field half right">
-      <label for="company_name_new">Unternehmen</label>
-      <input disabled type="text" [(ngModel)]="company.name" name="company_name_new" id="company_name_new" (ngModelChange)="onSave()">
-    </div>
+    <input *ngIf="editable" type="text" [(ngModel)]="company.name" name="company_name" id="company_name" (ngModelChange)="onSave()">
+    <input *ngIf="!editable" disabled type="text" [(ngModel)]="company.name" name="company_name" id="company_name" (ngModelChange)="onSave()">
   </div>
 
+
   <!-- company email -->
-  <div *ngIf="!editAsModerator || job.oldJobId == -1" class="field">
+  <div class="field half left">
     <label for="company_email">E-Mail</label>
-    <label *ngIf="standardEMail" for="company_email">{{company.email}}</label>
-    <input *ngIf="!standardEMail" type="text" name="company_email" [(ngModel)]="job.company_email" id="company_email" (ngModelChange)="onSave()">
-    <button *ngIf="standardEMail" (click)="onFlipEMail()">chose different E-Mail</button>
-    <button *ngIf="!standardEMail" (click)="onFlipEMail()">insert standard E-Mail</button>
-  </div>
-  <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
-    <div class="field half left">
-      <label for="company_email_old">E-Mail</label>
-      <label *ngIf="standardEMail" for="company_email_old">{{company.email}}</label>
-      <input style="background-color: #dddddd" *ngIf="!standardEMail" disabled type="text" name="company_email_old" [(ngModel)]="oldJob.company_email" id="company_email_old" (ngModelChange)="onSave()">
-      <label *ngIf="standardEMail" for="company_email_old">standard Email</label>
-      <label *ngIf="!standardEMail" for="company_email_old">jobspezifisches Email</label>
-    </div>
-    <div class="field half right">
-      <label for="company_email_new">E-Mail</label>
-      <label *ngIf="standardEMail" for="company_email_new">{{company.email}}</label>
-      <input *ngIf="!standardEMail" type="text" name="company_email_new" [(ngModel)]="job.company_email" id="company_email_new" (ngModelChange)="onSave()">
+    <div *ngIf="editable">
+      <label *ngIf="standardEMail" for="company_email">{{company.email}}</label>
+      <input *ngIf="!standardEMail" type="text" name="company_email" [(ngModel)]="job.company_email" id="company_email" (ngModelChange)="onSave()">
       <button *ngIf="standardEMail" (click)="onFlipEMail()">chose different E-Mail</button>
       <button *ngIf="!standardEMail" (click)="onFlipEMail()">insert standard E-Mail</button>
     </div>
+    <div *ngIf="!editable">
+      <label *ngIf="standardEMail" for="company_email">{{company.email}}</label>
+      <input disabled *ngIf="!standardEMail" type="text" name="company_email" [(ngModel)]="job.company_email" id="company_email" (ngModelChange)="onSave()">
+      <button disabled *ngIf="standardEMail" (click)="onFlipEMail()">chose different E-Mail</button>
+      <button disabled *ngIf="!standardEMail" (click)="onFlipEMail()">insert standard E-Mail</button>
+    </div>
   </div>
+
 
   <br><!-- TODO: doesn't work -->
 
   <!-- short description -->
-  <div *ngIf="!editAsModerator || job.oldJobId == -1" class="field">
+  <div class="field entry">
     <label style="float: right;">{{job.description_short.length}}/100 Zeichen</label>
     <label for="description_short">kurze Beschreibung</label>
-    <textarea maxlength="100" [(ngModel)]="job.description_short" name="description_short" id="description_short" (ngModelChange)="onSave()"></textarea>
+    <textarea *ngIf="editable" maxlength="100" [(ngModel)]="job.description_short" name="description_short" id="description_short" (ngModelChange)="onSave()"></textarea>
+    <textarea *ngIf="!editable" disabled maxlength="100" [(ngModel)]="job.description_short" name="description_short" id="description_short" (ngModelChange)="onSave()"></textarea>
   </div>
-  <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
-    <div class="field half left">
-      <label style="float: right;">{{oldJob.description_short.length}}/100 Zeichen</label>
-      <label for="description_short_old">kurze Beschreibung</label>
-      <textarea style="background-color: #dddddd" disabled maxlength="100" [(ngModel)]="oldJob.description_short" name="description_short_old" id="description_short_old" (ngModelChange)="onSave()"></textarea>
-    </div>
-    <div class="field half right">
-      <label style="float: right;">{{job.description_short.length}}/100 Zeichen</label>
-      <label for="description_short_new">kurze Beschreibung</label>
-      <textarea maxlength="100" [(ngModel)]="job.description_short" name="description_short_new" id="description_short_new" (ngModelChange)="onSave()"></textarea>
-    </div>
-  </div>
+
 
   <!-- description -->
-  <div *ngIf="!editAsModerator || job.oldJobId == -1" class="field">
+  <div class="field entry">
     <label for="description">Beschreibung</label>
-    <textarea [(ngModel)]="job.description" name="description" id="description" (ngModelChange)="onSave()"></textarea>
+    <textarea *ngIf="editable" [(ngModel)]="job.description" name="description" id="description" (ngModelChange)="onSave()"></textarea>
+    <textarea *ngIf="!editable" disabled [(ngModel)]="job.description" name="description" id="description" (ngModelChange)="onSave()"></textarea>
   </div>
-  <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
-    <div class="field half left">
-      <label for="description_old">Beschreibung</label>
-      <textarea style="background-color: #dddddd" disabled [(ngModel)]="oldJob.description" name="description_old" id="description_old" (ngModelChange)="onSave()"></textarea>
-    </div>
-    <div class="field half right">
-      <label for="description_new">Beschreibung</label>
-      <textarea [(ngModel)]="job.description" name="description_new" id="description_new" (ngModelChange)="onSave()"></textarea>
-    </div>
-  </div>
+
 
   <!-- wage -->
-  <div *ngIf="!editAsModerator || job.oldJobId == -1" class="field half">
+  <div class="field half">
     <label for="wage">Lohn</label>
-    <input matInput type="number" [(ngModel)]="job.wage" name="wage" id="wage" (ngModelChange)="onSave()">
+    <input *ngIf="editable" matInput type="number" [(ngModel)]="job.wage" name="wage" id="wage" (ngModelChange)="onSave()">
+    <input *ngIf="!editable" disabled matInput type="number" [(ngModel)]="job.wage" name="wage" id="wage" (ngModelChange)="onSave()">
   </div>
-  <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
-    <div class="field half left">
-      <label for="wage_old">Lohn</label>
-      <input style="background-color: #dddddd" disabled matInput type="number" [(ngModel)]="oldJob.wage" name="wage_old" id="wage_old" (ngModelChange)="onSave()">
-    </div>
-    <div class="field half right">
-      <label for="wage_new">Lohn</label>
-      <input matInput type="number" [(ngModel)]="job.wage" name="wage_new" id="wage_new" (ngModelChange)="onSave()">
-    </div>
-  </div>
+
 
   <!-- percentage -->
-  <div *ngIf="!editAsModerator || job.oldJobId == -1" class="field half">
+  <div class="field half">
     <label for="percentage">Prozent der Anstellung</label>
-    <input matInput placeholder="percentage" type="number" [(ngModel)]="job.percentage" name="percentage" id="percentage" (ngModelChange)="onSave()">
+    <input *ngIf="editable" matInput placeholder="percentage" type="number" [(ngModel)]="job.percentage" name="percentage" id="percentage" (ngModelChange)="onSave()">
+    <input *ngIf="!editable" disabled matInput placeholder="percentage" type="number" [(ngModel)]="job.percentage" name="percentage" id="percentage" (ngModelChange)="onSave()">
   </div>
-  <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
-    <div class="field half left">
-      <label for="percentage_old">Prozent der Anstellung</label>
-      <input style="background-color: #dddddd" disabled matInput placeholder="percentage_old" type="number" [(ngModel)]="oldJob.percentage" name="percentage_old" id="percentage_old" (ngModelChange)="onSave()">
-    </div>
-    <div class="field half right">
-      <label for="percentage_new">Prozent der Anstellung</label>
-      <input matInput placeholder="percentage_new" type="number" [(ngModel)]="job.percentage" name="percentage_new" id="percentage_new" (ngModelChange)="onSave()">
-    </div>
-  </div>
+
 
   <!-- start date -->
-  <div *ngIf="!editAsModerator || job.oldJobId == -1" class="field half">
-    <label *ngIf="this.startNow" for="job_start">Job per sofort verfügbar</label>
-    <label *ngIf="!this.startNow" for="job_start">Job verfügbar ab:</label>
-    <button *ngIf="this.startNow" (click)="onFlipStart()">anderes Startdatum wählen</button>
-    <button *ngIf="!this.startNow" (click)="onFlipStart()">Job per sofort verfügbar</button>
-    <input *ngIf="!this.startNow" matInput placeholder="start of the job" type="date" maxlength="10" [(ngModel)]="job.job_start" name="job_start" id="job_start" (ngModelChange)="onSave()">
-  </div>
-  <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
-    <div class="field half left">
-      <label>Startdatum</label>
-      <input style="background-color: #dddddd" *ngIf="oldJob.job_start != ''" disabled matInput placeholder="start of the job" type="date" maxlength="10" [(ngModel)]="oldJob.job_start" name="job_start_old" id="job_start_old" (ngModelChange)="onSave()">
-      <label *ngIf="oldJob.job_start == ''">Job per sofort verfügbar</label>
-    </div>
-    <div class="field half right">
-      <label>Startdatum</label>
-      <label *ngIf="this.startNow" for="job_start_neu">Job per sofort verfügbar</label>
-      <label *ngIf="!this.startNow" for="job_start_neu">Job verfügbar ab:</label>
+  <div class="field half">
+    <div *ngIf="editable">
+      <label *ngIf="this.startNow" for="job_start">Job per sofort verfügbar</label>
+      <label *ngIf="!this.startNow" for="job_start">Job verfügbar ab:</label>
       <button *ngIf="this.startNow" (click)="onFlipStart()">anderes Startdatum wählen</button>
       <button *ngIf="!this.startNow" (click)="onFlipStart()">Job per sofort verfügbar</button>
-      <input *ngIf="!this.startNow" matInput placeholder="start of the job" type="date" maxlength="10" [(ngModel)]="job.job_start" name="job_start_neu" id="job_start_neu" (ngModelChange)="onSave()">
+      <input *ngIf="!this.startNow" matInput placeholder="start of the job" type="date" maxlength="10" [(ngModel)]="job.job_start" name="job_start" id="job_start" (ngModelChange)="onSave()">
+    </div>
+    <div *ngIf="!editable">
+      <label *ngIf="this.startNow" for="job_start">Job per sofort verfügbar</label>
+      <label *ngIf="!this.startNow" for="job_start">Job verfügbar ab:</label>
+      <button disabled *ngIf="this.startNow" (click)="onFlipStart()">anderes Startdatum wählen</button>
+      <button disabled *ngIf="!this.startNow" (click)="onFlipStart()">Job per sofort verfügbar</button>
+      <input disabled *ngIf="!this.startNow" matInput placeholder="start of the job" type="date" maxlength="10" [(ngModel)]="job.job_start" name="job_start" id="job_start" (ngModelChange)="onSave()">
     </div>
   </div>
+
 
   <!-- end date -->
-  <div *ngIf="!editAsModerator || job.oldJobId == -1" class="field half">
-    <label *ngIf="this.temporary" for="job_end">Ende des Jobs</label>
-    <label *ngIf="!this.temporary" for="job_end">Unbefristeter Job</label>
-    <button *ngIf="!this.temporary" (click)="onFlipTemporary()">Angebot befristen</button>
-    <button *ngIf="this.temporary" (click)="onFlipTemporary()">keine Befristung</button>
-    <input *ngIf="this.temporary" placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end" (ngModelChange)="onSave()">
-  </div>
-  <div *ngIf="editAsModerator && job.oldJobId != -1" class="field">
-    <div class="field half left">
-      <label for="job_end_old">Ende des Jobs</label>
-      <label *ngIf="oldJob.job_end == ''" for="job_end_old">Unbefristeter Job</label>
-      <input style="background-color: #dddddd" *ngIf="oldJob.job_end != ''" disabled placeholder="end of the job" type="date" maxlength="10" [(ngModel)]="oldJob.job_end" name="job_end_old" id="job_end_old" (ngModelChange)="onSave()">
-    </div>
-    <div class="field half right">
-      <label for="job_end_new">Ende des Jobs</label>
-      <label *ngIf="!this.temporary" for="job_end_new">Unbefristeter Job</label>
+  <div class="field half">
+    <div *ngIf="editable">
+      <label *ngIf="this.temporary" for="job_end">Ende des Jobs</label>
+      <label *ngIf="!this.temporary" for="job_end">Unbefristeter Job</label>
       <button *ngIf="!this.temporary" (click)="onFlipTemporary()">Angebot befristen</button>
       <button *ngIf="this.temporary" (click)="onFlipTemporary()">keine Befristung</button>
-      <input *ngIf="this.temporary" placeholder="end of the job" type="date" maxlength="10" [(ngModel)]="job.job_end" name="job_end" id="job_end_new" (ngModelChange)="onSave()">
+      <input *ngIf="this.temporary" placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end" (ngModelChange)="onSave()">
+    </div>
+    <div *ngIf="!editable">
+      <label *ngIf="this.temporary" for="job_end">Ende des Jobs</label>
+      <label *ngIf="!this.temporary" for="job_end">Unbefristeter Job</label>
+      <button disabled *ngIf="!this.temporary" (click)="onFlipTemporary()">Angebot befristen</button>
+      <button disabled *ngIf="this.temporary" (click)="onFlipTemporary()">keine Befristung</button>
+      <input disabled *ngIf="this.temporary" placeholder="end of the job" type="date" [(ngModel)]="job.job_end" name="job_end" id="job_end" (ngModelChange)="onSave()">
     </div>
   </div>
 
+
   <!-- approved -->
-  <div *ngIf="editAsModerator" class="field">
-    <div *ngIf="job.oldJobId == -1" class="field half">
-      <button style="background-color: green" *ngIf="!job.approved" (click)="toggleApproval()">Öffentlich schalten</button>
+  <div *ngIf="editAsModerator" class="field half">
+    <div *ngIf="editable">
+      <button  style="background-color: green" *ngIf="!job.approved" (click)="toggleApproval()">Öffentlich schalten</button>
       <button *ngIf="job.approved" (click)="toggleApproval()" style="background-color: red">ist öffentlich</button>
     </div>
-    <div *ngIf="job.oldJobId != -1" class="field">
-      <div class="field half left">
-        <button disabled style="background-color: green" *ngIf="!oldJob.approved">Öffentlich schalten</button>
-        <button disabled *ngIf="oldJob.approved" style="background-color: red">ist öffentlich</button>
-      </div>
-      <div class="field half right">
-        <button style="background-color: green" *ngIf="!job.approved" (click)="toggleApproval()">Öffentlich schalten</button>
-        <button *ngIf="job.approved" (click)="toggleApproval()" style="background-color: red">ist öffentlich</button>
-      </div>
+    <div *ngIf="!editable">
+      <button disabled style="background-color: green" *ngIf="!job.approved" (click)="toggleApproval()">Öffentlich schalten</button>
+      <button disabled *ngIf="job.approved" (click)="toggleApproval()" style="background-color: red">ist öffentlich</button>
     </div>
   </div>
 
   <!-- submit -->
-  <div *ngIf="editAsModerator && job.oldJobId !== -1" class="actionsLeft">
+  <div *ngIf="editable && editAsModerator" class="actionsRight">
     <ul class="actions">
       <li><input type="submit" mat-button (click)="onSaveAndBack()" value="Speichern"/></li>
-      <li *ngIf="editAsModerator || job.oldJobId !== -1"><input type="button" mat-button (click)="onDestroy()" value="{{job.oldJobId === -1 ? 'Job löschen' : 'Änderungen löschen'}}"/></li>
+      <li *ngIf="editAsModerator || job.oldJobId !== -1" style="margin-top: 0.9em"><input type="button" mat-button (click)="onDestroy()" value="{{job.oldJobId === -1 ? 'Job löschen' : 'Änderungen löschen'}}"/></li>
     </ul>
   </div>
-  <div *ngIf="!(editAsModerator && job.oldJobId !== -1)">
-    <ul class="actions">
-      <li><input type="submit" mat-button (click)="onSaveAndBack()" value="Speichern"/></li>
-      <li *ngIf="editAsModerator || job.oldJobId !== -1"><input type="button" mat-button (click)="onDestroy()" value="{{job.oldJobId === -1 ? 'Job löschen' : 'Änderungen löschen'}}"/></li>
-    </ul>
-  </div>
-  <ul class="actions">
 
-  </ul>
 
 </form>

@@ -18,7 +18,25 @@
   </section>
   <div *ngIf="showEditJob">
     <button (click)="showList()">Zurück</button>
-    <app-job-edit [job]="editJob" (savedJob)="showList()" (destroy)="showList()"></app-job-edit><!--if i use the (savedJob) and want to make showEditJob false, it redirects to ?name=... and fucks everything up -->
+    <br>
+    <div *ngIf="editJob.oldJobId !== -1">
+      <h2 class="smallShow">Bei breiterem Bildschirm wird der alte Job auch angezeigt</h2>
+    </div>
+    <div *ngIf="editJob.oldJobId !== -1" class="jobEdit">
+      <div>
+        <h2 class="smallHidden">Neuer Job</h2>
+        <app-job-edit  [job]="editJob" [editable]="true" [editAsModerator]="!user.isCompany()" (savedJob)="showList()" (destroy)="showList()"></app-job-edit>
+      </div>
+      <div class="smallHidden">
+        <h2 class="smallHidden">originaler Job</h2>
+        <app-job-edit class="smallHidden" style="margin-top: -7em" [editable]="false" [editAsModerator]="!user.isCompany()" [job]="oldJob"></app-job-edit>
+      </div>
+    </div>
+
+    <div *ngIf="editJob.oldJobId === -1">
+      <app-job-edit [job]="editJob" [editable]="true" [editAsModerator]="!user.isCompany()" (savedJob)="showList()" (destroy)="showList()"></app-job-edit>
+    </div>
+
   </div>
 </div>
 

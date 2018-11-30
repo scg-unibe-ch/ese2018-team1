@@ -19,10 +19,11 @@ export class JobEditComponent implements OnInit {
   temporary: boolean;
   standardEMail = true;
 
-  oldJob: Job;
-
   @Input()
   job: Job;
+
+  @Input()
+  editable: boolean;
 
   @Input()
   editAsModerator: boolean
@@ -63,13 +64,6 @@ export class JobEditComponent implements OnInit {
       this.startNow = (this.job.job_start === '');
       this.temporary = (this.job.job_end !== '');
       this.standardEMail = (this.job.company_email === '');
-      if (this.job.oldJobId != -1) {
-        JobService.getJobById("" + this.job.oldJobId).subscribe((instance1: any) => {
-          this.oldJob = instance1;
-        });
-      }else {
-        this.oldJob = null;
-      }
     });
   }
 

@@ -14,11 +14,13 @@ import {FeedbackService, stages} from '../../_services/feedback.service';
 export class ProfilListJobsComponent implements OnInit {
   jobs: Job[] = [];
   editJob: Job;
+  oldJob:Job;
   showEditJob = false;
   draftJobs: Job[] = [];
   showJobs: Job[] = [];
   toggleDraftText = 'show only draft jobs';
   jobViews: string[] = [];
+  user = UserService.user;
 
   constructor(public userService: UserService, public router: Router) { }
 
@@ -78,7 +80,15 @@ export class ProfilListJobsComponent implements OnInit {
 
   clicked(jobToEdit: Job){
     this.editJob = jobToEdit;
-    this.showEditJob = true;
+    if(this.editJob.oldJobId !== -1){
+      JobService.getJobById(this.editJob.oldJobId + '').subscribe((instance: Job) =>{
+        this.oldJob = instance;
+        this.showEditJob = true;
+      })
+    }
+    else {
+      this.showEditJob = true;
+    }
   }
 
   showList(){

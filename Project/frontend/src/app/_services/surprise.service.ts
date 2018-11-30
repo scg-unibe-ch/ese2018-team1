@@ -270,7 +270,7 @@ export class SurpriseService {
       SurpriseService.init(UserService.httpClient, UserService.user);
       return;
     }
-    const userId = SurpriseService.userId;
+    const userId = SurpriseService.userId !== null ? SurpriseService.userId : -1;
     const cookie = SurpriseService.surprise.cookie;
     let surpriseLog = new SurpriseLog(null, cookie, place, placeInfo, userId, Date.now().toString());
     SurpriseService.httpClient.post(AppComponent.backendUrl + '/surprise/log', {

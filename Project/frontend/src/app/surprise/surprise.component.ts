@@ -217,12 +217,15 @@ export class SurpriseComponent implements OnInit {
         if (instances === null || instances === undefined) {
           return;
         }
+        //for each amount we have we cycle
         for (let i = 0; i < instances.length; i++) {
           if(instances[i].count === 0){
             continue;
           }
-          if (instances[i].userId !== null) {
+          //if the user was logged in
+          if (instances[i].userId !== -1) {
             let found = false;
+            //find the name of the user
             for(let j = 0; j<users.length; j++){
               if(users[j].id === instances[i].userId){
                 amounts.push(instances[i].count);
@@ -231,11 +234,18 @@ export class SurpriseComponent implements OnInit {
                 break;
               }
             }
+            //if user is no longer in db, we add him to gelöschter account
             if(!found){
-              amounts.push(instances[i].count);
-              this.siteLoadingsPerUserLabels.push('gelöschter Account');
+              if(this.siteLoadingsPerUserLabels.includes('gelöschter Account')){
+                amounts[this.siteLoadingsPerUserLabels.indexOf('gelöschter Account')] += instances[i].count;
+              }
+              else {
+                amounts.push(instances[i].count);
+                this.siteLoadingsPerUserLabels.push('gelöschter Account');
+              }
             }
           }
+          //if the user was not logged in
           else {
             amounts.push(instances[i].count);
             this.siteLoadingsPerUserLabels.push('nicht eingeloggt');

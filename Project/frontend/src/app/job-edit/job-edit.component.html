@@ -4,7 +4,7 @@
   <div class="field entry" >
     <label for="name">Name</label>
     <input *ngIf="editable" type="text" name="name"[(ngModel)]="job.name" id="name" (ngModelChange)="onSave()" />
-    <input *ngIf="!editable" disabled type="text" name="name"[(ngModel)]="job.name" id="name" (ngModelChange)="onSave()" />
+    <input *ngIf="!editable" style="background-color: rgba(0, 0, 0, 0.15)" disabled type="text" name="name"[(ngModel)]="job.name" id="name" (ngModelChange)="onSave()" />
   </div>
 
 
@@ -12,7 +12,7 @@
   <div class="field half right">
     <label for="company_name">Unternehmen</label>
     <input *ngIf="editable" type="text" [(ngModel)]="company.name" name="company_name" id="company_name" (ngModelChange)="onSave()">
-    <input *ngIf="!editable" disabled type="text" [(ngModel)]="company.name" name="company_name" id="company_name" (ngModelChange)="onSave()">
+    <input *ngIf="!editable"  style="background-color: rgba(0, 0, 0, 0.15)" disabled type="text" [(ngModel)]="company.name" name="company_name" id="company_name" (ngModelChange)="onSave()">
   </div>
 
 
@@ -27,7 +27,7 @@
     </div>
     <div *ngIf="!editable">
       <label *ngIf="standardEMail" for="company_email">{{company.email}}</label>
-      <input disabled *ngIf="!standardEMail" type="text" name="company_email" [(ngModel)]="job.company_email" id="company_email" (ngModelChange)="onSave()">
+      <input disabled  style="background-color: rgba(0, 0, 0, 0.15)" *ngIf="!standardEMail" type="text" name="company_email" [(ngModel)]="job.company_email" id="company_email" (ngModelChange)="onSave()">
       <button disabled *ngIf="standardEMail" (click)="onFlipEMail()">chose different E-Mail</button>
       <button disabled *ngIf="!standardEMail" (click)="onFlipEMail()">insert standard E-Mail</button>
     </div>
@@ -41,7 +41,7 @@
     <label style="float: right;">{{job.description_short.length}}/100 Zeichen</label>
     <label for="description_short">kurze Beschreibung</label>
     <textarea *ngIf="editable" maxlength="100" [(ngModel)]="job.description_short" name="description_short" id="description_short" (ngModelChange)="onSave()"></textarea>
-    <textarea *ngIf="!editable" disabled maxlength="100" [(ngModel)]="job.description_short" name="description_short" id="description_short" (ngModelChange)="onSave()"></textarea>
+    <textarea *ngIf="!editable"  style="background-color: rgba(0, 0, 0, 0.15)" disabled maxlength="100" [(ngModel)]="job.description_short" name="description_short" id="description_short" (ngModelChange)="onSave()"></textarea>
   </div>
 
 
@@ -49,7 +49,7 @@
   <div class="field entry">
     <label for="description">Beschreibung</label>
     <textarea *ngIf="editable" [(ngModel)]="job.description" name="description" id="description" (ngModelChange)="onSave()"></textarea>
-    <textarea *ngIf="!editable" disabled [(ngModel)]="job.description" name="description" id="description" (ngModelChange)="onSave()"></textarea>
+    <textarea *ngIf="!editable"  style="background-color: rgba(0, 0, 0, 0.15)" disabled [(ngModel)]="job.description" name="description" id="description" (ngModelChange)="onSave()"></textarea>
   </div>
 
 
@@ -120,7 +120,7 @@
   </div>
 
   <!-- submit -->
-  <div *ngIf="editable && editAsModerator" class="actionsRight">
+  <div *ngIf="editable" class="actionsRight">
     <ul class="actions">
       <li><input type="submit" mat-button (click)="onSaveAndBack()" value="Speichern"/></li>
       <li *ngIf="editAsModerator || job.oldJobId !== -1" style="margin-top: 0.9em"><input type="button" mat-button (click)="onDestroy()" value="{{job.oldJobId === -1 ? 'Job löschen' : 'Änderungen löschen'}}"/></li>

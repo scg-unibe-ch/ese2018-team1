@@ -135,7 +135,6 @@ export class JobService {
    */
   static approveJob(job:Job): Observable<Object>{
     const approved = job.approved ? 1 : 0;
-    console.log('sending req to: ' + AppComponent.backendUrl + '/job/' + job.id);
     return JobService.httpClient.put(AppComponent.backendUrl + '/job/' + job.id + '/' + approved,  {
       'name': job.name,
       'description': job.description,

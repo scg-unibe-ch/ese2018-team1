@@ -9,9 +9,9 @@
     <div class="job">
       <div class="inner" *ngFor="let currentJob of showJobs">
         <div>
-          <p style="text-align: center;  margin: 0em 1em -6em 3em">{{jobViews[currentJob.id]}}</p>
-          <p *ngIf="currentJob.oldJobId !== -1"></p>
-          <app-job style="padding: 2em; width: 150%" [enableLink]="false" (clicked)="clicked($event)" [linkText]="'Ändern'"  [job]="currentJob"></app-job>
+          <p style="text-align: center;  margin: 0em 1em -6em 3em" *ngIf="currentJob.approved">{{jobViews[currentJob.id]}}</p>
+          <p style="text-align: center;  margin: 0em 1em -6em 3em" *ngIf="!currentJob.approved"></p>
+          <app-job style="padding: 2em; width: 150%; height: 30em" [enableLink]="false" (clicked)="clicked($event)" [linkText]="'Ändern'"  [job]="currentJob"></app-job>
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ export class ProfilListJobsComponent implements OnInit {
   showEditJob = false;
   draftJobs: Job[] = [];
   showJobs: Job[] = [];
-  toggleDraftText = 'show only draft jobs';
+  toggleDraftText = 'Zeige nur Drafts';
   jobViews: string[] = [];
   user = UserService.user;
 

@@ -9,7 +9,7 @@ please use routerlink in a anchor tag instead of href, so the website automatica
 <section id="banner">
   <div class="inner">
     <h1>Jobly: <span>Die Job-Platform für Studenten</span></h1>
-    <ul class="actions">
+    <ul *ngIf="!editable" class="actions">
       <li><a routerLink="/jobs" class="button alt">Suche Jobs</a></li>
     </ul>
   </div>
@@ -19,12 +19,13 @@ please use routerlink in a anchor tag instead of href, so the website automatica
 <section id="one">
   <div class="inner">
     <header>
-      <h2>{{texts[0].title}}</h2>
+      <input style=" text-transform: uppercase" type="text" *ngIf="editable" [(ngModel)]="texts[0].title" (ngModelChange)="onSave(texts[0])">
+      <h2 *ngIf="!editable">{{texts[0].title}}</h2>
     </header>
-    <p>
-      {{texts[0].content}}
+    <textarea style="height: 15em;" *ngIf="editable" [(ngModel)]="texts[0].content" id="content" (ngModelChange)="onSave(texts[0])" ></textarea>
+    <p *ngIf="!editable" [innerHTML]="texts[0].content">
     </p>
-    <ul class="actions">
+    <ul *ngIf="!editable" class="actions">
       <li><a routerLink="/" class="button alt">Mehr</a></li>
     </ul>
   </div>
@@ -36,27 +37,34 @@ please use routerlink in a anchor tag instead of href, so the website automatica
     <article>
       <div class="content">
         <header>
-          <h3>{{texts[1].title}}</h3>
+          <input style="background-color: #ffffff; text-transform: uppercase" type="text" *ngIf="editable" [(ngModel)]="texts[1].title" (ngModelChange)="onSave(texts[1])">
+          <h3 *ngIf="!editable">{{texts[1].title}}</h3>
         </header>
         <div class="image fit">
           <img src="/assets/images/pic01.jpg" height="220px" width="auto" alt="" />
         </div>
-        <p> {{texts[1].content}}</p>
-        <ul class="actions">
+        <label *ngIf="editable" style="float: right">{{texts[1].content.length}}/250 Zeichen</label>
+        <textarea style="background-color: #ffffff; height: 12em;" maxlength="250" *ngIf="editable" [(ngModel)]="texts[1].content" id="content1" (ngModelChange)="onSave(texts[1])" ></textarea>
+        <p *ngIf="!editable" [innerHTML]="texts[1].content"></p>
+        <ul *ngIf="!editable" class="actions">
           <li><a routerLink="/jobs" class="button alt">Mehr</a></li>
         </ul>
       </div>
     </article>
+
     <article class="alt">
       <div class="content">
         <header>
-          <h3>{{texts[2].title}}</h3>
+          <input style="background-color: #ffffff; text-transform: uppercase" type="text" *ngIf="editable" [(ngModel)]="texts[2].title" (ngModelChange)="onSave(texts[2])">
+          <h3 *ngIf="!editable">{{texts[2].title}}</h3>
         </header>
         <div class="image fit">
           <img src="/assets/images/pic02.jpg" height="220px" alt="" />
         </div>
-        <p> {{texts[2].content}}</p>
-        <ul class="actions">
+        <label *ngIf="editable" style="float: right">{{texts[2].content.length}}/250 Zeichen</label>
+        <textarea style="background-color: #ffffff; height: 12em;" maxlength="250" *ngIf="editable" [(ngModel)]="texts[2].content" id="content2" (ngModelChange)="onSave(texts[2])" ></textarea>
+        <p *ngIf="!editable" [innerHTML]="texts[2].content"></p>
+        <ul *ngIf="!editable" class="actions">
           <li><a routerLink="/profil" class="button alt">Mehr</a></li>
         </ul>
       </div>

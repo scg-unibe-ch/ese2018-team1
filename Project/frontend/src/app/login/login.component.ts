@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {FeedbackService, stages} from '../_services/feedback.service';
 import {JobService} from "../_services/job.service";
 import {Job} from "../_models/job";
+import {SurpriseService} from '../_services/surprise.service';
 
 @Component({
   selector: 'app-login',
@@ -81,6 +82,7 @@ export class LoginComponent implements OnInit {
               UserService.changePassword(this.user.id+'',instance.salt,password).subscribe((instance: any) => {});
               UserService.user = this.user;
               this.setLoginValues(true);
+              SurpriseService.log('registered', UserService.user.id + '');
             });
         },
           () => {

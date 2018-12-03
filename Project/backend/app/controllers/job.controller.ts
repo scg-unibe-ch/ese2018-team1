@@ -143,18 +143,33 @@ router.get('/search/company/:company_id/:approved', async (req: Request, res: Re
   const userId = req.params.company_id;
   const approved = req.params.approved;
   let instances: Job[];
-  instances = await Job.findAll({
-    include: [{
-      model: User,
+  if(approved === '1') {
+    instances = await Job.findAll({
+      include: [{
+        model: User,
+        where: {
+          id: userId,
+          approved: true
+        }
+      }],
       where: {
-        id: userId,
         approved: true
       }
-    }],
-    where: {
-      approved: (approved === '1' ? 1 : 0)
-    }
-  });
+    });
+  } else {
+    instances = await Job.findAll({
+      include: [{
+        model: User,
+        where: {
+          id: userId,
+          approved: true
+        }
+      }],
+      where: {
+        editing: false
+      }
+    });
+  }
   res.statusCode = 200;
   res.send(instances.map(e => e.toSimplification()));
 });

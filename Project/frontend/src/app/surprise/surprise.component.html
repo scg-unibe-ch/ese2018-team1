@@ -1,4 +1,4 @@
-<div class="inner">
+<div class="inner" id="top">
   <br>
   <!-- menu -->
   <button *ngIf="!showMap && !showDiagrams" style="background-color: #000000" (click)="showTable()">Tabelle</button>
@@ -25,6 +25,7 @@
   <!-- diagramme -->
   <div *ngIf="showDiagrams">
     <h4>Diagramme</h4>
+    <p>Anzahl Benutzer: {{amountUsers}}<br>Anzahl Seitenladungen: {{amountLoads}}</p>
     <div class="grid">
       <canvas *ngIf="showDiagrams" class="diagrams" id="siteLoadings" baseChart [chartType]="'line'" [datasets]="siteLoadingsData" [labels]="siteLoadingsLabels" [options]="siteLoadingOptions" [colors]="diagramColors" [legend]="true"></canvas>
       <canvas *ngIf="showDiagrams" class="diagrams diagramRight" id="siteUsers" baseChart [chartType]="'line'" [datasets]="siteLoadingsPerRegionData" [labels]="siteLoadingsPerRegionLabels" [options]="siteLoadingOptions" [colors]="diagramColors" [legend]="true"></canvas>
@@ -80,6 +81,7 @@
       <td><a (click)="showInfos(surprise.cookie)">Logs</a> </td>
     </tr>
     </table>
+    <a href="/surprise#top">nach Oben</a>
   </div>
   <br><br>
 </div>

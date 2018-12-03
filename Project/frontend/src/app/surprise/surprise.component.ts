@@ -30,6 +30,7 @@ export class SurpriseComponent implements OnInit {
   moreButtonText = 'Mehr sehen';
   showMore = false;
 
+
   /**
    * menu variables
    */
@@ -40,6 +41,9 @@ export class SurpriseComponent implements OnInit {
   /**
    * diagram variables
    */
+  amountUsers = 0;
+  amountLoads = 0;
+
   siteLoadingsData = [{data: [0], label: 'laden'}];
   siteLoadingsLabels: string[] = []
   siteLoadingOptions;
@@ -156,6 +160,8 @@ export class SurpriseComponent implements OnInit {
       this.getSiteLoadsPerType();
       this.getSiteLoadsPerUser();
       this.diagramFirstRun = false;
+      this.amountUsers = this.allSurprises.length;
+      this.amountLoads = this.allLogs.length;
     }
     this.showDiagrams = true;
     this.showMap = false;
@@ -337,7 +343,7 @@ export class SurpriseComponent implements OnInit {
   findByRegion(region:string){
     if(region === null || region === undefined){
       this.showSurprises = this.userSurprises;
-      this.userSurprises = this.allSurprises;
+      this.regionSurprises = this.allSurprises;
       return;
     }
     console.log('region: '+ region);

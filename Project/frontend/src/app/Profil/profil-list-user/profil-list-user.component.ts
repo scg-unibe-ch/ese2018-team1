@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {User} from '../../_models/user';
 import {UserService} from '../../_services/user.service';
 import {SurpriseService} from '../../_services/surprise.service';
+import {FeedbackService, stages} from "../../_services/feedback.service";
 
 @Component({
   selector: 'app-profil-list-user',
@@ -103,7 +104,10 @@ export class ProfilListUserComponent implements OnInit {
 
   deleteUser(sureToDelete: boolean) {
     if (sureToDelete) {
-      UserService.delete(this.userToDelete);
+      UserService.delete(this.userToDelete).subscribe((instance: any)=>{
+        FeedbackService.addMessage('Nutzer wurde gelöscht',stages.success);
+        this.ngOnInit();
+      });
     }
     this.warning = false;
   }

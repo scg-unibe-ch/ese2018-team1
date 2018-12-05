@@ -122,8 +122,7 @@ export class UserService {
    *
    * @param user: the user, which should be deleted
    */
-  static delete(user: User){
-    FeedbackService.addMessage('blabla',stages.success);
+  static delete(user: User): Observable<Object>{
     return this.httpClient.delete(AppComponent.backendUrl + '/login/' + user.id, {withCredentials: true});
   }
 

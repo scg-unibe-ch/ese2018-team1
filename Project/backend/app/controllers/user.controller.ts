@@ -340,13 +340,13 @@ router.delete('/:id', async(req: Request, res: Response) => {
         companyId: id
       }
     });
-    while(instances.length > 0) {
-      await instances[0].destroy;
+    for (var i=instances.length-1; i>=0; i--) {
+      await instances[i].destroy();
     }
     instance.fromSimplification(req.body);
     await instance.destroy();
     res.status(204);
-    return res.send();
+    res.send();
   }
 });
 

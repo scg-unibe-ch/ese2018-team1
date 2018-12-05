@@ -118,6 +118,16 @@ export class UserService {
   }
 
   /**
+   * deletes a user and all his jobs
+   *
+   * @param user: the user, which should be deleted
+   */
+  static delete(user: User){
+    FeedbackService.addMessage('blabla',stages.success);
+    return this.httpClient.delete(AppComponent.backendUrl + '/login/' + user.id, {withCredentials: true});
+  }
+
+  /**
    * registers a new user
    *
    * @param user: instance of the user who needs to be registered
@@ -175,6 +185,13 @@ export class UserService {
     return this.httpClient.get(AppComponent.backendUrl + '/login/connTest');
   }
 
+  /**
+   * checks if the password is emtpy,
+   * if it is empty, it returns false and displays an error message
+   * if i has less then 6 characters, it shows a warning but accepts the password
+   *
+   * @param password: the password to be checked
+   */
   static passwordValidation(password: string): boolean {
     if (password === null || password === '') {
       FeedbackService.addMessage("Passwort darf nicht leer sein", stages.error);
@@ -186,6 +203,13 @@ export class UserService {
     return true;
   }
 
+  /**
+   * checks, whether the email has an @ character in it
+   * if not, it returns false and displays an error message
+   * else, it returns true
+   *
+   * @param email: email to be checked
+   */
   static emailValidation(email: string): boolean {
     if (!email.includes('@')){
       FeedbackService.addMessage("Bitte eine gültige Email-Adresse angeben", stages.error);

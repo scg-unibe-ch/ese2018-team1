@@ -16,12 +16,14 @@ import {SurpriseService} from '../../_services/surprise.service';
 export class ProfilListUserComponent implements OnInit {
   unapprovedUsers: User[];
   editUser: User;
+  userToDelete: User;
 
   companyId: number;
   showCompany = false;
   showAll = false;
   tableName = 'Liste der unbestätigten Benutzer';
   editProfil = false;
+  warning = false;
 
   @Output('changePw')
   changePw = new EventEmitter<number>();
@@ -92,6 +94,18 @@ export class ProfilListUserComponent implements OnInit {
   editProfile(user: User){
     this.editUser = user;
     this.editProfil = !this.editProfil;
+  }
+
+  reask (user: User){
+    this.warning = true;
+    this.userToDelete = user;
+  }
+
+  deleteUser(sureToDelete: boolean) {
+    if (sureToDelete) {
+      UserService.delete(this.userToDelete);
+    }
+    this.warning = false;
   }
 
 }

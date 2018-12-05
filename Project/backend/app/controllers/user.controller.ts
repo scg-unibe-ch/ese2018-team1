@@ -2,6 +2,7 @@ import {Request, Response, Router} from 'express';
 import {User} from '../models/user.model';
 import {Sequelize} from 'sequelize-typescript';
 import {sha256} from 'js-sha256';
+import {Job} from "../models/job.model";
 
 const sequelize =  new Sequelize({
   database: 'development',
@@ -316,13 +317,14 @@ router.put('/:id', async(req: Request, res: Response) => {
 });
 
 /**
- * deletes a user by user ID
+ * deletes a user by user ID and all his jobs
  *
  * security: user who makes the request needs to be the user himself or admin or moderator
  *
  * @param: id: userID of the user, who needs to be deleted
  */
 router.delete('/:id', async(req: Request, res: Response) => {
+  let instances: Job[];
   const id = parseInt(req.params.id);
   if (req.session && req.session.user && (req.session.user.id === id || req.session.user.role === 'admin' || req.session.user.role === 'moderator')) {
     const instance = await User.findById(id);
@@ -333,10 +335,18 @@ router.delete('/:id', async(req: Request, res: Response) => {
       });
       return;
     }
+   instances = await Job.findAll({
+      where: {
+        companyId: id
+      }
+    });
+    while(instances.length > 0) {
+      await instances[0].destroy;
+    }
     instance.fromSimplification(req.body);
     await instance.destroy();
     res.status(204);
-    res.send();
+    return res.send();
   }
 });
 

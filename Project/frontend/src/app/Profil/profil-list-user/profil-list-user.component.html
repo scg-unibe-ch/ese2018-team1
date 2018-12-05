@@ -7,15 +7,16 @@
     <tr>
       <th>Name</th>
       <th>Email</th>
-      <th *ngIf="userService.getUser().isAdmin()">change Password</th>
-      <th>role</th>
-      <th>change Profile</th>
-      <th>approval status</th>
+      <th *ngIf="userService.getUser().isAdmin()">Passwort ändern</th>
+      <th>Rolle</th>
+      <th>Profil bearbeiten</th>
+      <th>bestätigt</th>
+      <th>Löschen</th>
     </tr>
     <tr *ngFor="let currentUser of unapprovedUsers">
       <td><a (click)="showCompanyProfile(currentUser.id)">{{currentUser.name}}</a></td>
       <td>{{currentUser.email}}</td>
-      <td *ngIf="userService.getUser().isAdmin()"><a (click)="changePassword(currentUser.id)">change Password</a></td>
+      <td *ngIf="userService.getUser().isAdmin()"><a (click)="changePassword(currentUser.id)">Passwort ändern</a></td>
       <td>
         <select [(ngModel)]="currentUser.role" (change)="saveUser(currentUser)">
           <option value="company">company</option>
@@ -23,16 +24,27 @@
           <option *ngIf="userService.getUser().isAdmin()" value="admin">admin</option>
         </select>
       </td>
-      <td><a (click)="editProfile(currentUser)">change Profile</a></td> <!-- add anchor to correct link-->
-      <td *ngIf="!showAll"><a (click)="approve(currentUser)">approve user</a></td>
+      <td><a (click)="editProfile(currentUser)">Profil bearbeiten</a></td> <!-- add anchor to correct link-->
+      <td *ngIf="!showAll"><a (click)="approve(currentUser)">bestätige Nutzer</a></td>
       <td *ngIf="showAll">
         <select [(ngModel)]="currentUser.approved" (change)="saveUser(currentUser)">
           <option value="false">false</option>
           <option value="true">true</option>
         </select>
       </td>
+      <td><a (click)="reask(currentUser)">Lösche Nutzer</a></td>
+
     </tr>
   </table>
+</div>
+<div *ngIf="warning" class="fullscreen">
+  <div class="showContact">
+    <p>Sind sie sicher, dass Sie den User löschen möchten?</p>
+    <p>Dies kann nicht rückgängig gemacht werden!</p>
+    <button (click)="deleteUser(true)">Ja, löschen</button>
+    <br><br>
+    <button (click)="deleteUser(false)">Nein, abbrechen</button>
+  </div>
 </div>
 <button *ngIf="showCompany" (click)="showCompanyProfile(companyId)">hide company profile</button>
 <app-profil-public *ngIf="showCompany" [companyId]="companyId"></app-profil-public>

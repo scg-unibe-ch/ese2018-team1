@@ -1,0 +1,15 @@
+user: admin
+email: admin
+password: admin
+role: admin
+
+user: moderator
+email: moderator
+password: moderator
+role: moderator
+
+user: company
+email: company
+password: company
+role: company
+

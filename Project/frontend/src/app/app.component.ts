@@ -14,8 +14,8 @@ import {TextService} from './_services/text.service'; //v
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public static backendUrl = 'http://localhost:3000';
-  //public static backendUrl = 'http://**YourIpHere**:3000';
+  //public static backendUrl = 'http://localhost:3000';
+  public static backendUrl = 'http://192.168.137.1:3000';
   static app: AppComponent;
   public contactedJob = false;
   public contactedJobInfos: SurpriseLog[] = [];

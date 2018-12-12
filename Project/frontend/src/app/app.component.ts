@@ -83,6 +83,7 @@ export class AppComponent implements OnInit {
   logout(){
     FeedbackService.addMessage('Erfolgreich ausgeloggt', stages.success);
     UserService.logout();
+    SurpriseService.log('logged out','');
     location.href = '/login';
   }
 

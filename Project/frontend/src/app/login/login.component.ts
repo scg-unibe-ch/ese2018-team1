@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+﻿import {Component, OnInit} from '@angular/core';
 import {User} from '../_models/user';
 import {UserService} from '../_services/user.service';
 import {Router} from '@angular/router';
@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.user = new User(null,'','','','','',false,'','');
+    SurpriseService.log('login','');
   }
 
   /**
@@ -35,7 +36,6 @@ export class LoginComponent implements OnInit {
    * otherwise error messages are shown
    */
   onLogin(){
-    //SurpriseService.log('login', '');
     this.user.email = this.user.email.toLowerCase();
     let password = this.user.password;
     UserService.getUserByEmail(this.user.email).subscribe((instance: any) => {
@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
             UserService.user = new User(instance.id, instance.name,instance.password,instance.salt,instance.email, instance.role, instance.approved, instance.address, instance.description);
             this.setLoginValues(true);
             this.user = null;
+            SurpriseService.log('logged in','');
             if (UserService.user.role === 'moderator'){
               this.notifyAboutChanges();
             }

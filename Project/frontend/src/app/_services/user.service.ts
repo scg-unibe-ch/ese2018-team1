@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+﻿import {Injectable} from '@angular/core';
 import {User} from '../_models/user';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
@@ -202,6 +202,10 @@ export class UserService {
    * return the actual logged in user
    */
   getUser(): User {
+    return UserService.user;
+  }
+ 
+  static getUser(): User {
     return UserService.user;
   }
 
